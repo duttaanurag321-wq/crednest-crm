@@ -37,13 +37,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .rs{font-size:13px;color:var(--l2);margin-top:1px}
 .rr{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .cv{color:var(--l3)}
-/* STATS */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:12px 16px 4px}
 .tile{background:var(--bg2);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh)}
 .tv{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1}
 .tl{font-size:12px;color:var(--l2);margin-top:3px}
 .tile.blue .tv{color:var(--blue)}.tile.green .tv{color:var(--green)}.tile.orange .tv{color:var(--orange)}.tile.red .tv{color:var(--red)}
-/* LEAD CARD */
 .lcard{background:var(--bg2);border-radius:var(--r);box-shadow:var(--sh);margin:10px 16px 0;overflow:hidden;cursor:pointer;transition:transform .1s}
 .lcard:active{transform:scale(.985)}
 .lct{padding:13px 16px 10px;display:flex;align-items:flex-start;gap:11px}
@@ -51,32 +49,24 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .li{flex:1;min-width:0}
 .ln{font-size:16px;font-weight:600;letter-spacing:-.2px}
 .lm{font-size:13px;color:var(--l2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* ACTION STRIP — call + whatsapp buttons */
 .act-strip{display:flex;border-top:.5px solid var(--sep2)}
-.act-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--f);transition:all .1s;background:none}
+.act-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--f);transition:all .1s;background:none;text-decoration:none}
 .act-btn:active{opacity:.7}
 .act-btn+.act-btn{border-left:.5px solid var(--sep2)}
-.act-call{color:var(--green)}
-.act-wa{color:#128C7E}
-.act-detail{color:var(--blue)}
-/* PILL */
+.act-call{color:var(--green)}.act-wa{color:#128C7E}.act-detail{color:var(--blue)}
 .pill{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;white-space:nowrap}
 .pb{background:var(--bl);color:var(--blue)}.pg{background:var(--gl);color:#1A8A36}.pr{background:var(--rl);color:var(--red)}.po{background:var(--ol);color:#B86800}.pgr{background:var(--fill);color:var(--l2)}.pp{background:var(--pl);color:var(--purple)}.pt{background:var(--tl);color:#007A9C}
-/* SEG */
 .seg{display:flex;background:var(--fill);border-radius:9px;padding:2px;margin:10px 16px 0}
 .sb{flex:1;padding:7px 3px;border:none;background:none;font-size:12px;font-weight:500;font-family:var(--f);color:var(--l2);border-radius:7px;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap}
 .sb.on{background:#fff;color:var(--label);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-/* TABBAR */
 .tabbar{background:rgba(249,249,249,.94);backdrop-filter:blur(20px);border-top:.5px solid var(--sep);display:flex;padding:8px 0 0;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0px)}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 4px 8px;border:none;background:none;cursor:pointer;font-family:var(--f)}
 .ti{width:28px;height:28px;display:flex;align-items:center;justify-content:center}
 .ti svg{width:24px;height:24px;color:var(--l3)}
 .tl2{font-size:10px;font-weight:500;color:var(--l3)}
 .tab.on .tl2{color:var(--blue)}.tab.on .ti svg{color:var(--blue)}
-/* FAB */
 .fab{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 80px);right:20px;width:52px;height:52px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,122,255,.38);border:none;cursor:pointer;z-index:50;transition:transform .1s}
 .fab:active{transform:scale(.9)}
-/* OVERLAY */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:200;display:none;align-items:flex-end}
 .ov.on{display:flex;animation:ovIn .2s ease}
 @keyframes ovIn{from{opacity:0}to{opacity:1}}
@@ -87,7 +77,6 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .shti{font-size:17px;font-weight:600}
 .shbd{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding-bottom:env(safe-area-inset-bottom,20px)}
 .shbd::-webkit-scrollbar{display:none}
-/* FORM */
 .fsec{margin:16px 16px 0}
 .flbl{font-size:13px;color:var(--l2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;padding:0 4px}
 .fgrp{background:var(--bg2);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
@@ -98,18 +87,15 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .fr input::placeholder,.fr textarea::placeholder{color:var(--l3)}
 .fr select{-webkit-appearance:none}
 .fr textarea{text-align:left;resize:none;min-height:80px;padding-top:2px}
-/* BTN */
 .btn{width:100%;padding:14px;border-radius:var(--r);border:none;font-size:17px;font-weight:600;font-family:var(--f);cursor:pointer;transition:opacity .15s}
 .btn:active{opacity:.8}
-.btn-bl{background:var(--blue);color:#fff}.btn-gr{background:var(--fill);color:var(--label)}.btn-rd{background:var(--rl);color:var(--red)}.btn-gn{background:var(--gl);color:var(--green)}
-/* CALL GRID */
+.btn-bl{background:var(--blue);color:#fff}.btn-gr{background:var(--fill);color:var(--label)}.btn-rd{background:var(--rl);color:var(--red)}
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:14px}
 .cbtn{padding:14px 8px;border-radius:13px;border:none;font-size:13px;font-weight:600;font-family:var(--f);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .1s}
 .cbtn:active{transform:scale(.94)}
 .cbtn .ico{font-size:22px}
 .cbtn.gn{background:var(--gl);color:#1A8A36}.cbtn.rd{background:var(--rl);color:var(--red)}.cbtn.og{background:var(--ol);color:#B86800}.cbtn.gr{background:var(--fill);color:var(--l2)}.cbtn.bl{background:var(--bl);color:var(--blue)}.cbtn.pu{background:var(--pl);color:var(--purple)}
 .cbtn.sel{box-shadow:0 0 0 3px currentColor}
-/* TIMELINE */
 .tli{display:flex;gap:12px;padding:10px 16px}
 .tll{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
 .tld{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
@@ -117,30 +103,25 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .tlc{flex:1;padding-bottom:4px}
 .tlt{font-size:15px;line-height:1.4}
 .tlm{font-size:12px;color:var(--l3);margin-top:2px}
-/* STAGE PROGRESS */
 .spr{display:flex;gap:4px;padding:12px 16px 4px}
 .spd{flex:1;height:4px;border-radius:2px;background:var(--sep)}
 .spd.dn{background:var(--green)}.spd.cr{background:var(--blue)}
 .spls{display:flex;justify-content:space-between;padding:4px 16px 12px}
 .spl{font-size:9px;color:var(--l3);font-weight:500}
-/* ELIG */
 .etr{height:8px;background:var(--fill);border-radius:4px;overflow:hidden}
 .ef{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
 .ehi{background:linear-gradient(90deg,#34C759,#30D158)}.eme{background:linear-gradient(90deg,#FF9500,#FFCC00)}.elo{background:linear-gradient(90deg,#FF3B30,#FF6961)}
-/* DOC */
 .drow{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer}
 .drow+.drow{border-top:.5px solid var(--sep)}
 .dchk{width:22px;height:22px;border-radius:50%;border:2px solid var(--l3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
 .dchk.dn{background:var(--green);border-color:var(--green)}
 .dlbl{font-size:16px;flex:1}.dlbl.dn{color:var(--l3);text-decoration:line-through}
-/* QA STRIP */
 .qastrip{display:flex;border-top:.5px solid var(--sep)}
 .qab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border:none;background:none;cursor:pointer;font-family:var(--f);border-right:.5px solid var(--sep)}
 .qab:last-child{border-right:none}
 .qab:active{background:var(--fill2)}
 .qaico{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
 .qalbl{font-size:11px;color:var(--l2);font-weight:500}
-/* SYNC */
 .sbar{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:13px;border-radius:10px;margin:10px 16px 0;font-weight:500}
 .sbar.sy{background:var(--bl);color:var(--blue)}.sbar.ok{background:var(--gl);color:#1A8A36}.sbar.er{background:var(--rl);color:var(--red)}.sbar.wa{background:var(--ol);color:#B86800}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -159,37 +140,21 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .lf input{background:none;border:none;font-size:17px;font-family:var(--f);color:var(--label);outline:none;width:100%}
 .lf input::placeholder{color:var(--l3)}
 .login-err{color:var(--red);font-size:13px;text-align:center;margin-top:10px;min-height:18px}
-/* PROFILE */
 .phdr{display:flex;flex-direction:column;align-items:center;padding:24px 20px 16px}
 .pav{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin-bottom:12px}
-/* LOADING */
-#scr-load{background:linear-gradient(160deg,#EEF4FF 0%,#F2F2F7 60%);justify-content:center;align-items:center;gap:16px}
-.spinner{width:38px;height:38px;border:3px solid rgba(0,122,255,.2);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
-/* TOAST */
-.toast{position:fixed;top:calc(env(safe-area-inset-top,44px) + 54px);left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(40,40,40,.92);backdrop-filter:blur(10px);color:#fff;padding:10px 20px;border-radius:22px;font-size:14px;font-weight:500;white-space:nowrap;z-index:9999;opacity:0;transition:all .2s;pointer-events:none}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-/* EMPTY */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;gap:10px;text-align:center}
 .emico{font-size:48px}.emti{font-size:19px;font-weight:600;letter-spacing:-.3px}.emsu{font-size:15px;color:var(--l2);line-height:1.5}
 @keyframes fsu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .ani{animation:fsu .28s ease both}
 .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+.toast{position:fixed;top:calc(env(safe-area-inset-top,44px) + 54px);left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(40,40,40,.92);backdrop-filter:blur(10px);color:#fff;padding:10px 20px;border-radius:22px;font-size:14px;font-weight:500;white-space:nowrap;z-index:9999;opacity:0;transition:all .2s;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
-<div class="scr on" id="scr-load">
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
-    <div class="logo-box"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-    <div style="font-size:22px;font-weight:700;letter-spacing:-.5px;">CredNest</div>
-    <div class="spinner"></div>
-    <div style="font-size:14px;color:var(--l2);" id="load-msg">Loading…</div>
-  </div>
-</div>
-
-<!-- LOGIN -->
-<div class="scr" id="scr-login">
+<!-- LOGIN (shown by default) -->
+<div class="scr on" id="scr-login">
   <div class="logo-wrap ani">
     <div class="logo-box"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
     <h1>CredNest</h1>
@@ -198,14 +163,14 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
   <div class="login-card ani d1">
     <h2>Sign In</h2>
     <p>Enter your credentials to continue</p>
-    <div class="lf"><label>User ID</label><input type="text" id="inp-uid" placeholder="e.g. ravi01" autocomplete="username" autocapitalize="none"></div>
+    <div class="lf"><label>User ID</label><input type="text" id="inp-uid" placeholder="e.g. ravi01" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>Password</label><input type="password" id="inp-pass" placeholder="Your password" autocomplete="current-password"></div>
     <button class="btn btn-bl" onclick="doLogin()" id="login-btn">Sign In</button>
     <div class="login-err" id="login-err"></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- MAIN APP (hidden until login) -->
 <div class="scr" id="scr-app">
   <!-- HOME -->
   <div id="sub-home" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
@@ -399,608 +364,677 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 
 <script>
 // ─── CONSTANTS ───────────────────────────────────────────────
-const SL={new:'New',contacted:'Contacted',qualified:'Qualified',documents:'Docs Pending',submitted:'Submitted',converted:'Converted',disqualified:'Disqualified'};
-const SC={new:'pb',contacted:'po',qualified:'pg',documents:'pp',submitted:'pt',converted:'pg',disqualified:'pr'};
-const SO=['new','contacted','qualified','documents','submitted','converted','disqualified'];
-const DOCS=[{k:'pan',n:'PAN Card'},{k:'aadhaar',n:'Aadhaar Card'},{k:'salary',n:'Salary Slips (3 months)'},{k:'bank',n:'Bank Statement (6 months)'},{k:'itr',n:'ITR Last 2 Years'},{k:'photo',n:'Passport Photo'},{k:'form16',n:'Form 16'},{k:'biz',n:'Business Proof'}];
-const ABG=['#007AFF','#34C759','#FF9500','#AF52DE','#FF3B30','#5AC8FA','#FF2D55','#30D158'];
-const RATES={'Personal Loan':2,'Business Loan':2,'Home Loan':0.35,'LAP':0.5,'Car Loan':1,'Two-Wheeler Loan':1,'Education Loan':1};
-const SI={picked:'✅',rejected:'❌',missed:'📵',busy:'🔄',wrong:'⚠️',callback:'📅',switched_off:'📴',voicemail:'📬'};
-const SC2={picked:'pg',rejected:'pr',missed:'po',busy:'po',wrong:'pp',callback:'pb',switched_off:'pgr',voicemail:'pgr'};
-// Master config sheet URL — set by admin panel
-const MASTER_CONFIG_KEY='cn_master_url'; // URL of the config sheet
+var SL={new:'New',contacted:'Contacted',qualified:'Qualified',documents:'Docs Pending',submitted:'Submitted',converted:'Converted',disqualified:'Disqualified'};
+var SC={new:'pb',contacted:'po',qualified:'pg',documents:'pp',submitted:'pt',converted:'pg',disqualified:'pr'};
+var SO=['new','contacted','qualified','documents','submitted','converted','disqualified'];
+var DOCS=[{k:'pan',n:'PAN Card'},{k:'aadhaar',n:'Aadhaar Card'},{k:'salary',n:'Salary Slips (3 months)'},{k:'bank',n:'Bank Statement (6 months)'},{k:'itr',n:'ITR Last 2 Years'},{k:'photo',n:'Passport Photo'},{k:'form16',n:'Form 16'},{k:'biz',n:'Business Proof'}];
+var ABG=['#007AFF','#34C759','#FF9500','#AF52DE','#FF3B30','#5AC8FA','#FF2D55','#30D158'];
+var RATES={'Personal Loan':2,'Business Loan':2,'Home Loan':0.35,'LAP':0.5,'Car Loan':1,'Two-Wheeler Loan':1,'Education Loan':1};
+var SI={picked:'✅',rejected:'❌',missed:'📵',busy:'🔄',wrong:'⚠️',callback:'📅',switched_off:'📴',voicemail:'📬'};
+var SC2={picked:'pg',rejected:'pr',missed:'po',busy:'po',wrong:'pp',callback:'pb',switched_off:'pgr',voicemail:'pgr'};
+
+// Default users — always available as fallback
+var DEFAULT_USERS=[
+  {id:'admin',name:'Admin',pass:'1234',color:'#007AFF',isAdmin:true,sheetURL:''},
+  {id:'ravi01',name:'Ravi Kumar',pass:'1234',color:'#34C759',sheetURL:''},
+  {id:'priya01',name:'Priya Shah',pass:'1234',color:'#FF9500',sheetURL:''},
+  {id:'amit01',name:'Amit Dey',pass:'1234',color:'#AF52DE',sheetURL:''}
+];
 
 // ─── STATE ───────────────────────────────────────────────────
-let leads=[], calls=[], me=null, editId=null, activeId=null;
-let hf='all', ps='new', cs='picked';
-let sheetURL='', syncTimer=null, lastSync=null;
+var leads=[], calls=[], me=null, editId=null, activeId=null;
+var hf='all', ps='new', cs='picked';
+var sheetURL='', syncTimer=null, lastSync=null;
 
-const S=(k,v)=>v===undefined?localStorage.getItem(k):(localStorage.setItem(k,v),v);
-const J=(k,d)=>{try{return JSON.parse(S(k)||'null')||d}catch{return d}};
-function save(){S('cn_leads_'+me?.id,JSON.stringify(leads));S('cn_calls_'+me?.id,JSON.stringify(calls));schedulePush()}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
-function ini(n){return(n||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
-function abg(n){let h=0;for(let c of(n||''))h=c.charCodeAt(0)+((h<<5)-h);return ABG[Math.abs(h)%ABG.length]}
-function fmt(n){if(!n||n==0)return'₹0';n=Number(n);if(n>=10000000)return'₹'+(n/10000000).toFixed(1)+'Cr';if(n>=100000)return'₹'+(n/100000).toFixed(1)+'L';if(n>=1000)return'₹'+(n/1000).toFixed(0)+'K';return'₹'+n}
-function fmtD(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'})}
-function fmtT(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
-function el(id){return document.getElementById(id)}
-function elig(l){let s=50;const c=+l.cibil||0,inc=+l.income||0,emi=+l.emi||0,amt=+l.amount||0;if(c>=750)s+=25;else if(c>=700)s+=15;else if(c>=650)s+=5;else if(c>0)s-=15;if(inc>0){const r=(emi+amt/60)/inc;s+=r<0.4?15:r<0.6?5:-10;}s+=(inc>=50000?10:inc>=25000?5:0);return Math.min(100,Math.max(0,s))}
-function comm(l){return(+l.amount||0)*(RATES[l.ltype]||2)/100}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-
-// ─── USER CONFIG ─────────────────────────────────────────────
-// Users stored in localStorage, synced from master config sheet
-function getUsers(){
-  try{
-    const raw=localStorage.getItem('cn_users');
-    if(!raw)return[];
-    const parsed=JSON.parse(raw);
-    return Array.isArray(parsed)?parsed:[];
-  }catch(e){return[];}
+// ─── STORAGE (safe wrappers — never throw) ───────────────────
+function lsGet(key) {
+  try { return localStorage.getItem(key); } catch(e) { return null; }
 }
-function getUserById(id){return getUsers().find(u=>u.id===id)}
-
-// ─── SYNC ────────────────────────────────────────────────────
-async function pullConfig(){
-  // Pull user config from master config sheet
-  const masterURL=S(MASTER_CONFIG_KEY);
-  if(!masterURL)return false;
-  try{
-    const r=await fetch(masterURL+'?action=getConfig&t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();
-    if(d.users&&Array.isArray(d.users)&&d.users.length>0){
-      S('cn_users',JSON.stringify(d.users));
-      return true;
-    }
-  }catch(e){console.log('Config pull failed, using local',e);}
-  return false;
+function lsSet(key, val) {
+  try { localStorage.setItem(key, val); } catch(e) {}
+}
+function lsGetJSON(key, def) {
+  try {
+    var raw = localStorage.getItem(key);
+    if (!raw) return def;
+    var parsed = JSON.parse(raw);
+    return parsed !== null ? parsed : def;
+  } catch(e) { return def; }
 }
 
-async function pullLeads(){
-  if(!sheetURL){setSbar('wa','No sheet connected');return false;}
-  setSbar('sy','Syncing…');
-  try{
-    const r=await fetch(sheetURL+'?action=getLeads&t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();
-    if(d.error)throw new Error(d.error);
-    if(Array.isArray(d.leads)){
-      d.leads.forEach(l=>{
-        if(typeof l.docs==='string'){try{l.docs=JSON.parse(l.docs)}catch{l.docs={}}}
-        if(typeof l.act==='string'){try{l.act=JSON.parse(l.act)}catch{l.act=[]}}
-      });
-      leads=d.leads;S('cn_leads_'+me?.id,JSON.stringify(leads));
-      lastSync=new Date();setSbar('ok','Synced '+fmtT(lastSync.toISOString()));
-      renderAll();return true;
-    }
-    throw new Error('Bad response');
-  }catch(e){setSbar('er','Sync failed — offline mode');return false;}
+// ─── GET USERS — reads from localStorage (written by admin panel) ───
+function getUsers() {
+  var users = lsGetJSON('cn_users', []);
+  if (Array.isArray(users) && users.length > 0) return users;
+  return DEFAULT_USERS;
 }
 
-function schedulePush(){
-  if(!sheetURL)return;
-  clearTimeout(syncTimer);setSbar('sy','Saving…');
-  syncTimer=setTimeout(pushLeads,1500);
-}
-
-async function pushLeads(){
-  if(!sheetURL)return;
-  setSbar('sy','Saving to sheet…');
-  try{
-    const toSend=leads.map(l=>({...l,docs:JSON.stringify(l.docs||{}),act:JSON.stringify(l.act||[])}));
-    const r=await fetch(sheetURL,{method:'POST',body:JSON.stringify({action:'saveLeads',leads:toSend})});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json();
-    if(d.error)throw new Error(d.error);
-    lastSync=new Date();setSbar('ok','Saved '+fmtT(lastSync.toISOString()));
-  }catch(e){setSbar('er','Save failed — stored locally');}
-}
-
-function setSbar(type,msg){
-  const el=document.getElementById('sbanner');if(!el)return;
-  if(!sheetURL&&type!=='er'){el.innerHTML='';return;}
-  const ico={sy:'<span class="spin">⟳</span>',ok:'✅',er:'❌',wa:'⚠️'};
-  el.innerHTML=`<div class="sbar ${type}">${ico[type]||'•'} ${msg}</div>`;
-}
-
-// ─── BOOT ────────────────────────────────────────────────────
-async function boot(){
-  try{
-    el('load-msg').textContent='Loading…';
-    await sleep(300);
-
-    const localUsers=getUsers();
-    if(localUsers.length===0){
-      el('load-msg').textContent='Fetching config…';
-      await pullConfig().catch(()=>{});
-    }
-
-    await sleep(300);
-
-    const saved=J('cn_session',null);
-    if(saved&&saved.id&&saved.pass){
-      let allUsers=getUsers();
-      if(allUsers.length===0)allUsers=getDefaultUsers();
-      const user=allUsers.find(u=>u.id===saved.id&&u.pass===saved.pass);
-      if(user){
-        me=user;sheetURL=user.sheetURL||'';
-        leads=J('cn_leads_'+me.id,[]);
-        calls=J('cn_calls_'+me.id,[]);
-        showScr('scr-app');
-        initApp();
-        if(sheetURL)pullLeads().catch(()=>{});
-        return;
-      }
-    }
-
-    showScr('scr-login');
-    el('inp-uid').focus();
-
-  }catch(err){
-    console.error('Boot error:',err);
-    // Even if something crashes, always show login screen
-    showScr('scr-login');
+function getUserById(id) {
+  var users = getUsers();
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id === id) return users[i];
   }
+  return null;
 }
 
-    await sleep(300);
+// ─── HELPERS ────────────────────────────────────────────────
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+function ini(n) { return (n||'?').split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2); }
+function abg(n) { var h=0; for(var i=0;i<(n||'').length;i++) h=(n.charCodeAt(i))+((h<<5)-h); return ABG[Math.abs(h)%ABG.length]; }
+function fmt(n) { if(!n||n==0)return'₹0'; n=Number(n); if(n>=10000000)return'₹'+(n/10000000).toFixed(1)+'Cr'; if(n>=100000)return'₹'+(n/100000).toFixed(1)+'L'; if(n>=1000)return'₹'+(n/1000).toFixed(0)+'K'; return'₹'+n; }
+function fmtD(iso) { if(!iso)return'—'; try{return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'});}catch(e){return'—';} }
+function fmtT(iso) { if(!iso)return'—'; try{return new Date(iso).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return'—';} }
+function el(id) { return document.getElementById(id); }
+function elig(l) {
+  var s=50, c=+(l.cibil||0), inc=+(l.income||0), emi=+(l.emi||0), amt=+(l.amount||0);
+  if(c>=750)s+=25; else if(c>=700)s+=15; else if(c>=650)s+=5; else if(c>0)s-=15;
+  if(inc>0){var r=(emi+amt/60)/inc; s+=r<0.4?15:r<0.6?5:-10;}
+  s+=(inc>=50000?10:inc>=25000?5:0);
+  return Math.min(100,Math.max(0,s));
+}
+function comm(l) { return(+(l.amount||0))*(RATES[l.ltype]||2)/100; }
 
-    // Check saved session
-    const saved=J('cn_session',null);
-  if(saved){
-    const user=getUserById(saved.id);
-    if(user&&user.pass===saved.pass){
-      me=user;sheetURL=user.sheetURL||'';
-      leads=J('cn_leads_'+me.id,[]);calls=J('cn_calls_'+me.id,[]);
-      showScr('scr-app');initApp();
-      // Pull fresh data in background
-      if(sheetURL)pullLeads();
+// ─── SAVE ────────────────────────────────────────────────────
+function save() {
+  lsSet('cn_leads_'+me.id, JSON.stringify(leads));
+  lsSet('cn_calls_'+me.id, JSON.stringify(calls));
+  schedulePush();
+}
+
+// ─── SHOW SCREEN ────────────────────────────────────────────
+function showScr(id) {
+  var screens = document.querySelectorAll('.scr');
+  for (var i=0; i<screens.length; i++) screens[i].classList.remove('on');
+  el(id).classList.add('on');
+}
+
+// ─── BOOT — synchronous, no async, never gets stuck ─────────
+function boot() {
+  // Check saved session
+  var session = lsGetJSON('cn_session', null);
+  if (session && session.id && session.pass) {
+    var user = getUserById(session.id);
+    if (user && user.pass === session.pass) {
+      me = user;
+      sheetURL = user.sheetURL || '';
+      leads = lsGetJSON('cn_leads_' + me.id, []);
+      calls = lsGetJSON('cn_calls_' + me.id, []);
+      showScr('scr-app');
+      initApp();
+      // Pull fresh data in background — non-blocking
+      if (sheetURL) {
+        setTimeout(function(){ pullLeads(); }, 500);
+      }
       return;
     }
   }
+  // No valid session — show login
   showScr('scr-login');
-  el('inp-uid').focus();
+  setTimeout(function(){
+    var uid_input = el('inp-uid');
+    if (uid_input) uid_input.focus();
+  }, 100);
 }
-
-function showScr(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));el(id).classList.add('on');}
 
 // ─── LOGIN ───────────────────────────────────────────────────
-async function doLogin(){
-  const uid_val=el('inp-uid').value.trim().toLowerCase();
-  const pass=el('inp-pass').value;
-  el('login-err').textContent='';
-  if(!uid_val||!pass){el('login-err').textContent='Enter your User ID and password';return;}
-  el('login-btn').textContent='Signing in…';el('login-btn').disabled=true;
+function doLogin() {
+  var uid_val = el('inp-uid').value.trim().toLowerCase();
+  var pass = el('inp-pass').value;
+  el('login-err').textContent = '';
 
-  // 1. Try local users first (written by admin panel on same device)
-  let allUsers=getUsers();
-
-  // 2. If no local users, try pulling from config sheet
-  if(allUsers.length===0){
-    await pullConfig().catch(()=>{});
-    allUsers=getUsers();
-  }
-
-  // 3. If still nothing, use hardcoded defaults
-  if(allUsers.length===0) allUsers=getDefaultUsers();
-
-  let user=allUsers.find(u=>u.id.toLowerCase()===uid_val&&u.pass===pass);
-
-  // 4. If not found locally, try a fresh config pull in case admin added user on another device
-  if(!user){
-    await pullConfig().catch(()=>{});
-    allUsers=getUsers();
-    if(allUsers.length>0) user=allUsers.find(u=>u.id.toLowerCase()===uid_val&&u.pass===pass);
-  }
-
-  el('login-btn').textContent='Sign In';el('login-btn').disabled=false;
-
-  if(!user){
-    el('login-err').textContent='Invalid User ID or password. Try again.';
-    el('inp-pass').value='';
+  if (!uid_val || !pass) {
+    el('login-err').textContent = 'Enter your User ID and password';
     return;
   }
-  me=user;sheetURL=user.sheetURL||'';
-  S('cn_session',JSON.stringify({id:user.id,pass:user.pass}));
-  leads=J('cn_leads_'+me.id,[]);calls=J('cn_calls_'+me.id,[]);
-  showScr('scr-app');initApp();
-  if(sheetURL)pullLeads();
+
+  el('login-btn').textContent = 'Signing in…';
+  el('login-btn').disabled = true;
+
+  // Get users from localStorage (admin panel writes here)
+  var users = getUsers();
+  var user = null;
+
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id.toLowerCase() === uid_val && users[i].pass === pass) {
+      user = users[i];
+      break;
+    }
+  }
+
+  el('login-btn').textContent = 'Sign In';
+  el('login-btn').disabled = false;
+
+  if (!user) {
+    el('login-err').textContent = 'Wrong User ID or password. Please try again.';
+    el('inp-pass').value = '';
+    return;
+  }
+
+  // Logged in
+  me = user;
+  sheetURL = user.sheetURL || '';
+  lsSet('cn_session', JSON.stringify({id: user.id, pass: user.pass}));
+  leads = lsGetJSON('cn_leads_' + me.id, []);
+  calls = lsGetJSON('cn_calls_' + me.id, []);
+  showScr('scr-app');
+  initApp();
+  if (sheetURL) {
+    setTimeout(function(){ pullLeads(); }, 300);
+  }
 }
 
-function getDefaultUsers(){
-  // Fallback if no admin config exists yet
-  return[
-    {id:'admin',name:'Admin',pass:'1234',color:'#007AFF',isAdmin:true,sheetURL:''},
-    {id:'ravi01',name:'Ravi Kumar',pass:'1234',color:'#34C759',sheetURL:''},
-    {id:'priya01',name:'Priya Shah',pass:'1234',color:'#FF9500',sheetURL:''},
-    {id:'amit01',name:'Amit Dey',pass:'1234',color:'#AF52DE',sheetURL:''},
-  ];
-}
-
-function doLogout(){
-  S('cn_session','null');me=null;leads=[];calls=[];
-  el('inp-uid').value='';el('inp-pass').value='';el('login-err').textContent='';
+function doLogout() {
+  lsSet('cn_session', 'null');
+  me = null; leads = []; calls = [];
+  el('inp-uid').value = '';
+  el('inp-pass').value = '';
+  el('login-err').textContent = '';
   showScr('scr-login');
+}
+
+// ─── SYNC ────────────────────────────────────────────────────
+function pullLeads() {
+  if (!sheetURL) { setSbar('wa','No sheet connected'); return; }
+  setSbar('sy','Syncing…');
+  fetch(sheetURL + '?action=getLeads&t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.error) throw new Error(d.error);
+      if (Array.isArray(d.leads)) {
+        d.leads.forEach(function(l){
+          if (typeof l.docs==='string'){try{l.docs=JSON.parse(l.docs);}catch(e){l.docs={};}}
+          if (typeof l.act==='string'){try{l.act=JSON.parse(l.act);}catch(e){l.act=[];}}
+        });
+        leads = d.leads;
+        lsSet('cn_leads_'+me.id, JSON.stringify(leads));
+        lastSync = new Date();
+        setSbar('ok','Synced '+fmtT(lastSync.toISOString()));
+        renderAll();
+      }
+    })
+    .catch(function(e){ setSbar('er','Sync failed — offline mode'); });
+}
+
+function schedulePush() {
+  if (!sheetURL) return;
+  clearTimeout(syncTimer);
+  setSbar('sy','Saving…');
+  syncTimer = setTimeout(pushLeads, 1500);
+}
+
+function pushLeads() {
+  if (!sheetURL) return;
+  setSbar('sy','Saving to sheet…');
+  var toSend = leads.map(function(l){
+    return Object.assign({}, l, {
+      docs: JSON.stringify(l.docs||{}),
+      act: JSON.stringify(l.act||[])
+    });
+  });
+  fetch(sheetURL, {method:'POST', body:JSON.stringify({action:'saveLeads',leads:toSend})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d.error) throw new Error(d.error);
+      lastSync = new Date();
+      setSbar('ok','Saved '+fmtT(lastSync.toISOString()));
+    })
+    .catch(function(e){ setSbar('er','Save failed — stored locally'); });
+}
+
+function setSbar(type, msg) {
+  var banner = el('sbanner'); if(!banner) return;
+  if (!sheetURL) { banner.innerHTML=''; return; }
+  var ico = {sy:'<span class="spin">⟳</span>',ok:'✅',er:'❌',wa:'⚠️'};
+  banner.innerHTML = '<div class="sbar '+type+'">'+(ico[type]||'•')+' '+msg+'</div>';
 }
 
 // ─── APP INIT ────────────────────────────────────────────────
-function initApp(){
-  const h=new Date().getHours();
-  el('greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', '+me.name.split(' ')[0]+'! 👋';
-  el('gdate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
-  el('hnt').textContent=me.isAdmin?'CredNest CRM':me.name.split(' ')[0]+"'s Leads";
-  renderAll();goTab('home');
-  if(sheetURL)setSbar('ok',lastSync?'Synced '+fmtT(lastSync.toISOString()):'Connected');
+function initApp() {
+  var h = new Date().getHours();
+  var greetWord = h<12 ? 'Good morning' : h<17 ? 'Good afternoon' : 'Good evening';
+  el('greet').textContent = greetWord + ', ' + me.name.split(' ')[0] + '! 👋';
+  el('gdate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  el('hnt').textContent = me.isAdmin ? 'CredNest CRM' : me.name.split(' ')[0] + "'s Leads";
+  renderAll();
+  goTab('home');
+  if (sheetURL) setSbar('ok', lastSync ? 'Synced '+fmtT(lastSync.toISOString()) : 'Connected');
   else setSbar('wa','No sheet — contact admin');
 }
 
 // ─── RENDER ──────────────────────────────────────────────────
-function renderAll(){renderStats();renderHome();renderPipe();renderCalls();}
+function renderAll() { renderStats(); renderHome(); renderPipe(); renderCalls(); }
 
-function renderStats(){
-  const ml=leads;
-  const active=ml.filter(l=>!['converted','disqualified'].includes(l.stage)).length;
-  const conv=ml.filter(l=>l.stage==='converted').length;
-  const c=Math.round(ml.filter(l=>l.stage!=='disqualified').reduce((s,l)=>s+comm(l),0));
-  el('stats').innerHTML=`
-    <div class="tile blue ani d1"><div class="tv">${ml.length}</div><div class="tl">Total Leads</div></div>
-    <div class="tile orange ani d2"><div class="tv">${active}</div><div class="tl">Active</div></div>
-    <div class="tile green ani d3"><div class="tv">${conv}</div><div class="tl">Converted</div></div>
-    <div class="tile red ani d4"><div class="tv">${fmt(c)}</div><div class="tl">Est. Commission</div></div>`;
+function renderStats() {
+  var ml = leads;
+  var active = ml.filter(function(l){return !['converted','disqualified'].includes(l.stage);}).length;
+  var conv = ml.filter(function(l){return l.stage==='converted';}).length;
+  var c = Math.round(ml.filter(function(l){return l.stage!=='disqualified';}).reduce(function(s,l){return s+comm(l);},0));
+  el('stats').innerHTML =
+    '<div class="tile blue ani d1"><div class="tv">'+ml.length+'</div><div class="tl">Total Leads</div></div>' +
+    '<div class="tile orange ani d2"><div class="tv">'+active+'</div><div class="tl">Active</div></div>' +
+    '<div class="tile green ani d3"><div class="tv">'+conv+'</div><div class="tl">Converted</div></div>' +
+    '<div class="tile red ani d4"><div class="tv">'+fmt(c)+'</div><div class="tl">Est. Commission</div></div>';
 }
 
-// ─── LEAD CARD with call + whatsapp buttons ───────────────────
-function lcard(l){
-  const phone=l.phone?l.phone.replace(/\s/g,''):'';
-  const wa_phone=phone.replace(/[^0-9]/g,'');
-  const wa_msg=encodeURIComponent(`Hi ${l.name}! Following up on your ${l.ltype||'loan'} enquiry. When's a good time to connect? 🙏`);
-  return`<div class="lcard ani" onclick="openDet('${l.id}')">
-    <div class="lct">
-      <div class="av" style="background:${abg(l.name)};width:42px;height:42px;font-size:15px;">${ini(l.name)}</div>
-      <div class="li">
-        <div class="ln">${l.name}</div>
-        <div class="lm">${l.phone||'—'} · ${l.ltype||'—'}</div>
-        <div class="lm">${fmt(l.amount)}${l.cibil?' · CIBIL '+l.cibil:''}</div>
-        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-          <span class="pill ${SC[l.stage]||'pgr'}">${SL[l.stage]||l.stage}</span>
-          <span class="pill ${l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr'}">${l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️'} ${l.prio}</span>
-          <span style="font-size:11px;color:var(--l3);align-self:center;">${fmtD(l.updated)}</span>
-        </div>
-      </div>
-    </div>
-    <div class="act-strip">
-      <a href="tel:${phone}" class="act-btn act-call" onclick="event.stopPropagation();logCallTap('${l.id}')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Call Now
-      </a>
-      <a href="https://wa.me/${wa_phone}?text=${wa_msg}" target="_blank" class="act-btn act-wa" onclick="event.stopPropagation();logWA('${l.id}')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
-      </a>
-      <button class="act-btn act-detail" onclick="event.stopPropagation();openDet('${l.id}')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Details
-      </button>
-    </div>
-  </div>`;
+function lcard(l) {
+  var phone = (l.phone||'').replace(/\s/g,'');
+  var wap = phone.replace(/[^0-9]/g,'');
+  var wamsg = encodeURIComponent('Hi '+l.name+'! Following up on your '+(l.ltype||'loan')+' enquiry. When\'s a good time to connect? 🙏');
+  var stageClass = SC[l.stage]||'pgr';
+  var prioClass = l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr';
+  var prioIcon = l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️';
+  return '<div class="lcard ani" onclick="openDet(\''+l.id+'\')">'+
+    '<div class="lct">'+
+      '<div class="av" style="background:'+abg(l.name)+';width:42px;height:42px;font-size:15px;">'+ini(l.name)+'</div>'+
+      '<div class="li">'+
+        '<div class="ln">'+l.name+'</div>'+
+        '<div class="lm">'+(l.phone||'—')+' · '+(l.ltype||'—')+'</div>'+
+        '<div class="lm">'+fmt(l.amount)+(l.cibil?' · CIBIL '+l.cibil:'')+'</div>'+
+        '<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">'+
+          '<span class="pill '+stageClass+'">'+(SL[l.stage]||l.stage)+'</span>'+
+          '<span class="pill '+prioClass+'">'+prioIcon+' '+l.prio+'</span>'+
+          '<span style="font-size:11px;color:var(--l3);align-self:center;">'+fmtD(l.updated)+'</span>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="act-strip">'+
+      '<a href="tel:'+phone+'" class="act-btn act-call" onclick="event.stopPropagation();logCallTap(\''+l.id+'\')">'+
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>'+
+        'Call Now'+
+      '</a>'+
+      '<a href="https://wa.me/'+wap+'?text='+wamsg+'" target="_blank" class="act-btn act-wa" onclick="event.stopPropagation();logWA(\''+l.id+'\')">'+
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'+
+        'WhatsApp'+
+      '</a>'+
+      '<button class="act-btn act-detail" onclick="event.stopPropagation();openDet(\''+l.id+'\')">'+
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'+
+        'Details'+
+      '</button>'+
+    '</div>'+
+  '</div>';
 }
 
-function logCallTap(id){
-  // Quick log that call was attempted
-  const l=leads.find(x=>x.id===id);if(!l)return;
-  const n=new Date().toISOString();
-  l.act=l.act||[];
+function logCallTap(id) {
+  var l = leads.find(function(x){return x.id===id;});
+  if (!l) return;
+  var n = new Date().toISOString();
+  l.act = l.act||[];
   l.act.push({t:'call',tx:'📞 Call placed',ts:n});
-  l.updated=n;save();
-  // Open call log overlay after short delay (phone dialer takes over)
-  setTimeout(()=>{openCallOv(id);},1200);
+  l.updated = n;
+  save();
+  setTimeout(function(){ openCallOv(id); }, 1000);
 }
 
-function logWA(id){
-  const l=leads.find(x=>x.id===id);if(!l)return;
-  const n=new Date().toISOString();
-  l.act=l.act||[];l.act.push({t:'wa',tx:'💬 WhatsApp opened',ts:n});l.updated=n;save();
+function logWA(id) {
+  var l = leads.find(function(x){return x.id===id;});
+  if (!l) return;
+  var n = new Date().toISOString();
+  l.act = l.act||[];
+  l.act.push({t:'wa',tx:'💬 WhatsApp opened',ts:n});
+  l.updated = n;
+  save();
 }
 
-// HOME
-function setHF(f,e){hf=f;document.querySelectorAll('#hfseg .sb').forEach(b=>b.classList.remove('on'));e.classList.add('on');renderHome();}
-function renderHome(){
-  let ml=[...leads];
-  if(hf==='hot')ml=ml.filter(l=>l.prio==='hot');
-  else if(hf==='followup')ml=ml.filter(l=>['contacted','documents'].includes(l.stage));
-  else if(hf==='new')ml=ml.filter(l=>l.stage==='new');
-  ml=ml.filter(l=>l.stage!=='converted'&&l.stage!=='disqualified');
-  ml.sort((a,b)=>({hot:0,warm:1,cold:2}[a.prio]||1)-({hot:0,warm:1,cold:2}[b.prio]||1));
-  el('homeList').innerHTML=ml.length===0
-    ?`<div class="empty"><div class="emico">📋</div><div class="emti">No leads here</div><div class="emsu">Tap + to add your first lead</div></div>`
-    :ml.map(lcard).join('');
+function setHF(f,e) {
+  hf=f;
+  document.querySelectorAll('#hfseg .sb').forEach(function(b){b.classList.remove('on');});
+  e.classList.add('on');
+  renderHome();
 }
 
-// PIPELINE
-function setPS(s,e){ps=s;document.querySelectorAll('#pseg .sb').forEach(b=>b.classList.remove('on'));e.classList.add('on');renderPipe();}
-function renderPipe(){
-  const ml=leads.filter(l=>l.stage===ps);
-  el('pipeList').innerHTML=ml.length===0
-    ?`<div class="empty"><div class="emico">✨</div><div class="emti">All clear!</div><div class="emsu">No leads in this stage</div></div>`
-    :ml.map(lcard).join('')+'<div style="height:90px"></div>';
+function renderHome() {
+  var ml = leads.slice();
+  if (hf==='hot') ml = ml.filter(function(l){return l.prio==='hot';});
+  else if (hf==='followup') ml = ml.filter(function(l){return ['contacted','documents'].includes(l.stage);});
+  else if (hf==='new') ml = ml.filter(function(l){return l.stage==='new';});
+  ml = ml.filter(function(l){return l.stage!=='converted'&&l.stage!=='disqualified';});
+  ml.sort(function(a,b){return ({hot:0,warm:1,cold:2}[a.prio]||1)-({hot:0,warm:1,cold:2}[b.prio]||1);});
+  el('homeList').innerHTML = ml.length===0
+    ? '<div class="empty"><div class="emico">📋</div><div class="emti">No leads here</div><div class="emsu">Tap + to add your first lead</div></div>'
+    : ml.map(lcard).join('');
 }
 
-// CALLS
-function renderCalls(){
-  const mc=[...calls].reverse();
-  const csel=el('callsList');
-  if(mc.length===0){csel.innerHTML=`<div class="empty"><div class="emico">📞</div><div class="emti">No calls yet</div><div class="emsu">Tap Call on any lead</div></div>`;return;}
-  csel.innerHTML=mc.map(c=>{
-    const l=leads.find(x=>x.id===c.lid)||{name:'Unknown',phone:'—'};
-    return`<div class="lst" style="margin:0 16px 10px;" onclick="openDet('${c.lid}')">
-      <div class="row">
-        <div class="av" style="background:${abg(l.name)};width:38px;height:38px;font-size:13px;">${ini(l.name)}</div>
-        <div class="rb"><div class="rt">${l.name}</div><div class="rs">${l.phone||'—'}</div></div>
-        <span class="pill ${SC2[c.status]||'pgr'}">${SI[c.status]||'📞'} ${(c.status||'').replace('_',' ')}</span>
-      </div>
-      ${c.note?`<div style="padding:8px 16px 10px;font-size:13px;color:var(--l2);border-top:.5px solid var(--sep2);">${c.note}</div>`:''}
-      <div style="padding:6px 16px 10px;font-size:12px;color:var(--l3);border-top:.5px solid var(--sep2);">${fmtT(c.ts)}${c.dur?' · '+c.dur:''}</div>
-    </div>`;
-  }).join('')+'<div style="height:90px"></div>';
+function setPS(s,e) {
+  ps=s;
+  document.querySelectorAll('#pseg .sb').forEach(function(b){b.classList.remove('on');});
+  e.classList.add('on');
+  renderPipe();
 }
 
-// PROFILE
-function renderProf(){
-  if(!me)return;
-  const ml=leads;
-  const conv=ml.filter(l=>l.stage==='converted');
-  const earned=conv.reduce((s,l)=>s+comm(l),0);
-  const syncTxt=sheetURL
-    ?`<span style="color:var(--green);">●</span> Connected`
-    :`<span style="color:var(--red);">●</span> Not connected`;
-  el('profContent').innerHTML=`
-    <div class="phdr">
-      <div class="pav" style="background:${me.color||'#007AFF'}">${ini(me.name)}</div>
-      <div style="font-size:22px;font-weight:700;letter-spacing:-.4px;">${me.name}</div>
-      <div style="font-size:15px;color:var(--l2);margin-top:3px;">${me.isAdmin?'👑 Admin':'Partner'}</div>
-    </div>
-    <div class="stats" style="margin-bottom:4px;">
-      <div class="tile blue"><div class="tv">${ml.length}</div><div class="tl">My Leads</div></div>
-      <div class="tile green"><div class="tv">${conv.length}</div><div class="tl">Converted</div></div>
-      <div class="tile orange"><div class="tv">${fmt(earned)}</div><div class="tl">Earned</div></div>
-      <div class="tile red"><div class="tv">${ml.filter(l=>l.prio==='hot').length}</div><div class="tl">Hot Leads</div></div>
-    </div>
-    <div class="sec">
-      <div class="sh">Google Sheet Sync</div>
-      <div class="lst">
-        <div class="row" style="cursor:default;">
-          <div class="ri" style="background:var(--gl);">📊</div>
-          <div class="rb"><div class="rt">Sheet Status</div><div class="rs">${syncTxt}</div></div>
-        </div>
-        <div class="row" onclick="pullLeads().then(renderAll)">
-          <div class="ri" style="background:var(--bl);">🔄</div>
-          <div class="rb"><div class="rt">Pull Latest</div><div class="rs">Refresh from Google Sheet</div></div>
-          <svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <div class="row" onclick="pushLeads()">
-          <div class="ri" style="background:var(--ol);">⬆️</div>
-          <div class="rb"><div class="rt">Push All</div><div class="rs">Force save to sheet</div></div>
-          <svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <div class="row" onclick="exportCSV()">
-          <div class="ri" style="background:var(--pl);">💾</div>
-          <div class="rb"><div class="rt">Download CSV</div><div class="rs">Save to device</div></div>
-          <svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="sec" style="margin-top:16px;">
-      <div class="lst">
-        <div class="row" onclick="doLogout()" >
-          <div class="ri" style="background:var(--rl);">🚪</div>
-          <div class="rb"><div class="rt" style="color:var(--red)">Sign Out</div></div>
-        </div>
-      </div>
-    </div>
-    <div style="height:90px"></div>`;
+function renderPipe() {
+  var ml = leads.filter(function(l){return l.stage===ps;});
+  el('pipeList').innerHTML = ml.length===0
+    ? '<div class="empty"><div class="emico">✨</div><div class="emti">All clear!</div><div class="emsu">No leads in this stage</div></div>'
+    : ml.map(lcard).join('') + '<div style="height:90px"></div>';
+}
+
+function renderCalls() {
+  var mc = calls.slice().reverse();
+  var csel = el('callsList');
+  if (mc.length===0) {
+    csel.innerHTML = '<div class="empty"><div class="emico">📞</div><div class="emti">No calls yet</div><div class="emsu">Tap Call on any lead</div></div>';
+    return;
+  }
+  csel.innerHTML = mc.map(function(c){
+    var l = leads.find(function(x){return x.id===c.lid;})||{name:'Unknown',phone:'—'};
+    return '<div class="lst" style="margin:0 16px 10px;" onclick="openDet(\''+c.lid+'\')">'+
+      '<div class="row">'+
+        '<div class="av" style="background:'+abg(l.name)+';width:38px;height:38px;font-size:13px;">'+ini(l.name)+'</div>'+
+        '<div class="rb"><div class="rt">'+l.name+'</div><div class="rs">'+(l.phone||'—')+'</div></div>'+
+        '<span class="pill '+(SC2[c.status]||'pgr')+'">'+(SI[c.status]||'📞')+' '+(c.status||'').replace('_',' ')+'</span>'+
+      '</div>'+
+      (c.note ? '<div style="padding:8px 16px 10px;font-size:13px;color:var(--l2);border-top:.5px solid var(--sep2);">'+c.note+'</div>' : '')+
+      '<div style="padding:6px 16px 10px;font-size:12px;color:var(--l3);border-top:.5px solid var(--sep2);">'+fmtT(c.ts)+(c.dur?' · '+c.dur:'')+'</div>'+
+    '</div>';
+  }).join('') + '<div style="height:90px"></div>';
+}
+
+function renderProf() {
+  if (!me) return;
+  var ml = leads;
+  var conv = ml.filter(function(l){return l.stage==='converted';});
+  var earned = conv.reduce(function(s,l){return s+comm(l);},0);
+  var syncTxt = sheetURL
+    ? '<span style="color:var(--green);">●</span> Connected'
+    : '<span style="color:var(--red);">●</span> Not connected';
+  el('profContent').innerHTML =
+    '<div class="phdr">'+
+      '<div class="pav" style="background:'+(me.color||'#007AFF')+'">'+ini(me.name)+'</div>'+
+      '<div style="font-size:22px;font-weight:700;letter-spacing:-.4px;">'+me.name+'</div>'+
+      '<div style="font-size:15px;color:var(--l2);margin-top:3px;">'+(me.isAdmin?'👑 Admin':'Partner')+'</div>'+
+    '</div>'+
+    '<div class="stats" style="margin-bottom:4px;">'+
+      '<div class="tile blue"><div class="tv">'+ml.length+'</div><div class="tl">My Leads</div></div>'+
+      '<div class="tile green"><div class="tv">'+conv.length+'</div><div class="tl">Converted</div></div>'+
+      '<div class="tile orange"><div class="tv">'+fmt(earned)+'</div><div class="tl">Earned</div></div>'+
+      '<div class="tile red"><div class="tv">'+ml.filter(function(l){return l.prio==='hot';}).length+'</div><div class="tl">Hot Leads</div></div>'+
+    '</div>'+
+    '<div class="sec"><div class="sh">Google Sheet</div><div class="lst">'+
+      '<div class="row" style="cursor:default;"><div class="ri" style="background:var(--gl);">📊</div><div class="rb"><div class="rt">Sheet Status</div><div class="rs">'+syncTxt+'</div></div></div>'+
+      '<div class="row" onclick="pullLeads();renderAll()"><div class="ri" style="background:var(--bl);">🔄</div><div class="rb"><div class="rt">Pull Latest</div><div class="rs">Refresh from Google Sheet</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
+      '<div class="row" onclick="pushLeads()"><div class="ri" style="background:var(--ol);">⬆️</div><div class="rb"><div class="rt">Push All</div><div class="rs">Force save to sheet</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
+      '<div class="row" onclick="exportCSV()"><div class="ri" style="background:var(--pl);">💾</div><div class="rb"><div class="rt">Download CSV</div><div class="rs">Save to device</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
+    '</div></div>'+
+    '<div class="sec" style="margin-top:16px;"><div class="lst">'+
+      '<div class="row" onclick="doLogout()"><div class="ri" style="background:var(--rl);">🚪</div><div class="rb"><div class="rt" style="color:var(--red)">Sign Out</div></div></div>'+
+    '</div></div>'+
+    '<div style="height:90px"></div>';
 }
 
 // ─── DETAIL ──────────────────────────────────────────────────
-function openDet(id){
-  activeId=id;const l=leads.find(x=>x.id===id);if(!l)return;
+function openDet(id) {
+  activeId=id;
+  var l=leads.find(function(x){return x.id===id;});
+  if(!l)return;
   el('det-ti').textContent=l.name;
-  el('ov-det').classList.add('on');renderDet(l);
+  el('ov-det').classList.add('on');
+  renderDet(l);
 }
 
-function renderDet(l){
-  const e=elig(l),ec=e>=75?'ehi':e>=50?'eme':'elo';
-  const elbl=e>=75?'High — Likely Eligible':e>=50?'Medium — Needs Review':'Low — High Risk';
-  const stgs=['new','contacted','qualified','documents','submitted','converted'];
-  const si=stgs.indexOf(l.stage);
-  const sdots=stgs.map((s,i)=>`<div class="spd ${i<si?'dn':s===l.stage?'cr':''}"></div>`).join('');
-  const docs=l.docs||{};
-  const dhtml=DOCS.map(d=>`<div class="drow" onclick="togDoc('${l.id}','${d.k}')">
-    <div class="dchk ${docs[d.k]?'dn':''}">${docs[d.k]?`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}</div>
-    <span class="dlbl ${docs[d.k]?'dn':''}">${d.n}</span>
-  </div>`).join('');
-  const acts=(l.act||[]).slice().reverse().slice(0,10);
-  const ac={created:ABG[0],stage:'#FF9500',call:'#34C759',note:'#007AFF',doc:'#AF52DE',wa:'#25d366'};
-  const tl=acts.map((a,i)=>`<div class="tli">
-    <div class="tll"><div class="tld" style="background:${ac[a.t]||'#ccc'}"></div>${i<acts.length-1?'<div class="tlb"></div>':''}</div>
-    <div class="tlc"><div class="tlt">${a.tx}</div><div class="tlm">${fmtT(a.ts)}</div></div>
-  </div>`).join('');
-  const notes=(l.act||[]).filter(a=>a.t==='note').slice().reverse();
-  const nhtml=notes.length===0
-    ?`<div style="padding:12px 16px;font-size:14px;color:var(--l3);">No notes yet</div>`
-    :notes.map(n=>`<div style="padding:12px 16px;border-bottom:.5px solid var(--sep2);"><div style="font-size:15px;line-height:1.5;">${n.tx}</div><div style="font-size:12px;color:var(--l3);margin-top:3px;">${fmtT(n.ts)}</div></div>`).join('');
-  const phone=l.phone?l.phone.replace(/\s/g,''):'';
-  const wa_phone=phone.replace(/[^0-9]/g,'');
-  const wa_msg=encodeURIComponent(`Hi ${l.name}! Following up on your ${l.ltype||'loan'} enquiry. 🙏`);
-  el('det-body').innerHTML=`
-    <div style="display:flex;align-items:center;gap:13px;padding:16px;border-bottom:.5px solid var(--sep);">
-      <div class="av" style="background:${abg(l.name)};width:54px;height:54px;font-size:19px;">${ini(l.name)}</div>
-      <div>
-        <div style="font-size:20px;font-weight:700;letter-spacing:-.3px;">${l.name}</div>
-        <div style="font-size:14px;color:var(--l2);margin-top:2px;">${l.ltype||'—'} · ${fmt(l.amount)}</div>
-        <div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;">
-          <span class="pill ${SC[l.stage]||'pgr'}">${SL[l.stage]}</span>
-          <span class="pill ${l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr'}">${l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️'} ${l.prio}</span>
-        </div>
-      </div>
-    </div>
-    <!-- PROMINENT CALL + WA BUTTONS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;border-bottom:.5px solid var(--sep);">
-      <a href="tel:${phone}" onclick="logCallTap('${l.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gl);color:#1A8A36;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Call Now
-      </a>
-      <a href="https://wa.me/${wa_phone}?text=${wa_msg}" target="_blank" onclick="logWA('${l.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,.12);color:#128C7E;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
-      </a>
-    </div>
-    <div class="qastrip">
-      <button class="qab" onclick="openCallOv('${l.id}')"><div class="qaico" style="background:var(--gl);">📋</div><span class="qalbl">Log Call</span></button>
-      <button class="qab" onclick="openNoteOv()"><div class="qaico" style="background:var(--bl);">📝</div><span class="qalbl">Note</span></button>
-      <button class="qab" onclick="openStageOv()"><div class="qaico" style="background:var(--ol);">📍</div><span class="qalbl">Stage</span></button>
-    </div>
-    <div style="background:var(--bg2);margin:14px 16px 0;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">
-      <div style="padding:12px 16px 4px;font-size:12px;font-weight:600;color:var(--l2);text-transform:uppercase;letter-spacing:.5px;">Progress</div>
-      <div class="spr">${sdots}</div>
-      <div class="spls">${['New','Called','Qualified','Docs','Submitted','Done'].map(s=>`<span class="spl">${s}</span>`).join('')}</div>
-    </div>
-    <div class="sec"><div class="sh">Details</div>
-      <div class="lst">
-        ${[['Phone',`<a href="tel:${phone}" style="color:var(--blue);">${l.phone||'—'}</a>`],['City',l.city||'—'],['Employment',l.emp||'—'],['Income',fmt(l.income)],['EMI',fmt(l.emi)],['CIBIL',l.cibil?`<span style="color:${l.cibil>=750?'var(--green)':l.cibil>=700?'var(--orange)':'var(--red)'};font-weight:600;">${l.cibil}</span>`:'—'],['Source',l.src||'—']].map(([k,v])=>`<div class="row" style="cursor:default;"><div class="rb"><div style="font-size:15px;color:var(--l2);">${k}</div></div><div class="rr"><span style="font-size:15px;">${v}</span></div></div>`).join('')}
-      </div>
-    </div>
-    <div class="sec"><div style="background:var(--bg2);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:15px;font-weight:600;">${elbl}</div>
-        <div style="font-size:18px;font-weight:700;color:${e>=75?'var(--green)':e>=50?'var(--orange)':'var(--red)'};">${e}%</div>
-      </div>
-      <div class="etr" style="margin-top:8px;"><div class="ef ${ec}" style="width:${e}%"></div></div>
-    </div></div>
-    <div class="sec"><div class="sh">Documents</div><div class="lst">${dhtml}</div></div>
-    <div class="sec"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px;"><div class="sh" style="margin:0;">Notes</div><button onclick="openNoteOv()" style="background:none;border:none;color:var(--blue);font-size:15px;font-family:var(--f);cursor:pointer;">+ Add</button></div><div class="lst">${nhtml}</div></div>
-    <div class="sec"><div class="sh">Activity</div><div class="lst">${tl}</div></div>
-    <div class="sec" style="margin-top:16px;margin-bottom:32px;"><button class="btn btn-rd" onclick="delLead('${l.id}')">Delete Lead</button></div>`;
+function renderDet(l) {
+  var e=elig(l), ec=e>=75?'ehi':e>=50?'eme':'elo';
+  var elbl=e>=75?'High — Likely Eligible':e>=50?'Medium — Needs Review':'Low — High Risk';
+  var stgs=['new','contacted','qualified','documents','submitted','converted'];
+  var si=stgs.indexOf(l.stage);
+  var sdots=stgs.map(function(s,i){return '<div class="spd '+(i<si?'dn':s===l.stage?'cr':'')+'"></div>';}).join('');
+  var docs=l.docs||{};
+  var dhtml=DOCS.map(function(d){
+    return '<div class="drow" onclick="togDoc(\''+l.id+'\',\''+d.k+'\')">'+
+      '<div class="dchk '+(docs[d.k]?'dn':'')+'">'+
+        (docs[d.k]?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'')+
+      '</div>'+
+      '<span class="dlbl '+(docs[d.k]?'dn':'')+'">'+d.n+'</span>'+
+    '</div>';
+  }).join('');
+  var acts=(l.act||[]).slice().reverse().slice(0,10);
+  var aclr={created:ABG[0],stage:'#FF9500',call:'#34C759',note:'#007AFF',doc:'#AF52DE',wa:'#25d366'};
+  var tl=acts.map(function(a,i){
+    return '<div class="tli">'+
+      '<div class="tll"><div class="tld" style="background:'+(aclr[a.t]||'#ccc')+'"></div>'+(i<acts.length-1?'<div class="tlb"></div>':'')+' </div>'+
+      '<div class="tlc"><div class="tlt">'+a.tx+'</div><div class="tlm">'+fmtT(a.ts)+'</div></div>'+
+    '</div>';
+  }).join('');
+  var notes=(l.act||[]).filter(function(a){return a.t==='note';}).slice().reverse();
+  var nhtml=notes.length===0
+    ?'<div style="padding:12px 16px;font-size:14px;color:var(--l3);">No notes yet</div>'
+    :notes.map(function(n){return '<div style="padding:12px 16px;border-bottom:.5px solid var(--sep2);"><div style="font-size:15px;line-height:1.5;">'+n.tx+'</div><div style="font-size:12px;color:var(--l3);margin-top:3px;">'+fmtT(n.ts)+'</div></div>';}).join('');
+  var phone=(l.phone||'').replace(/\s/g,'');
+  var wap=phone.replace(/[^0-9]/g,'');
+  var wamsg=encodeURIComponent('Hi '+l.name+'! Following up on your '+(l.ltype||'loan')+' enquiry. 🙏');
+  var cibil_color=l.cibil>=750?'var(--green)':l.cibil>=700?'var(--orange)':'var(--red)';
+
+  el('det-body').innerHTML=
+    '<div style="display:flex;align-items:center;gap:13px;padding:16px;border-bottom:.5px solid var(--sep);">'+
+      '<div class="av" style="background:'+abg(l.name)+';width:54px;height:54px;font-size:19px;">'+ini(l.name)+'</div>'+
+      '<div>'+
+        '<div style="font-size:20px;font-weight:700;letter-spacing:-.3px;">'+l.name+'</div>'+
+        '<div style="font-size:14px;color:var(--l2);margin-top:2px;">'+(l.ltype||'—')+' · '+fmt(l.amount)+'</div>'+
+        '<div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;">'+
+          '<span class="pill '+(SC[l.stage]||'pgr')+'">'+(SL[l.stage]||l.stage)+'</span>'+
+          '<span class="pill '+(l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr')+'">'+(l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️')+' '+l.prio+'</span>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;border-bottom:.5px solid var(--sep);">'+
+      '<a href="tel:'+phone+'" onclick="logCallTap(\''+l.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gl);color:#1A8A36;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">'+
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>'+
+        'Call Now'+
+      '</a>'+
+      '<a href="https://wa.me/'+wap+'?text='+wamsg+'" target="_blank" onclick="logWA(\''+l.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,.12);color:#128C7E;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">'+
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'+
+        'WhatsApp'+
+      '</a>'+
+    '</div>'+
+    '<div class="qastrip">'+
+      '<button class="qab" onclick="openCallOv(\''+l.id+'\')"><div class="qaico" style="background:var(--gl);">📋</div><span class="qalbl">Log Call</span></button>'+
+      '<button class="qab" onclick="openNoteOv()"><div class="qaico" style="background:var(--bl);">📝</div><span class="qalbl">Note</span></button>'+
+      '<button class="qab" onclick="openStageOv()"><div class="qaico" style="background:var(--ol);">📍</div><span class="qalbl">Stage</span></button>'+
+    '</div>'+
+    '<div style="background:var(--bg2);margin:14px 16px 0;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">'+
+      '<div style="padding:12px 16px 4px;font-size:12px;font-weight:600;color:var(--l2);text-transform:uppercase;letter-spacing:.5px;">Progress</div>'+
+      '<div class="spr">'+sdots+'</div>'+
+      '<div class="spls">New<span></span>Called<span></span>Qualified<span></span>Docs<span></span>Submitted<span></span>Done</div>'+
+    '</div>'+
+    '<div class="sec"><div class="sh">Details</div><div class="lst">'+
+      [['Phone','<a href="tel:'+phone+'" style="color:var(--blue);">'+(l.phone||'—')+'</a>'],
+       ['City',l.city||'—'],['Employment',l.emp||'—'],['Income',fmt(l.income)],['EMI',fmt(l.emi)],
+       ['CIBIL',l.cibil?'<span style="color:'+cibil_color+';font-weight:600;">'+l.cibil+'</span>':'—'],
+       ['Source',l.src||'—']
+      ].map(function(row){
+        return '<div class="row" style="cursor:default;"><div class="rb"><div style="font-size:15px;color:var(--l2);">'+row[0]+'</div></div><div class="rr"><span style="font-size:15px;">'+row[1]+'</span></div></div>';
+      }).join('')+
+    '</div></div>'+
+    '<div class="sec"><div style="background:var(--bg2);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;">'+
+        '<div style="font-size:15px;font-weight:600;">'+elbl+'</div>'+
+        '<div style="font-size:18px;font-weight:700;color:'+(e>=75?'var(--green)':e>=50?'var(--orange)':'var(--red)')+';">'+e+'%</div>'+
+      '</div>'+
+      '<div class="etr" style="margin-top:8px;"><div class="ef '+ec+'" style="width:'+e+'%"></div></div>'+
+    '</div></div>'+
+    '<div class="sec"><div class="sh">Documents</div><div class="lst">'+dhtml+'</div></div>'+
+    '<div class="sec"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px;">'+
+      '<div class="sh" style="margin:0;">Notes</div>'+
+      '<button onclick="openNoteOv()" style="background:none;border:none;color:var(--blue);font-size:15px;font-family:var(--f);cursor:pointer;">+ Add</button>'+
+    '</div><div class="lst">'+nhtml+'</div></div>'+
+    '<div class="sec"><div class="sh">Activity</div><div class="lst">'+tl+'</div></div>'+
+    '<div class="sec" style="margin-top:16px;margin-bottom:32px;"><button class="btn btn-rd" onclick="delLead(\''+l.id+'\')">Delete Lead</button></div>';
 }
 
-// ─── ACTIONS ─────────────────────────────────────────────────
-function openStageOv(){
-  const l=leads.find(x=>x.id===activeId);if(!l)return;
-  el('stageList').innerHTML=SO.map(s=>`
-    <div class="row" onclick="mvStage('${s}')">
-      <div class="rb"><div class="rt">${SL[s]}</div></div>
-      ${l.stage===s?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>':'<svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'}
-    </div>`).join('');
+// ─── STAGE ──────────────────────────────────────────────────
+function openStageOv() {
+  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+  el('stageList').innerHTML=SO.map(function(s){
+    return '<div class="row" onclick="mvStage(\''+s+'\')">'+
+      '<div class="rb"><div class="rt">'+SL[s]+'</div></div>'+
+      (l.stage===s
+        ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+        :'<svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>')+
+    '</div>';
+  }).join('');
   el('ov-stage').classList.add('on');
 }
-function mvStage(s){
-  const l=leads.find(x=>x.id===activeId);if(!l)return;
-  const n=new Date().toISOString();l.stage=s;l.updated=n;l.act=l.act||[];l.act.push({t:'stage',tx:'Stage → '+SL[s],ts:n});
-  save();clov('ov-stage');renderDet(l);renderAll();toast('Moved to '+SL[s]);
+
+function mvStage(s) {
+  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+  var n=new Date().toISOString();
+  l.stage=s; l.updated=n;
+  l.act=l.act||[];
+  l.act.push({t:'stage',tx:'Stage → '+SL[s],ts:n});
+  save(); clov('ov-stage'); renderDet(l); renderAll(); toast('Moved to '+SL[s]);
 }
 
-function openCallOv(id){
-  activeId=id;const l=leads.find(x=>x.id===id);if(!l)return;
+// ─── CALL ───────────────────────────────────────────────────
+function openCallOv(id) {
+  activeId=id;
+  var l=leads.find(function(x){return x.id===id;}); if(!l)return;
   el('call-ti').textContent=l.name;
-  el('cs-dur').value='';el('cs-note').value='';el('cs-fu').value='';
-  cs='picked';document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));
+  el('cs-dur').value=''; el('cs-note').value=''; el('cs-fu').value='';
+  cs='picked';
+  document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
   document.querySelector('.cbtn.gn').classList.add('sel');
   el('ov-call').classList.add('on');
 }
-function pickCS(s,e){cs=s;document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));e.classList.add('sel');}
-function saveCall(){
-  const l=leads.find(x=>x.id===activeId);if(!l)return;
-  const n=new Date().toISOString(),note=el('cs-note').value.trim(),dur=el('cs-dur').value.trim();
-  calls.push({id:uid(),lid:activeId,status:cs,note,dur,fu:el('cs-fu').value,ts:n,by:me?.name});
-  S('cn_calls_'+me?.id,JSON.stringify(calls));
-  const slbl={picked:'📞 Call picked',rejected:'❌ Rejected',missed:'📵 Missed',busy:'🔄 Busy',wrong:'⚠️ Wrong number',callback:'📅 Callback',switched_off:'📴 Off',voicemail:'📬 Voicemail'};
-  l.act=l.act||[];l.act.push({t:'call',tx:(slbl[cs]||'Call')+(note?' — '+note.slice(0,50):''),ts:n});
-  if(cs==='picked')l.stage='contacted';l.updated=n;
-  save();clov('ov-call');
-  if(el('ov-det').classList.contains('on'))renderDet(l);
-  renderAll();toast('Call logged!');
+
+function pickCS(s,e) {
+  cs=s;
+  document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
+  e.classList.add('sel');
 }
 
-function openNoteOv(){el('note-txt').value='';el('ov-note').classList.add('on');setTimeout(()=>el('note-txt').focus(),350);}
-function saveNote(){
-  const l=leads.find(x=>x.id===activeId);if(!l)return;
-  const txt=el('note-txt').value.trim();if(!txt){clov('ov-note');return;}
-  const n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'note',tx:txt,ts:n});l.updated=n;
-  save();clov('ov-note');renderDet(l);toast('Note added');
+function saveCall() {
+  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+  var n=new Date().toISOString();
+  var note=el('cs-note').value.trim();
+  var dur=el('cs-dur').value.trim();
+  calls.push({id:uid(),lid:activeId,status:cs,note:note,dur:dur,fu:el('cs-fu').value,ts:n,by:me?me.name:''});
+  lsSet('cn_calls_'+me.id, JSON.stringify(calls));
+  var slbl={picked:'📞 Call picked',rejected:'❌ Rejected',missed:'📵 Missed',busy:'🔄 Busy',wrong:'⚠️ Wrong number',callback:'📅 Callback',switched_off:'📴 Off',voicemail:'📬 Voicemail'};
+  l.act=l.act||[];
+  l.act.push({t:'call',tx:(slbl[cs]||'Call')+(note?' — '+note.slice(0,50):''),ts:n});
+  if(cs==='picked') l.stage='contacted';
+  l.updated=n;
+  save(); clov('ov-call');
+  if(el('ov-det').classList.contains('on')) renderDet(l);
+  renderAll(); toast('Call logged!');
 }
 
-// ─── ADD / EDIT ───────────────────────────────────────────────
-function openAdd(){
-  editId=null;el('ls-ti').textContent='New Lead';
-  ['f-name','f-phone','f-email','f-city','f-amount','f-cibil','f-income','f-emi','f-notes'].forEach(i=>el(i).value='');
-  el('f-ltype').value='';el('f-emp').value='';el('f-stage').value='new';el('f-prio').value='warm';el('f-src').value='';
+function openNoteOv() {
+  el('note-txt').value='';
+  el('ov-note').classList.add('on');
+  setTimeout(function(){el('note-txt').focus();},350);
+}
+
+function saveNote() {
+  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+  var txt=el('note-txt').value.trim(); if(!txt){clov('ov-note');return;}
+  var n=new Date().toISOString();
+  l.act=l.act||[];
+  l.act.push({t:'note',tx:txt,ts:n});
+  l.updated=n;
+  save(); clov('ov-note'); renderDet(l); toast('Note added');
+}
+
+// ─── ADD / EDIT ──────────────────────────────────────────────
+function openAdd() {
+  editId=null; el('ls-ti').textContent='New Lead';
+  ['f-name','f-phone','f-email','f-city','f-amount','f-cibil','f-income','f-emi','f-notes'].forEach(function(i){el(i).value='';});
+  el('f-ltype').value=''; el('f-emp').value=''; el('f-stage').value='new'; el('f-prio').value='warm'; el('f-src').value='';
   el('ov-lead').classList.add('on');
 }
-function openEditDet(){
-  const l=leads.find(x=>x.id===activeId);if(!l)return;
-  editId=l.id;el('ls-ti').textContent='Edit Lead';
-  el('f-name').value=l.name||'';el('f-phone').value=l.phone||'';el('f-email').value=l.email||'';el('f-city').value=l.city||'';
-  el('f-ltype').value=l.ltype||'';el('f-amount').value=l.amount||'';el('f-cibil').value=l.cibil||'';
-  el('f-income').value=l.income||'';el('f-emi').value=l.emi||'';el('f-emp').value=l.emp||'';
-  el('f-stage').value=l.stage||'new';el('f-prio').value=l.prio||'warm';el('f-src').value=l.src||'';
-  el('f-notes').value=l.notes||'';el('ov-lead').classList.add('on');
+
+function openEditDet() {
+  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+  editId=l.id; el('ls-ti').textContent='Edit Lead';
+  el('f-name').value=l.name||''; el('f-phone').value=l.phone||''; el('f-email').value=l.email||''; el('f-city').value=l.city||'';
+  el('f-ltype').value=l.ltype||''; el('f-amount').value=l.amount||''; el('f-cibil').value=l.cibil||'';
+  el('f-income').value=l.income||''; el('f-emi').value=l.emi||''; el('f-emp').value=l.emp||'';
+  el('f-stage').value=l.stage||'new'; el('f-prio').value=l.prio||'warm'; el('f-src').value=l.src||'';
+  el('f-notes').value=l.notes||'';
+  el('ov-lead').classList.add('on');
 }
-function saveLead(){
-  const name=el('f-name').value.trim(),phone=el('f-phone').value.trim();
+
+function saveLead() {
+  var name=el('f-name').value.trim(), phone=el('f-phone').value.trim();
   if(!name||!phone){toast('Name & phone required');return;}
-  const n=new Date().toISOString();
-  const d={name,phone,email:el('f-email').value,city:el('f-city').value,ltype:el('f-ltype').value,amount:el('f-amount').value,cibil:el('f-cibil').value,income:el('f-income').value,emi:el('f-emi').value,emp:el('f-emp').value,stage:el('f-stage').value,prio:el('f-prio').value,src:el('f-src').value,notes:el('f-notes').value};
+  var n=new Date().toISOString();
+  var d={name:name,phone:phone,email:el('f-email').value,city:el('f-city').value,
+    ltype:el('f-ltype').value,amount:el('f-amount').value,cibil:el('f-cibil').value,
+    income:el('f-income').value,emi:el('f-emi').value,emp:el('f-emp').value,
+    stage:el('f-stage').value,prio:el('f-prio').value,src:el('f-src').value,notes:el('f-notes').value};
   if(editId){
-    const l=leads.find(x=>x.id===editId);Object.assign(l,d,{updated:n});l.act=l.act||[];l.act.push({t:'note',tx:'Lead updated',ts:n});toast('Saved!');
+    var l=leads.find(function(x){return x.id===editId;});
+    Object.assign(l,d,{updated:n});
+    l.act=l.act||[];
+    l.act.push({t:'note',tx:'Lead updated',ts:n});
+    toast('Saved!');
   }else{
-    leads.push({...d,id:uid(),docs:{},act:[{t:'created',tx:'Lead created by '+me?.name,ts:n}],created:n,updated:n});toast('Lead added!');
+    leads.push(Object.assign({},d,{id:uid(),docs:{},act:[{t:'created',tx:'Lead created by '+(me?me.name:''),ts:n}],created:n,updated:n}));
+    toast('Lead added!');
   }
-  save();clov('ov-lead');renderAll();
-  if(editId&&el('ov-det').classList.contains('on')){const l=leads.find(x=>x.id===editId);if(l)renderDet(l);}
+  save(); clov('ov-lead'); renderAll();
+  if(editId&&el('ov-det').classList.contains('on')){
+    var l2=leads.find(function(x){return x.id===editId;}); if(l2)renderDet(l2);
+  }
 }
-function delLead(id){
+
+function delLead(id) {
   if(!confirm('Delete this lead?'))return;
-  leads=leads.filter(x=>x.id!==id);save();clov('ov-det');renderAll();toast('Lead deleted');
-}
-function togDoc(id,k){
-  const l=leads.find(x=>x.id===id);if(!l)return;
-  l.docs=l.docs||{};l.docs[k]=!l.docs[k];
-  const dn=DOCS.find(d=>d.k===k)?.n||k;const n=new Date().toISOString();
-  l.act=l.act||[];l.act.push({t:'doc',tx:(l.docs[k]?'✅ Got ':'❌ Removed ')+dn,ts:n});l.updated=n;save();renderDet(l);
+  leads=leads.filter(function(x){return x.id!==id;});
+  save(); clov('ov-det'); renderAll(); toast('Lead deleted');
 }
 
-// ─── EXPORT ──────────────────────────────────────────────────
-function exportCSV(){
-  const h=['id','Name','Phone','Email','City','Loan Type','Amount','CIBIL','Income','EMI','Employment','Stage','Priority','Source','Commission','Created','Updated'];
-  const rows=leads.map(l=>[l.id,l.name,l.phone,l.email,l.city,l.ltype,l.amount,l.cibil,l.income,l.emi,l.emp,SL[l.stage],l.prio,l.src,Math.round(comm(l)),fmtD(l.created),fmtD(l.updated)]);
-  const csv=[h,...rows].map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='CredNest_Leads.csv';a.click();toast('CSV downloaded!');
+function togDoc(id,k) {
+  var l=leads.find(function(x){return x.id===id;}); if(!l)return;
+  l.docs=l.docs||{}; l.docs[k]=!l.docs[k];
+  var dn=''; for(var i=0;i<DOCS.length;i++){if(DOCS[i].k===k){dn=DOCS[i].n;break;}}
+  var n=new Date().toISOString();
+  l.act=l.act||[];
+  l.act.push({t:'doc',tx:(l.docs[k]?'✅ Got ':'❌ Removed ')+dn,ts:n});
+  l.updated=n; save(); renderDet(l);
 }
 
-// ─── NAV ─────────────────────────────────────────────────────
-function goTab(t){
-  ['home','pipe','calls','prof'].forEach(x=>{
-    const s=el('sub-'+x),b=el('tab-'+x);
-    if(s)s.style.display=x===t?'flex':'none';if(b)b.classList.toggle('on',x===t);
+// ─── EXPORT ─────────────────────────────────────────────────
+function exportCSV() {
+  var h=['id','Name','Phone','Email','City','Loan Type','Amount','CIBIL','Income','EMI','Employment','Stage','Priority','Source','Commission','Created','Updated'];
+  var rows=leads.map(function(l){return[l.id,l.name,l.phone,l.email,l.city,l.ltype,l.amount,l.cibil,l.income,l.emi,l.emp,SL[l.stage],l.prio,l.src,Math.round(comm(l)),fmtD(l.created),fmtD(l.updated)];});
+  var csv=[h].concat(rows).map(function(r){return r.map(function(v){return'"'+((v||'').toString().replace(/"/g,'""'))+'"';}).join(',');}).join('\n');
+  var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='CredNest_Leads.csv'; a.click(); toast('CSV downloaded!');
+}
+
+// ─── NAV ────────────────────────────────────────────────────
+function goTab(t) {
+  ['home','pipe','calls','prof'].forEach(function(x){
+    var s=el('sub-'+x), b=el('tab-'+x);
+    if(s) s.style.display=x===t?'flex':'none';
+    if(b) b.classList.toggle('on',x===t);
   });
   el('fab').style.display=['home','pipe'].includes(t)?'flex':'none';
-  if(t==='pipe')renderPipe();if(t==='calls')renderCalls();if(t==='prof')renderProf();
+  if(t==='pipe')renderPipe();
+  if(t==='calls')renderCalls();
+  if(t==='prof')renderProf();
 }
+
 function clov(id){el(id).classList.remove('on');}
-document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
-function toast(msg){const t=el('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400);}
 
-// ─── AUTO REFRESH ─────────────────────────────────────────────
-setInterval(()=>{
-  if(el('scr-app').classList.contains('on')&&sheetURL)pullLeads().then(renderAll);
-},60000);
-
-// ─── ENTER KEY on login ───────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  ['inp-uid','inp-pass'].forEach(id=>el(id)?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();}));
+document.querySelectorAll('.ov').forEach(function(o){
+  o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on');});
 });
 
+function toast(msg) {
+  var t=el('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('on');},2400);
+}
+
+// ─── AUTO REFRESH ────────────────────────────────────────────
+setInterval(function(){
+  if(el('scr-app').classList.contains('on')&&sheetURL) pullLeads();
+},60000);
+
+// ─── KEYBOARD ───────────────────────────────────────────────
+el('inp-uid').addEventListener('keydown',function(e){if(e.key==='Enter')el('inp-pass').focus();});
+el('inp-pass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+
+// ─── START ───────────────────────────────────────────────────
 boot();
 </script>
 </body>
