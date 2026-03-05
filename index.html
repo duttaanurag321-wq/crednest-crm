@@ -431,7 +431,14 @@ function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 
 // ─── USER CONFIG ─────────────────────────────────────────────
 // Users stored in localStorage, synced from master config sheet
-function getUsers(){return J('cn_users',[])}
+function getUsers(){
+  try{
+    const raw=localStorage.getItem('cn_users');
+    if(!raw)return[];
+    const parsed=JSON.parse(raw);
+    return Array.isArray(parsed)?parsed:[];
+  }catch(e){return[];}
+}
 function getUserById(id){return getUsers().find(u=>u.id===id)}
 
 // ─── SYNC ────────────────────────────────────────────────────
@@ -500,16 +507,48 @@ function setSbar(type,msg){
 
 // ─── BOOT ────────────────────────────────────────────────────
 async function boot(){
-  el('load-msg').textContent='Loading…';
-  // Try to pull latest user config from master sheet (only if no local users yet)
-  const localUsers=getUsers();
-  if(localUsers.length===0){
-    el('load-msg').textContent='Fetching config…';
-    await pullConfig().catch(()=>{});
+  try{
+    el('load-msg').textContent='Loading…';
+    await sleep(300);
+
+    const localUsers=getUsers();
+    if(localUsers.length===0){
+      el('load-msg').textContent='Fetching config…';
+      await pullConfig().catch(()=>{});
+    }
+
+    await sleep(300);
+
+    const saved=J('cn_session',null);
+    if(saved&&saved.id&&saved.pass){
+      let allUsers=getUsers();
+      if(allUsers.length===0)allUsers=getDefaultUsers();
+      const user=allUsers.find(u=>u.id===saved.id&&u.pass===saved.pass);
+      if(user){
+        me=user;sheetURL=user.sheetURL||'';
+        leads=J('cn_leads_'+me.id,[]);
+        calls=J('cn_calls_'+me.id,[]);
+        showScr('scr-app');
+        initApp();
+        if(sheetURL)pullLeads().catch(()=>{});
+        return;
+      }
+    }
+
+    showScr('scr-login');
+    el('inp-uid').focus();
+
+  }catch(err){
+    console.error('Boot error:',err);
+    // Even if something crashes, always show login screen
+    showScr('scr-login');
   }
-  await sleep(400);
-  // Check if already logged in
-  const saved=J('cn_session',null);
+}
+
+    await sleep(300);
+
+    // Check saved session
+    const saved=J('cn_session',null);
   if(saved){
     const user=getUserById(saved.id);
     if(user&&user.pass===saved.pass){
