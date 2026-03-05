@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>CredNest CRM</title>
+<style>
+:root{--bg:#F2F2F7;--bg2:#FFFFFF;--sep:rgba(60,60,67,.12);--sep2:rgba(60,60,67,.06);--blue:#007AFF;--blue-l:rgba(0,122,255,.10);--green:#34C759;--green-l:rgba(52,199,89,.10);--red:#FF3B30;--red-l:rgba(255,59,48,.10);--orange:#FF9500;--orange-l:rgba(255,149,0,.10);--purple:#AF52DE;--purple-l:rgba(175,82,222,.10);--teal:#5AC8FA;--teal-l:rgba(90,200,250,.10);--yellow:#FFCC00;--label:#000;--label2:rgba(60,60,67,.6);--label3:rgba(60,60,67,.3);--label4:rgba(60,60,67,.18);--fill:rgba(120,120,128,.12);--fill2:rgba(120,120,128,.08);--r:13px;--shadow:0 2px 12px rgba(0,0,0,.07);--font:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font);background:var(--bg);color:var(--label);font-size:17px;-webkit-font-smoothing:antialiased}
+.screen{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+.safe-top{height:env(safe-area-inset-top,44px);min-height:44px;flex-shrink:0}
+.nav{background:rgba(242,242,247,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid var(--sep);padding:0 16px;height:44px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;z-index:10}
+.nav-title{font-size:17px;font-weight:600;letter-spacing:-.4px;position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+.nav-btn{font-size:17px;color:var(--blue);background:none;border:none;cursor:pointer;padding:4px 0;font-family:var(--font);font-weight:400;white-space:nowrap}
+.nav-btn.bold{font-weight:600}
+.nav-icon-btn{width:34px;height:34px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
+.lg-title{padding:8px 20px 4px}
+.lg-title h1{font-size:32px;font-weight:700;letter-spacing:-.5px;line-height:1.1}
+.lg-title .sub{font-size:13px;color:var(--label2);margin-top:3px}
+.section{margin:16px 16px 0}
+.sec-hdr{font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;padding:0 4px}
+.list{background:var(--bg2);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;gap:13px;padding:12px 16px;position:relative;cursor:pointer;transition:background .1s;min-height:52px}
+.row:active{background:var(--fill2)}
+.row+.row::before{content:'';position:absolute;top:0;left:60px;right:0;height:.5px;background:var(--sep)}
+.row-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.row-body{flex:1;min-width:0}
+.row-title{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:13px;color:var(--label2);margin-top:1px}
+.row-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.chev{color:var(--label3)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:12px 16px 4px}
+.tile{background:var(--bg2);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.tile-val{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1}
+.tile-lbl{font-size:12px;color:var(--label2);margin-top:3px}
+.tile.blue .tile-val{color:var(--blue)}.tile.green .tile-val{color:var(--green)}.tile.orange .tile-val{color:var(--orange)}.tile.red .tile-val{color:var(--red)}
+.lcard{background:var(--bg2);border-radius:var(--r);box-shadow:var(--shadow);margin:10px 16px 0;overflow:hidden;cursor:pointer;transition:transform .1s}
+.lcard:active{transform:scale(.98)}
+.lcard-top{padding:13px 16px;display:flex;align-items:flex-start;gap:12px}
+.av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#fff;flex-shrink:0;letter-spacing:-.3px}
+.lead-info{flex:1;min-width:0}
+.lead-name{font-size:17px;font-weight:600;letter-spacing:-.3px}
+.lead-meta{font-size:13px;color:var(--label2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lcard-bot{padding:9px 16px;background:#F9F9F9;display:flex;gap:7px;align-items:center;border-top:.5px solid var(--sep2);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;white-space:nowrap}
+.p-blue{background:var(--blue-l);color:var(--blue)}.p-green{background:var(--green-l);color:#1A8A36}.p-red{background:var(--red-l);color:var(--red)}.p-orange{background:var(--orange-l);color:#B86800}.p-gray{background:var(--fill);color:var(--label2)}.p-purple{background:var(--purple-l);color:var(--purple)}.p-teal{background:var(--teal-l);color:#007A9C}
+.seg{display:flex;background:var(--fill);border-radius:9px;padding:2px;margin:10px 16px 0}
+.seg-btn{flex:1;padding:7px 3px;border:none;background:none;font-size:12px;font-weight:500;font-family:var(--font);color:var(--label2);border-radius:7px;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap}
+.seg-btn.active{background:#fff;color:var(--label);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.tabbar{background:rgba(249,249,249,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:.5px solid var(--sep);display:flex;padding:8px 0 0;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 4px 8px;border:none;background:none;cursor:pointer;font-family:var(--font)}
+.tab-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.tab-icon svg{width:24px;height:24px;color:var(--label3)}
+.tab-lbl{font-size:10px;font-weight:500;color:var(--label3)}
+.tab.active .tab-lbl{color:var(--blue)}.tab.active .tab-icon svg{color:var(--blue)}
+.fab{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 80px);right:20px;width:52px;height:52px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,122,255,.38);border:none;cursor:pointer;z-index:50;transition:transform .1s}
+.fab:active{transform:scale(.9)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:200;display:none;align-items:flex-end}
+.overlay.open{display:flex;animation:ov .2s ease}
+@keyframes ov{from{opacity:0}to{opacity:1}}
+.sheet{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:94vh;display:flex;flex-direction:column;animation:su .3s cubic-bezier(.32,.72,0,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:5px;background:var(--label4);border-radius:3px;margin:10px auto 0;flex-shrink:0}
+.sheet-hdr{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);flex-shrink:0}
+.sheet-title{font-size:17px;font-weight:600}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;padding-bottom:env(safe-area-inset-bottom,20px)}
+.sheet-body::-webkit-scrollbar{display:none}
+.f-sec{margin:16px 16px 0}
+.f-lbl{font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;padding:0 4px}
+.f-grp{background:var(--bg2);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.f-row{display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:50px;border:none;width:100%;background:none}
+.f-row+.f-row{border-top:.5px solid var(--sep)}
+.f-label{font-size:17px;color:var(--label);min-width:108px;flex-shrink:0;font-family:var(--font)}
+.f-row input,.f-row select,.f-row textarea{flex:1;background:none;border:none;font-size:17px;font-family:var(--font);color:var(--label);outline:none;text-align:right;min-width:0}
+.f-row input::placeholder,.f-row textarea::placeholder{color:var(--label3)}
+.f-row select{-webkit-appearance:none}
+.f-row textarea{text-align:left;resize:none;min-height:80px;padding-top:2px}
+.btn{width:100%;padding:14px;border-radius:var(--r);border:none;font-size:17px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .15s}
+.btn:active{opacity:.8}
+.btn-blue{background:var(--blue);color:#fff}.btn-gray{background:var(--fill);color:var(--label)}.btn-red{background:var(--red-l);color:var(--red)}.btn-green{background:var(--green-l);color:var(--green)}
+.call-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:14px}
+.cbtn{padding:14px 8px;border-radius:13px;border:none;font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .1s;outline:none}
+.cbtn:active{transform:scale(.94)}
+.cbtn .ico{font-size:22px}
+.cbtn.gn{background:var(--green-l);color:#1A8A36}.cbtn.rd{background:var(--red-l);color:var(--red)}.cbtn.og{background:var(--orange-l);color:#B86800}.cbtn.gr{background:var(--fill);color:var(--label2)}.cbtn.bl{background:var(--blue-l);color:var(--blue)}.cbtn.pu{background:var(--purple-l);color:var(--purple)}
+.cbtn.selected{box-shadow:0 0 0 3px currentColor}
+.tl-item{display:flex;gap:12px;padding:10px 16px}
+.tl-line{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-bar{width:2px;background:var(--sep);flex:1;margin-top:4px;min-height:16px}
+.tl-body{flex:1;padding-bottom:4px}
+.tl-text{font-size:15px;line-height:1.4}
+.tl-time{font-size:12px;color:var(--label3);margin-top:2px}
+.sp-row{display:flex;gap:4px;padding:12px 16px 4px}
+.sp-dot{flex:1;height:4px;border-radius:2px;background:var(--sep)}
+.sp-dot.done{background:var(--green)}.sp-dot.cur{background:var(--blue)}
+.sp-lbls{display:flex;justify-content:space-between;padding:4px 16px 12px}
+.sp-lbl{font-size:9px;color:var(--label3);font-weight:500}
+.elig-track{height:8px;background:var(--fill);border-radius:4px;overflow:hidden}
+.elig-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
+.elig-hi{background:linear-gradient(90deg,#34C759,#30D158)}.elig-md{background:linear-gradient(90deg,#FF9500,#FFCC00)}.elig-lo{background:linear-gradient(90deg,#FF3B30,#FF6961)}
+.doc-row{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer}
+.doc-row+.doc-row{border-top:.5px solid var(--sep)}
+.doc-chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--label3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.doc-chk.done{background:var(--green);border-color:var(--green)}
+.doc-lbl{font-size:16px;flex:1}.doc-lbl.done{color:var(--label3);text-decoration:line-through}
+.qa-strip{display:flex;gap:0;border-top:.5px solid var(--sep)}
+.qa-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border:none;background:none;cursor:pointer;font-family:var(--font);border-right:.5px solid var(--sep)}
+.qa-btn:last-child{border-right:none}
+.qa-btn:active{background:var(--fill2)}
+.qa-ico{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.qa-lbl{font-size:11px;color:var(--label2);font-weight:500}
+
+/* ── SYNC BANNER ── */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:13px;border-radius:10px;margin:10px 16px 0;font-weight:500}
+.sync-bar.syncing{background:var(--blue-l);color:var(--blue)}
+.sync-bar.ok{background:var(--green-l);color:#1A8A36}
+.sync-bar.err{background:var(--red-l);color:var(--red)}
+.sync-bar.warn{background:var(--orange-l);color:#B86800}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite;display:inline-block}
+
+/* LOGIN */
+#screen-login{background:linear-gradient(170deg,#EEF4FF 0%,#F2F2F7 55%);justify-content:center;align-items:center;padding:28px 20px;gap:0}
+.login-logo{text-align:center;margin-bottom:32px}
+.logo-icon{width:76px;height:76px;background:var(--blue);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 28px rgba(0,122,255,.28)}
+.login-logo h1{font-size:27px;font-weight:700;letter-spacing:-.6px}
+.login-logo p{font-size:15px;color:var(--label2);margin-top:3px}
+.login-box{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:400px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.login-box h2{font-size:21px;font-weight:700;margin-bottom:16px;letter-spacing:-.4px}
+.user-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.utile{background:var(--fill2);border-radius:12px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.utile.sel{border-color:var(--blue);background:var(--blue-l)}
+.utile:active{transform:scale(.96)}
+.utile-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:#fff}
+.utile-name{font-size:13px;font-weight:600;text-align:center}
+.utile-role{font-size:11px;color:var(--label2);text-align:center}
+.login-field{background:var(--fill2);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.login-field label{display:block;font-size:11px;color:var(--label2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.login-field input{background:none;border:none;font-size:17px;font-family:var(--font);color:var(--label);outline:none;width:100%}
+.p-header{display:flex;flex-direction:column;align-items:center;padding:24px 20px 16px}
+.p-av{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin-bottom:12px}
+.p-name{font-size:22px;font-weight:700;letter-spacing:-.4px}
+.p-role{font-size:15px;color:var(--label2);margin-top:3px}
+
+/* SETUP SCREEN */
+.setup-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;flex:1;gap:0}
+.setup-icon{font-size:56px;margin-bottom:16px}
+.setup-title{font-size:24px;font-weight:700;letter-spacing:-.4px;margin-bottom:8px;text-align:center}
+.setup-sub{font-size:15px;color:var(--label2);line-height:1.6;text-align:center;margin-bottom:28px}
+.setup-card{background:var(--bg2);border-radius:16px;padding:20px;width:100%;max-width:420px;box-shadow:var(--shadow)}
+.url-input{width:100%;background:var(--fill2);border:none;border-radius:10px;padding:14px 16px;font-size:15px;font-family:var(--font);color:var(--label);outline:none;margin-bottom:12px}
+.url-input::placeholder{color:var(--label3)}
+.setup-note{font-size:12px;color:var(--label3);line-height:1.6;margin-top:12px;text-align:center}
+
+.toast{position:fixed;top:calc(env(safe-area-inset-top,44px) + 54px);left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(40,40,40,.92);backdrop-filter:blur(10px);color:#fff;padding:10px 20px;border-radius:22px;font-size:14px;font-weight:500;white-space:nowrap;z-index:9999;opacity:0;transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;gap:10px;text-align:center}
+.empty-ico{font-size:48px}
+.empty-title{font-size:19px;font-weight:600;letter-spacing:-.3px}
+.empty-sub{font-size:15px;color:var(--label2);line-height:1.5}
+@keyframes fsu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ani{animation:fsu .28s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+
+/* LOADING SCREEN */
+#screen-loading{background:linear-gradient(170deg,#EEF4FF 0%,#F2F2F7 55%);justify-content:center;align-items:center;gap:16px}
+.loading-logo{display:flex;flex-direction:column;align-items:center;gap:12px}
+.loading-spinner{width:40px;height:40px;border:3px solid rgba(0,122,255,.2);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="screen active" id="screen-loading">
+  <div class="loading-logo">
+    <div class="logo-icon" style="width:76px;height:76px;background:var(--blue);border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(0,122,255,.28);">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div style="font-size:24px;font-weight:700;letter-spacing:-.5px;">CredNest</div>
+    <div class="loading-spinner"></div>
+    <div style="font-size:14px;color:var(--label2);" id="loading-msg">Starting up…</div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="screen" id="screen-login">
+  <div class="login-logo ani">
+    <div class="logo-icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <h1>CredNest</h1>
+    <p>Loan CRM</p>
+  </div>
+  <div class="login-box ani d1">
+    <h2>Who are you?</h2>
+    <div class="user-grid" id="userGrid"></div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+    <button class="btn btn-blue" onclick="doLogin()">Sign In</button>
+    <p style="font-size:12px;color:var(--label3);text-align:center;margin-top:10px;">Default password: <strong style="color:var(--label2)">1234</strong></p>
+  </div>
+</div>
+
+<!-- SETUP (first time, no sheet URL) -->
+<div class="screen" id="screen-setup">
+  <div class="safe-top"></div>
+  <div class="nav">
+    <div style="width:44px"></div>
+    <div class="nav-title">Connect Google Sheet</div>
+    <div style="width:44px"></div>
+  </div>
+  <div class="scroll">
+    <div class="setup-wrap">
+      <div class="setup-icon">📊</div>
+      <div class="setup-title">Connect Your Sheet</div>
+      <div class="setup-sub">Paste your Google Apps Script Web App URL below. All leads will sync in real time between this app and your Google Sheet.</div>
+      <div class="setup-card">
+        <input class="url-input" id="setup-url" placeholder="https://script.google.com/macros/s/…/exec" type="url">
+        <button class="btn btn-blue" onclick="saveAndTestURL()">Connect & Test</button>
+        <div class="setup-note">
+          Don't have a script yet? Open your Google Sheet → Extensions → Apps Script → paste the provided script → Deploy as Web App → copy the URL here.
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn btn-gray" style="max-width:420px;width:100%;" onclick="skipSetup()">Skip for now (offline mode)</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="screen" id="screen-app">
+
+  <!-- HOME -->
+  <div id="sub-home" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="safe-top"></div>
+    <div class="nav">
+      <div style="width:44px"></div>
+      <div class="nav-title" id="home-nav-title">Home</div>
+      <button class="nav-icon-btn" onclick="openAddLead()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <div class="scroll" id="homeScroll">
+      <div class="lg-title ani"><h1 id="greet">Good morning 👋</h1><div class="sub" id="greet-date"></div></div>
+      <div id="syncBanner"></div>
+      <div class="stats" id="statsGrid"></div>
+      <div class="seg ani" id="homeSeg" style="margin-top:14px;">
+        <button class="seg-btn active" onclick="setHF('all',this)">All</button>
+        <button class="seg-btn" onclick="setHF('hot',this)">🔥 Hot</button>
+        <button class="seg-btn" onclick="setHF('followup',this)">Follow-up</button>
+        <button class="seg-btn" onclick="setHF('new',this)">New</button>
+      </div>
+      <div style="height:8px"></div>
+      <div id="homeList"></div>
+      <div style="height:100px"></div>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div id="sub-pipe" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="safe-top"></div>
+    <div class="nav"><div style="width:44px"></div><div class="nav-title">Pipeline</div><div style="width:44px"></div></div>
+    <div class="seg" id="pipeSeg" style="margin:10px 16px 0;">
+      <button class="seg-btn active" onclick="setPS('new',this)">New</button>
+      <button class="seg-btn" onclick="setPS('contacted',this)">Called</button>
+      <button class="seg-btn" onclick="setPS('qualified',this)">Qualified</button>
+      <button class="seg-btn" onclick="setPS('documents',this)">Docs</button>
+      <button class="seg-btn" onclick="setPS('submitted',this)">Sent</button>
+    </div>
+    <div class="scroll" id="pipeList"><div style="height:8px"></div></div>
+  </div>
+
+  <!-- CALLS -->
+  <div id="sub-calls" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="safe-top"></div>
+    <div class="nav"><div style="width:44px"></div><div class="nav-title">Calls</div><div style="width:44px"></div></div>
+    <div class="scroll" id="callsList"><div style="height:8px"></div></div>
+  </div>
+
+  <!-- PROFILE / SETTINGS -->
+  <div id="sub-profile" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="safe-top"></div>
+    <div class="nav"><div style="width:44px"></div><div class="nav-title">Profile</div><button class="nav-btn" style="color:var(--red)" onclick="doLogout()">Sign Out</button></div>
+    <div class="scroll" id="profileContent"></div>
+  </div>
+
+  <div class="tabbar">
+    <button class="tab active" id="tab-home" onclick="goTab('home')">
+      <div class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <span class="tab-lbl">Home</span>
+    </button>
+    <button class="tab" id="tab-pipe" onclick="goTab('pipe')">
+      <div class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+      <span class="tab-lbl">Pipeline</span>
+    </button>
+    <button class="tab" id="tab-calls" onclick="goTab('calls')">
+      <div class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <span class="tab-lbl">Calls</span>
+    </button>
+    <button class="tab" id="tab-profile" onclick="goTab('profile')">
+      <div class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <span class="tab-lbl">Profile</span>
+    </button>
+  </div>
+
+  <button class="fab" onclick="openAddLead()" id="fab">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+</div>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="detailOv">
+  <div class="sheet" style="max-height:95vh;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('detailOv')">Done</button>
+      <div class="sheet-title" id="det-title">Lead</div>
+      <button class="nav-btn bold" onclick="openEditFromDetail()">Edit</button>
+    </div>
+    <div class="sheet-body" id="det-body"></div>
+  </div>
+</div>
+
+<div class="overlay" id="leadOv">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('leadOv')">Cancel</button>
+      <div class="sheet-title" id="lead-sheet-title">New Lead</div>
+      <button class="nav-btn bold" onclick="saveLead()">Save</button>
+    </div>
+    <div class="sheet-body">
+      <div style="height:14px"></div>
+      <div class="f-sec"><div class="f-lbl">Personal Info</div>
+        <div class="f-grp">
+          <div class="f-row"><span class="f-label">Full Name</span><input type="text" id="f-name" placeholder="Required"></div>
+          <div class="f-row"><span class="f-label">Phone</span><input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX"></div>
+          <div class="f-row"><span class="f-label">Email</span><input type="email" id="f-email" placeholder="Optional"></div>
+          <div class="f-row"><span class="f-label">City</span><input type="text" id="f-city" placeholder="e.g. Siliguri"></div>
+        </div>
+      </div>
+      <div class="f-sec" style="margin-top:16px;"><div class="f-lbl">Loan Details</div>
+        <div class="f-grp">
+          <div class="f-row"><span class="f-label">Loan Type</span><select id="f-ltype"><option value="">Select…</option><option>Personal Loan</option><option>Business Loan</option><option>Home Loan</option><option>LAP</option><option>Car Loan</option><option>Two-Wheeler Loan</option><option>Education Loan</option></select></div>
+          <div class="f-row"><span class="f-label">Amount (₹)</span><input type="number" id="f-amount" placeholder="0"></div>
+          <div class="f-row"><span class="f-label">CIBIL Score</span><input type="number" id="f-cibil" placeholder="300–900"></div>
+          <div class="f-row"><span class="f-label">Monthly Income</span><input type="number" id="f-income" placeholder="₹"></div>
+          <div class="f-row"><span class="f-label">Existing EMI</span><input type="number" id="f-emi" placeholder="₹ 0"></div>
+          <div class="f-row"><span class="f-label">Employment</span><select id="f-emp"><option value="">Select…</option><option>Salaried</option><option>Self-Employed</option><option>Business Owner</option><option>Freelancer</option><option>Retired</option></select></div>
+        </div>
+      </div>
+      <div class="f-sec" style="margin-top:16px;"><div class="f-lbl">Pipeline</div>
+        <div class="f-grp">
+          <div class="f-row"><span class="f-label">Stage</span><select id="f-stage"><option value="new">New</option><option value="contacted">Contacted</option><option value="qualified">Qualified</option><option value="documents">Docs Pending</option><option value="submitted">Submitted</option><option value="converted">Converted ✅</option><option value="disqualified">Disqualified ❌</option></select></div>
+          <div class="f-row"><span class="f-label">Priority</span><select id="f-prio"><option value="hot">🔥 Hot</option><option value="warm">🌤 Warm</option><option value="cold">❄️ Cold</option></select></div>
+          <div class="f-row"><span class="f-label">Source</span><select id="f-src"><option value="">Select…</option><option>Referral</option><option>WhatsApp</option><option>Google</option><option>Facebook</option><option>Instagram</option><option>CA Partner</option><option>Real Estate Partner</option><option>Car Dealer</option><option>Cold Call</option><option>Walk-in</option></select></div>
+          <div class="f-row" id="f-assign-row"><span class="f-label">Assign To</span><select id="f-assign"></select></div>
+        </div>
+      </div>
+      <div class="f-sec" style="margin-top:16px;"><div class="f-lbl">Notes</div>
+        <div class="f-grp"><div class="f-row"><textarea id="f-notes" placeholder="Any notes about this lead…"></textarea></div></div>
+      </div>
+      <div style="height:24px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="callOv">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('callOv')">Cancel</button>
+      <div class="sheet-title" id="call-title">Log Call</div>
+      <button class="nav-btn bold" onclick="saveCall()">Save</button>
+    </div>
+    <div class="sheet-body">
+      <div style="padding:14px 16px 0;font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:.5px;font-weight:500;">Call Outcome</div>
+      <div class="call-grid">
+        <button class="cbtn gn selected" onclick="pickCS('picked',this)"><span class="ico">✅</span>Picked</button>
+        <button class="cbtn rd" onclick="pickCS('rejected',this)"><span class="ico">❌</span>Rejected</button>
+        <button class="cbtn gr" onclick="pickCS('missed',this)"><span class="ico">📵</span>Missed</button>
+        <button class="cbtn og" onclick="pickCS('busy',this)"><span class="ico">🔄</span>Busy</button>
+        <button class="cbtn pu" onclick="pickCS('wrong',this)"><span class="ico">⚠️</span>Wrong No.</button>
+        <button class="cbtn bl" onclick="pickCS('callback',this)"><span class="ico">📅</span>Callback</button>
+        <button class="cbtn gr" onclick="pickCS('switched_off',this)"><span class="ico">📴</span>Off</button>
+        <button class="cbtn gr" onclick="pickCS('voicemail',this)"><span class="ico">📬</span>Voicemail</button>
+      </div>
+      <div class="f-sec"><div class="f-grp">
+        <div class="f-row"><span class="f-label">Duration</span><input type="text" id="cs-dur" placeholder="e.g. 3 min"></div>
+        <div class="f-row"><span class="f-label">Follow-up</span><input type="date" id="cs-fu"></div>
+      </div></div>
+      <div class="f-sec" style="margin-top:14px;"><div class="f-grp">
+        <div class="f-row"><textarea id="cs-note" placeholder="What was discussed?"></textarea></div>
+      </div></div>
+      <div style="height:24px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="noteOv">
+  <div class="sheet" style="max-height:55vh;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('noteOv')">Cancel</button>
+      <div class="sheet-title">Add Note</div>
+      <button class="nav-btn bold" onclick="saveNote()">Add</button>
+    </div>
+    <div style="padding:16px;">
+      <div class="f-grp"><div class="f-row"><textarea id="note-txt" placeholder="Write your note…" style="min-height:110px;text-align:left;"></textarea></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="stageOv">
+  <div class="sheet" style="max-height:62vh;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('stageOv')">Cancel</button>
+      <div class="sheet-title">Move Stage</div>
+      <div style="width:60px"></div>
+    </div>
+    <div style="padding:16px 16px 32px;"><div class="list" id="stageList"></div></div>
+  </div>
+</div>
+
+<!-- SHEET URL EDIT OVERLAY -->
+<div class="overlay" id="sheetOv">
+  <div class="sheet" style="max-height:60vh;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <button class="nav-btn" onclick="closeOv('sheetOv')">Cancel</button>
+      <div class="sheet-title">Google Sheet URL</div>
+      <button class="nav-btn bold" onclick="saveSheetURL()">Save</button>
+    </div>
+    <div style="padding:16px;">
+      <div class="f-lbl" style="margin-bottom:8px;">Apps Script Web App URL</div>
+      <input class="url-input" id="sheet-url-input" placeholder="https://script.google.com/macros/s/…/exec" type="url" style="width:100%;margin-bottom:12px;">
+      <button class="btn btn-blue" onclick="saveSheetURL()">Save & Sync Now</button>
+      <button class="btn btn-gray" style="margin-top:10px;" onclick="testSheetURL()">Test Connection</button>
+      <div style="margin-top:14px;background:var(--fill2);border-radius:10px;padding:14px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Apps Script Code</div>
+        <div style="font-size:12px;color:var(--label2);line-height:1.7;font-family:monospace;background:var(--bg);border-radius:8px;padding:10px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">const SHEET_NAME="Leads";
+function doGet(e){const a=e.parameter.action;if(a==="getLeads")return getLeads();return r({error:"unknown"})}
+function doPost(e){const d=JSON.parse(e.postData.contents);if(d.action==="saveLeads")return saveLeads(d.leads);return r({error:"unknown"})}
+function getLeads(){const s=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);const rows=s.getDataRange().getValues();const h=rows[0];const leads=rows.slice(1).filter(row=>row[0]).map(row=>{const o={};h.forEach((k,i)=>o[k]=row[i]);return o});return r({leads})}
+function saveLeads(leads){const s=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);const h=s.getRange(1,1,1,s.getLastColumn()).getValues()[0];s.getRange(2,1,Math.max(s.getLastRow()-1,1),h.length).clearContent();if(leads.length>0){const rows=leads.map(l=>h.map(k=>l[k]||""));s.getRange(2,1,rows.length,h.length).setValues(rows)}return r({success:true,count:leads.length})}
+function r(d){return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON)}</div>
+        <button class="btn btn-gray" style="margin-top:10px;font-size:13px;padding:10px;" onclick="copyScript()">Copy Script Code</button>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const USERS=[
+  {id:'admin',name:'Admin',role:'Admin',color:'#007AFF',pass:'1234',isAdmin:true},
+  {id:'p1',name:'Ravi Kumar',role:'Partner',color:'#34C759',pass:'1234'},
+  {id:'p2',name:'Priya Shah',role:'Partner',color:'#FF9500',pass:'1234'},
+  {id:'p3',name:'Amit Dey',role:'Partner',color:'#AF52DE',pass:'1234'},
+];
+const SL={new:'New',contacted:'Contacted',qualified:'Qualified',documents:'Docs Pending',submitted:'Submitted',converted:'Converted',disqualified:'Disqualified'};
+const SC={new:'p-blue',contacted:'p-orange',qualified:'p-green',documents:'p-purple',submitted:'p-teal',converted:'p-green',disqualified:'p-red'};
+const SO=['new','contacted','qualified','documents','submitted','converted','disqualified'];
+const DOCS=[{k:'pan',n:'PAN Card'},{k:'aadhaar',n:'Aadhaar Card'},{k:'salary',n:'Salary Slips (3 months)'},{k:'bank',n:'Bank Statement (6 months)'},{k:'itr',n:'ITR Last 2 Years'},{k:'photo',n:'Passport Photo'},{k:'form16',n:'Form 16'},{k:'biz',n:'Business Proof'}];
+const ABG=['#007AFF','#34C759','#FF9500','#AF52DE','#FF3B30','#5AC8FA','#FF2D55','#30D158'];
+const RATES={'Personal Loan':2,'Business Loan':2,'Home Loan':0.35,'LAP':0.5,'Car Loan':1,'Two-Wheeler Loan':1,'Education Loan':1};
+const SI={picked:'✅',rejected:'❌',missed:'📵',busy:'🔄',wrong:'⚠️',callback:'📅',switched_off:'📴',voicemail:'📬'};
+const SC2={picked:'p-green',rejected:'p-red',missed:'p-orange',busy:'p-orange',wrong:'p-purple',callback:'p-blue',switched_off:'p-gray',voicemail:'p-gray'};
+const SHEET_HEADERS=['id','name','phone','email','city','ltype','amount','cibil','income','emi','emp','stage','prio','src','uid','notes','docs','act','created','updated'];
+
+// ============================================================
+// STATE
+// ============================================================
+let leads=JSON.parse(localStorage.getItem('cn3_leads')||'[]');
+let calls=JSON.parse(localStorage.getItem('cn3_calls')||'[]');
+let sheetURL=localStorage.getItem('cn3_sheet_url')||'';
+let me=null,editId=null,activeId=null,hf='all',ps='new',cs='picked';
+let syncStatus='idle'; // idle | syncing | ok | err
+let lastSyncTime=null;
+let syncDebounceTimer=null;
+
+function save(){
+  localStorage.setItem('cn3_leads',JSON.stringify(leads));
+  localStorage.setItem('cn3_calls',JSON.stringify(calls));
+  schedulePush();
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function ini(n){return(n||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+function abg(n){let h=0;for(let c of(n||''))h=c.charCodeAt(0)+((h<<5)-h);return ABG[Math.abs(h)%ABG.length]}
+function fmt(n){if(!n||n==0)return'₹0';n=Number(n);if(n>=10000000)return'₹'+(n/10000000).toFixed(1)+'Cr';if(n>=100000)return'₹'+(n/100000).toFixed(1)+'L';if(n>=1000)return'₹'+(n/1000).toFixed(0)+'K';return'₹'+n}
+function fmtD(iso){if(!iso)return'—';return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'})}
+function fmtT(iso){if(!iso)return'—';return new Date(iso).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+function eligScore(l){let s=50;const c=Number(l.cibil||0),inc=Number(l.income||0),emi=Number(l.emi||0),amt=Number(l.amount||0);if(c>=750)s+=25;else if(c>=700)s+=15;else if(c>=650)s+=5;else if(c>0)s-=15;if(inc>0){const r=(emi+amt/60)/inc;if(r<0.4)s+=15;else if(r<0.6)s+=5;else s-=10;}if(inc>=50000)s+=10;else if(inc>=25000)s+=5;return Math.min(100,Math.max(0,s))}
+function comm(l){return(Number(l.amount||0))*(RATES[l.ltype]||2)/100}
+function myLeads(){if(!me)return[];if(me.isAdmin)return leads;return leads.filter(l=>l.uid===me.id)}
+function uname(id){if(!id)return'Self';const u=USERS.find(u=>u.id===id);return u?u.name.split(' ')[0]:id}
+
+// ============================================================
+// GOOGLE SHEETS SYNC
+// ============================================================
+
+// Pull leads FROM sheet
+async function pullFromSheet(){
+  if(!sheetURL){setSyncStatus('warn','No sheet connected');return false;}
+  setSyncStatus('syncing','Syncing…');
+  try{
+    const url=sheetURL+'?action=getLeads&t='+Date.now();
+    const resp=await fetch(url,{method:'GET'});
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error);
+    if(data.leads&&Array.isArray(data.leads)){
+      // Parse back complex fields
+      data.leads.forEach(l=>{
+        if(typeof l.docs==='string'){try{l.docs=JSON.parse(l.docs)}catch(e){l.docs={}}}
+        if(typeof l.act==='string'){try{l.act=JSON.parse(l.act)}catch(e){l.act=[]}}
+      });
+      leads=data.leads;
+      localStorage.setItem('cn3_leads',JSON.stringify(leads));
+      lastSyncTime=new Date();
+      setSyncStatus('ok','Synced '+fmtT(lastSyncTime.toISOString()));
+      renderAll();
+      return true;
+    }
+    throw new Error('Invalid response');
+  }catch(err){
+    console.error('Pull error:',err);
+    setSyncStatus('err','Sync failed — using local data');
+    return false;
+  }
+}
+
+// Push leads TO sheet (debounced 1.5s)
+function schedulePush(){
+  if(!sheetURL)return;
+  clearTimeout(syncDebounceTimer);
+  setSyncStatus('syncing','Saving…');
+  syncDebounceTimer=setTimeout(pushToSheet,1500);
+}
+
+async function pushToSheet(){
+  if(!sheetURL)return;
+  setSyncStatus('syncing','Saving to sheet…');
+  try{
+    // Serialize complex fields for sheet
+    const toSend=leads.map(l=>({
+      ...l,
+      docs:typeof l.docs==='string'?l.docs:JSON.stringify(l.docs||{}),
+      act:typeof l.act==='string'?l.act:JSON.stringify(l.act||[]),
+    }));
+    const resp=await fetch(sheetURL,{
+      method:'POST',
+      body:JSON.stringify({action:'saveLeads',leads:toSend}),
+    });
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error);
+    lastSyncTime=new Date();
+    setSyncStatus('ok','Saved '+fmtT(lastSyncTime.toISOString()));
+  }catch(err){
+    console.error('Push error:',err);
+    setSyncStatus('err','Save failed — changes stored locally');
+  }
+}
+
+async function testSheetURL(){
+  const url=document.getElementById('sheet-url-input')?.value.trim()||sheetURL;
+  if(!url){toast('Paste a URL first');return;}
+  toast('Testing connection…');
+  try{
+    const resp=await fetch(url+'?action=getLeads&t='+Date.now());
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    if(data.leads!==undefined){
+      toast('✅ Connected! Found '+data.leads.length+' leads');
+    }else if(data.error){
+      toast('⚠️ Script error: '+data.error);
+    }else{
+      toast('⚠️ Unexpected response');
+    }
+  }catch(e){
+    toast('❌ Could not reach URL. Check CORS/deploy settings.');
+  }
+}
+
+function setSyncStatus(status,msg){
+  syncStatus=status;
+  const el=document.getElementById('syncBanner');
+  if(!el)return;
+  if(status==='idle'||!sheetURL){el.innerHTML='';return;}
+  const icons={syncing:'<span class="spin">⟳</span>',ok:'✅',err:'❌',warn:'⚠️'};
+  const cls={syncing:'syncing',ok:'ok',err:'err',warn:'warn'};
+  el.innerHTML=`<div class="sync-bar ${cls[status]||'warn'}">${icons[status]||'•'} ${msg}</div>`;
+}
+
+// ============================================================
+// SETUP / URL MANAGEMENT
+// ============================================================
+async function saveAndTestURL(){
+  const url=document.getElementById('setup-url').value.trim();
+  if(!url){toast('Paste your Apps Script URL');return;}
+  sheetURL=url;
+  localStorage.setItem('cn3_sheet_url',url);
+  showScreen('screen-login');
+}
+
+function skipSetup(){
+  sheetURL='';
+  localStorage.setItem('cn3_sheet_url','');
+  showScreen('screen-login');
+}
+
+function openSheetSettings(){
+  document.getElementById('sheet-url-input').value=sheetURL||'';
+  document.getElementById('sheetOv').classList.add('open');
+}
+
+async function saveSheetURL(){
+  const url=document.getElementById('sheet-url-input').value.trim();
+  sheetURL=url;
+  localStorage.setItem('cn3_sheet_url',url);
+  closeOv('sheetOv');
+  if(url){
+    toast('Syncing with sheet…');
+    await pullFromSheet();
+    renderAll();
+  }else{
+    toast('Sheet disconnected — offline mode');
+    setSyncStatus('idle','');
+  }
+  renderProfile();
+}
+
+function copyScript(){
+  const code=`const SHEET_NAME="Leads";
+function doGet(e){const a=e.parameter.action;if(a==="getLeads")return getLeads();return r({error:"unknown"})}
+function doPost(e){const d=JSON.parse(e.postData.contents);if(d.action==="saveLeads")return saveLeads(d.leads);return r({error:"unknown"})}
+function getLeads(){const s=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);const rows=s.getDataRange().getValues();const h=rows[0];const leads=rows.slice(1).filter(row=>row[0]).map(row=>{const o={};h.forEach((k,i)=>o[k]=row[i]);return o});return r({leads})}
+function saveLeads(leads){const s=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);const h=s.getRange(1,1,1,s.getLastColumn()).getValues()[0];s.getRange(2,1,Math.max(s.getLastRow()-1,1),h.length).clearContent();if(leads.length>0){const rows=leads.map(l=>h.map(k=>l[k]||""));s.getRange(2,1,rows.length,h.length).setValues(rows)}return r({success:true,count:leads.length})}
+function r(d){return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON)}`;
+  navigator.clipboard?.writeText(code).then(()=>toast('Script copied!')).catch(()=>toast('Select and copy the code manually'));
+}
+
+// ============================================================
+// SEED DATA
+// ============================================================
+function seedIfEmpty(){
+  if(leads.length>0)return;
+  const n=new Date().toISOString();
+  const data=[
+    {name:'Rajesh Kumar',phone:'+91 98765 43210',email:'rajesh@gmail.com',city:'Siliguri',ltype:'Personal Loan',amount:500000,cibil:750,income:50000,emi:5000,emp:'Salaried',stage:'new',prio:'hot',src:'Referral',uid:'p1'},
+    {name:'Sunita Devi',phone:'+91 91234 56789',email:'sunita@gmail.com',city:'Jalpaiguri',ltype:'Business Loan',amount:2000000,cibil:720,income:120000,emi:0,emp:'Business Owner',stage:'contacted',prio:'warm',src:'CA Partner',uid:'p2'},
+    {name:'Vikram Joshi',phone:'+91 99887 76655',email:'vikram@gmail.com',city:'Siliguri',ltype:'Home Loan',amount:4500000,cibil:780,income:90000,emi:15000,emp:'Salaried',stage:'qualified',prio:'hot',src:'Real Estate Partner',uid:'p1'},
+    {name:'Meera Nair',phone:'+91 88776 65544',email:'meera@gmail.com',city:'Darjeeling',ltype:'LAP',amount:8000000,cibil:800,income:200000,emi:30000,emp:'Business Owner',stage:'documents',prio:'hot',src:'Referral',uid:'p3'},
+    {name:'Amit Patel',phone:'+91 77665 54433',email:'amit@gmail.com',city:'Siliguri',ltype:'Personal Loan',amount:300000,cibil:680,income:30000,emi:0,emp:'Salaried',stage:'submitted',prio:'warm',src:'Google',uid:'p2'},
+    {name:'Anita Roy',phone:'+91 99001 12233',email:'anita@gmail.com',city:'Bagdogra',ltype:'Business Loan',amount:1500000,cibil:740,income:80000,emi:10000,emp:'Self-Employed',stage:'converted',prio:'hot',src:'WhatsApp',uid:'p3'},
+  ];
+  data.forEach(d=>leads.push({...d,id:uid(),docs:{},act:[{t:'created',tx:'Lead created',ts:n}],created:n,updated:n}));
+  localStorage.setItem('cn3_leads',JSON.stringify(leads));
+}
+
+// ============================================================
+// BOOT SEQUENCE
+// ============================================================
+async function boot(){
+  setLoadMsg('Loading…');
+  await sleep(400);
+  // If sheet URL exists, pull first
+  if(sheetURL){
+    setLoadMsg('Fetching leads from Google Sheet…');
+    const ok=await pullFromSheet();
+    if(!ok)setLoadMsg('Using local data…');
+    await sleep(300);
+  }else{
+    seedIfEmpty();
+    await sleep(600);
+  }
+  showScreen('screen-login');
+  buildGrid();
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function setLoadMsg(msg){const el=document.getElementById('loading-msg');if(el)el.textContent=msg;}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+function buildGrid(){
+  document.getElementById('userGrid').innerHTML=USERS.map(u=>`
+    <div class="utile" onclick="selU('${u.id}')" id="ut-${u.id}">
+      <div class="utile-av" style="background:${u.color}">${ini(u.name)}</div>
+      <div class="utile-name">${u.name}</div>
+      <div class="utile-role">${u.isAdmin?'👑 Admin':u.role}</div>
+    </div>`).join('');
+}
+let selUID=null;
+function selU(id){selUID=id;document.querySelectorAll('.utile').forEach(t=>t.classList.remove('sel'));document.getElementById('ut-'+id)?.classList.add('sel');document.getElementById('loginPass').focus();}
+function doLogin(){
+  if(!selUID){toast('Select a user');return;}
+  const u=USERS.find(x=>x.id===selUID);
+  if(document.getElementById('loginPass').value!==u.pass){toast('Wrong password');document.getElementById('loginPass').value='';return;}
+  me=u;
+  showScreen('screen-app');
+  initApp();
+}
+function doLogout(){me=null;selUID=null;document.getElementById('loginPass').value='';document.querySelectorAll('.utile').forEach(t=>t.classList.remove('sel'));showScreen('screen-login');}
+
+// ============================================================
+// APP INIT
+// ============================================================
+function initApp(){
+  const h=new Date().getHours();
+  document.getElementById('greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', '+me.name.split(' ')[0]+'! 👋';
+  document.getElementById('greet-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('home-nav-title').textContent=me.isAdmin?'CredNest CRM':me.name.split(' ')[0]+"'s Leads";
+  renderAll();goTab('home');
+  // Show sync status
+  if(sheetURL)setSyncStatus('ok',lastSyncTime?'Synced '+fmtT(lastSyncTime.toISOString()):'Connected');
+  else setSyncStatus('warn','No sheet connected — tap Profile → Settings');
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll(){renderStats();renderHome();renderPipe();renderCalls();}
+
+function renderStats(){
+  const ml=myLeads();
+  const active=ml.filter(l=>!['converted','disqualified'].includes(l.stage)).length;
+  const conv=ml.filter(l=>l.stage==='converted').length;
+  const c=Math.round(ml.filter(l=>l.stage!=='disqualified').reduce((s,l)=>s+comm(l),0));
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="tile blue ani d1"><div class="tile-val">${ml.length}</div><div class="tile-lbl">Total Leads</div></div>
+    <div class="tile orange ani d2"><div class="tile-val">${active}</div><div class="tile-lbl">Active</div></div>
+    <div class="tile green ani d3"><div class="tile-val">${conv}</div><div class="tile-lbl">Converted</div></div>
+    <div class="tile red ani d4"><div class="tile-val">${fmt(c)}</div><div class="tile-lbl">Est. Commission</div></div>`;
+}
+
+function lcard(l){
+  const assn=me?.isAdmin?`<span class="pill p-gray">${uname(l.uid)}</span>`:'';
+  return`<div class="lcard ani" onclick="openDet('${l.id}')">
+    <div class="lcard-top">
+      <div class="av" style="background:${abg(l.name)}">${ini(l.name)}</div>
+      <div class="lead-info">
+        <div class="lead-name">${l.name}</div>
+        <div class="lead-meta">${l.phone} · ${l.ltype||'—'}</div>
+        <div class="lead-meta">${fmt(l.amount)}${l.cibil?' · CIBIL '+l.cibil:''}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
+        <span class="pill ${l.prio==='hot'?'p-red':l.prio==='warm'?'p-orange':'p-gray'}">${l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️'} ${l.prio}</span>
+        <span style="font-size:11px;color:var(--label3);">${fmtD(l.updated)}</span>
+      </div>
+    </div>
+    <div class="lcard-bot">
+      <span class="pill ${SC[l.stage]||'p-gray'}">${SL[l.stage]||l.stage}</span>${assn}
+      <span style="flex:1"></span>
+      <button onclick="event.stopPropagation();doWA('${l.id}')" style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px 4px;">💬</button>
+      <button onclick="event.stopPropagation();openCallOv('${l.id}')" style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px 4px;">📞</button>
+    </div>
+  </div>`;
+}
+
+function setHF(f,el){hf=f;document.querySelectorAll('#homeSeg .seg-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderHome();}
+function renderHome(){
+  let ml=myLeads();
+  if(hf==='hot')ml=ml.filter(l=>l.prio==='hot');
+  else if(hf==='followup')ml=ml.filter(l=>['contacted','documents'].includes(l.stage));
+  else if(hf==='new')ml=ml.filter(l=>l.stage==='new');
+  ml=ml.filter(l=>l.stage!=='converted'&&l.stage!=='disqualified');
+  ml.sort((a,b)=>({hot:0,warm:1,cold:2}[a.prio]||1)-({hot:0,warm:1,cold:2}[b.prio]||1));
+  document.getElementById('homeList').innerHTML=ml.length===0
+    ?`<div class="empty"><div class="empty-ico">📋</div><div class="empty-title">No leads here</div><div class="empty-sub">Tap + to add your first lead</div></div>`
+    :ml.map(lcard).join('');
+}
+
+function setPS(s,el){ps=s;document.querySelectorAll('#pipeSeg .seg-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderPipe();}
+function renderPipe(){
+  const ml=myLeads().filter(l=>l.stage===ps);
+  document.getElementById('pipeList').innerHTML=ml.length===0
+    ?`<div class="empty"><div class="empty-ico">✨</div><div class="empty-title">All clear!</div><div class="empty-sub">No leads in this stage</div></div>`
+    :ml.map(lcard).join('')+'<div style="height:90px"></div>';
+}
+
+function renderCalls(){
+  const myIds=myLeads().map(l=>l.id);
+  let mc=me?.isAdmin?calls:calls.filter(c=>myIds.includes(c.lid));
+  mc=[...mc].reverse();
+  const el=document.getElementById('callsList');
+  if(mc.length===0){el.innerHTML=`<div class="empty"><div class="empty-ico">📞</div><div class="empty-title">No calls yet</div><div class="empty-sub">Your call history appears here</div></div>`;return;}
+  el.innerHTML=mc.map(c=>{
+    const l=leads.find(x=>x.id===c.lid)||{name:'Unknown',phone:'—'};
+    return`<div class="list" style="margin:0 16px 10px;" onclick="openDet('${c.lid}')">
+      <div class="row">
+        <div class="av" style="background:${abg(l.name)};width:38px;height:38px;font-size:13px;">${ini(l.name)}</div>
+        <div class="row-body"><div class="row-title">${l.name}</div><div class="row-sub">${l.phone}</div></div>
+        <div class="row-right"><span class="pill ${SC2[c.status]||'p-gray'}">${SI[c.status]||'📞'} ${c.status.replace('_',' ')}</span></div>
+      </div>
+      ${c.note?`<div style="padding:8px 16px 10px;font-size:13px;color:var(--label2);border-top:.5px solid var(--sep2);">${c.note}</div>`:''}
+      <div style="padding:6px 16px 10px;font-size:12px;color:var(--label3);border-top:.5px solid var(--sep2);">${fmtT(c.ts)}${c.dur?' · '+c.dur:''}</div>
+    </div>`;
+  }).join('')+'<div style="height:90px"></div>';
+}
+
+function renderProfile(){
+  if(!me)return;
+  const ml=myLeads();
+  const conv=ml.filter(l=>l.stage==='converted');
+  const earned=conv.reduce((s,l)=>s+comm(l),0);
+  const syncDot=sheetURL
+    ?`<span style="color:${syncStatus==='ok'?'var(--green)':syncStatus==='err'?'var(--red)':'var(--orange)'};">●</span> ${sheetURL?'Connected':'Disconnected'}`
+    :`<span style="color:var(--red);">●</span> Not connected`;
+
+  let adminSection='';
+  if(me.isAdmin){
+    adminSection=`
+    <div class="section">
+      <div class="sec-hdr">Team</div>
+      <div class="list">
+        ${USERS.filter(u=>!u.isAdmin).map(u=>{
+          const ul=leads.filter(l=>l.uid===u.id);
+          const uc=ul.filter(l=>l.stage==='converted').length;
+          const ue=Math.round(ul.filter(l=>l.stage!=='disqualified').reduce((s,l)=>s+comm(l),0));
+          return`<div class="row" style="cursor:default;">
+            <div class="av" style="background:${u.color};width:36px;height:36px;font-size:13px;border-radius:50%;">${ini(u.name)}</div>
+            <div class="row-body"><div class="row-title">${u.name}</div><div class="row-sub">${ul.length} leads · ${uc} converted</div></div>
+            <div class="row-right"><span class="pill p-green">${fmt(ue)}</span></div>
+          </div>`;}).join('')}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('profileContent').innerHTML=`
+    <div class="p-header">
+      <div class="p-av" style="background:${me.color}">${ini(me.name)}</div>
+      <div class="p-name">${me.name}</div>
+      <div class="p-role">${me.isAdmin?'👑 Admin — CredNest CRM':'Partner'}</div>
+    </div>
+    <div class="stats" style="margin-bottom:4px;">
+      <div class="tile blue"><div class="tile-val">${ml.length}</div><div class="tile-lbl">My Leads</div></div>
+      <div class="tile green"><div class="tile-val">${conv.length}</div><div class="tile-lbl">Converted</div></div>
+      <div class="tile orange"><div class="tile-val">${fmt(earned)}</div><div class="tile-lbl">Earned</div></div>
+      <div class="tile red"><div class="tile-val">${ml.filter(l=>l.prio==='hot').length}</div><div class="tile-lbl">Hot Leads</div></div>
+    </div>
+    ${adminSection}
+    <div class="section" style="margin-top:16px;">
+      <div class="sec-hdr">Google Sheets Sync</div>
+      <div class="list">
+        <div class="row" onclick="openSheetSettings()">
+          <div class="row-icon" style="background:var(--green-l);">📊</div>
+          <div class="row-body"><div class="row-title">Sheet Connection</div><div class="row-sub">${syncDot}</div></div>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="row" onclick="pullFromSheet().then(renderAll)">
+          <div class="row-icon" style="background:var(--blue-l);">🔄</div>
+          <div class="row-body"><div class="row-title">Pull Latest from Sheet</div><div class="row-sub">Refresh leads from Google Sheets</div></div>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="row" onclick="pushToSheet()">
+          <div class="row-icon" style="background:var(--orange-l);">⬆️</div>
+          <div class="row-body"><div class="row-title">Push All to Sheet</div><div class="row-sub">Force save all leads to Sheet</div></div>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="row" onclick="exportCSV()">
+          <div class="row-icon" style="background:var(--purple-l);">💾</div>
+          <div class="row-body"><div class="row-title">Download CSV</div><div class="row-sub">Save file to device</div></div>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="section" style="margin-top:16px;">
+      <div class="list">
+        <div class="row" onclick="doLogout()" style="color:var(--red);">
+          <div class="row-icon" style="background:var(--red-l);">🚪</div>
+          <div class="row-body"><div class="row-title" style="color:var(--red)">Sign Out</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="height:90px"></div>`;
+}
+
+// ============================================================
+// DETAIL
+// ============================================================
+function openDet(id){
+  activeId=id;const l=leads.find(x=>x.id===id);if(!l)return;
+  document.getElementById('det-title').textContent=l.name;
+  document.getElementById('detailOv').classList.add('open');
+  renderDet(l);
+}
+
+function renderDet(l){
+  const e=eligScore(l);
+  const ec=e>=75?'elig-hi':e>=50?'elig-md':'elig-lo';
+  const elbl=e>=75?'High — Likely Eligible':e>=50?'Medium — Needs Review':'Low — High Risk';
+  const stages=['new','contacted','qualified','documents','submitted','converted'];
+  const si=stages.indexOf(l.stage);
+  const sdots=stages.map((s,i)=>`<div class="sp-dot ${i<si?'done':s===l.stage?'cur':''}"></div>`).join('');
+  const docs=l.docs||{};
+  const dochtml=DOCS.map(d=>`<div class="doc-row" onclick="togDoc('${l.id}','${d.k}')">
+    <div class="doc-chk ${docs[d.k]?'done':''}">${docs[d.k]?`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}</div>
+    <span class="doc-lbl ${docs[d.k]?'done':''}">${d.n}</span>
+  </div>`).join('');
+  const acts=(l.act||[]).slice().reverse().slice(0,10);
+  const aclr={created:ABG[0],stage:'#FF9500',call:'#34C759',note:'#007AFF',doc:'#AF52DE',wa:'#25d366'};
+  const tl=acts.map((a,i)=>`<div class="tl-item">
+    <div class="tl-line"><div class="tl-dot" style="background:${aclr[a.t]||'#ccc'}"></div>${i<acts.length-1?'<div class="tl-bar"></div>':''}</div>
+    <div class="tl-body"><div class="tl-text">${a.tx}</div><div class="tl-time">${fmtT(a.ts)}</div></div>
+  </div>`).join('');
+  const notes=(l.act||[]).filter(a=>a.t==='note').slice().reverse();
+  const nhtml=notes.length===0
+    ?`<div style="padding:12px 16px;font-size:14px;color:var(--label3);">No notes yet</div>`
+    :notes.map(n=>`<div style="padding:12px 16px;border-bottom:.5px solid var(--sep2);"><div style="font-size:15px;line-height:1.5;">${n.tx}</div><div style="font-size:12px;color:var(--label3);margin-top:3px;">${fmtT(n.ts)}</div></div>`).join('');
+
+  document.getElementById('det-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:13px;padding:16px;border-bottom:.5px solid var(--sep);">
+      <div class="av" style="background:${abg(l.name)};width:54px;height:54px;font-size:19px;">${ini(l.name)}</div>
+      <div>
+        <div style="font-size:20px;font-weight:700;letter-spacing:-.3px;">${l.name}</div>
+        <div style="font-size:14px;color:var(--label2);margin-top:2px;">${l.ltype||'—'} · ${fmt(l.amount)}</div>
+        <div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;">
+          <span class="pill ${SC[l.stage]||'p-gray'}">${SL[l.stage]}</span>
+          <span class="pill ${l.prio==='hot'?'p-red':l.prio==='warm'?'p-orange':'p-gray'}">${l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️'} ${l.prio}</span>
+        </div>
+      </div>
+    </div>
+    <div class="qa-strip">
+      <button class="qa-btn" onclick="openCallOv('${l.id}')"><div class="qa-ico" style="background:var(--green-l);">📞</div><span class="qa-lbl">Call</span></button>
+      <button class="qa-btn" onclick="doWA('${l.id}')"><div class="qa-ico" style="background:rgba(37,211,102,.12);">💬</div><span class="qa-lbl">WhatsApp</span></button>
+      <button class="qa-btn" onclick="openNoteOv()"><div class="qa-ico" style="background:var(--blue-l);">📝</div><span class="qa-lbl">Note</span></button>
+      <button class="qa-btn" onclick="openStageOv()"><div class="qa-ico" style="background:var(--orange-l);">📍</div><span class="qa-lbl">Stage</span></button>
+    </div>
+    <div style="background:var(--bg2);margin:14px 16px 0;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;">
+      <div style="padding:12px 16px 4px;font-size:12px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.5px;">Progress</div>
+      <div class="sp-row">${sdots}</div>
+      <div class="sp-lbls">${['New','Called','Qualified','Docs','Submitted','Done'].map(s=>`<span class="sp-lbl">${s}</span>`).join('')}</div>
+    </div>
+    <div class="section"><div class="sec-hdr">Details</div>
+      <div class="list">
+        ${[['Phone',`<a href="tel:${l.phone}" style="color:var(--blue);text-decoration:none;">${l.phone}</a>`],['City',l.city||'—'],['Employment',l.emp||'—'],['Income',fmt(l.income)],['EMI',fmt(l.emi)],['CIBIL',l.cibil?`<span style="color:${l.cibil>=750?'var(--green)':l.cibil>=700?'var(--orange)':'var(--red)'};font-weight:600;">${l.cibil}</span>`:'—'],['Source',l.src||'—'],['Assigned',uname(l.uid)]].map(([k,v])=>`<div class="row" style="cursor:default;"><div class="row-body"><div style="font-size:15px;color:var(--label2);">${k}</div></div><div class="row-right"><span style="font-size:15px;">${v}</span></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="section"><div style="background:var(--bg2);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:15px;font-weight:600;">${elbl}</div>
+        <div style="font-size:18px;font-weight:700;color:${e>=75?'var(--green)':e>=50?'var(--orange)':'var(--red)'};">${e}%</div>
+      </div>
+      <div class="elig-track" style="margin-top:8px;"><div class="elig-fill ${ec}" style="width:${e}%"></div></div>
+    </div></div>
+    <div class="section"><div class="sec-hdr">Documents</div><div class="list">${dochtml}</div></div>
+    <div class="section"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px;">
+      <div class="sec-hdr" style="margin:0;">Notes</div>
+      <button onclick="openNoteOv()" style="background:none;border:none;color:var(--blue);font-size:15px;font-family:var(--font);cursor:pointer;">+ Add</button>
+    </div><div class="list">${nhtml}</div></div>
+    <div class="section"><div class="sec-hdr">Activity</div><div class="list">${tl}</div></div>
+    <div class="section" style="margin-top:16px;margin-bottom:32px;">
+      <button class="btn btn-red" onclick="delLead('${l.id}')">Delete Lead</button>
+    </div>`;
+}
+
+// ============================================================
+// STAGE
+// ============================================================
+function openStageOv(){
+  const l=leads.find(x=>x.id===activeId);if(!l)return;
+  document.getElementById('stageList').innerHTML=SO.map(s=>`
+    <div class="row" onclick="mvStage('${s}')">
+      <div class="row-body"><div class="row-title">${SL[s]}</div></div>
+      ${l.stage===s?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>':'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'}
+    </div>`).join('');
+  document.getElementById('stageOv').classList.add('open');
+}
+function mvStage(s){
+  const l=leads.find(x=>x.id===activeId);if(!l)return;
+  const n=new Date().toISOString();l.stage=s;l.updated=n;l.act=l.act||[];l.act.push({t:'stage',tx:'Stage → '+SL[s],ts:n});
+  save();closeOv('stageOv');renderDet(l);renderAll();toast('Moved to '+SL[s]);
+}
+
+// ============================================================
+// CALL
+// ============================================================
+function openCallOv(id){
+  activeId=id;const l=leads.find(x=>x.id===id);if(!l)return;
+  document.getElementById('call-title').textContent=l.name;
+  document.getElementById('cs-dur').value='';document.getElementById('cs-note').value='';document.getElementById('cs-fu').value='';
+  cs='picked';document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('selected'));
+  document.querySelector('.cbtn.gn').classList.add('selected');
+  document.getElementById('callOv').classList.add('open');
+}
+function pickCS(s,el){cs=s;document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
+function saveCall(){
+  const l=leads.find(x=>x.id===activeId);if(!l)return;
+  const n=new Date().toISOString();
+  const note=document.getElementById('cs-note').value.trim();
+  const dur=document.getElementById('cs-dur').value.trim();
+  calls.push({id:uid(),lid:activeId,status:cs,note,dur,fu:document.getElementById('cs-fu').value,ts:n,by:me?.name});
+  localStorage.setItem('cn3_calls',JSON.stringify(calls));
+  const slbl={picked:'📞 Call picked',rejected:'❌ Rejected',missed:'📵 Missed',busy:'🔄 Busy',wrong:'⚠️ Wrong number',callback:'📅 Callback requested',switched_off:'📴 Phone off',voicemail:'📬 Voicemail'};
+  l.act=l.act||[];l.act.push({t:'call',tx:(slbl[cs]||'Call')+(note?' — '+note.slice(0,50):''),ts:n});
+  if(cs==='picked')l.stage='contacted';l.updated=n;
+  save();closeOv('callOv');
+  if(document.getElementById('detailOv').classList.contains('open'))renderDet(l);
+  renderAll();toast('Call logged!');
+}
+
+function doWA(id){
+  const l=leads.find(x=>x.id===id);if(!l)return;
+  const ph=l.phone.replace(/[^0-9]/g,'');
+  const msg=encodeURIComponent(`Hi ${l.name}! Following up on your ${l.ltype||'loan'} enquiry. When's a good time to connect? 🙏`);
+  window.open(`https://wa.me/${ph}?text=${msg}`,'_blank');
+  const n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'wa',tx:'💬 WhatsApp sent',ts:n});l.updated=n;save();
+  if(document.getElementById('detailOv').classList.contains('open'))renderDet(l);
+  toast('Opening WhatsApp…');
+}
+
+function openNoteOv(){document.getElementById('note-txt').value='';document.getElementById('noteOv').classList.add('open');setTimeout(()=>document.getElementById('note-txt').focus(),350);}
+function saveNote(){
+  const l=leads.find(x=>x.id===activeId);if(!l)return;
+  const txt=document.getElementById('note-txt').value.trim();if(!txt){closeOv('noteOv');return;}
+  const n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'note',tx:txt,ts:n});l.updated=n;
+  save();closeOv('noteOv');renderDet(l);toast('Note added');
+}
+
+// ============================================================
+// ADD / EDIT
+// ============================================================
+function openAddLead(){
+  editId=null;document.getElementById('lead-sheet-title').textContent='New Lead';
+  ['f-name','f-phone','f-email','f-city','f-amount','f-cibil','f-income','f-emi','f-notes'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('f-ltype').value='';document.getElementById('f-emp').value='';document.getElementById('f-stage').value='new';document.getElementById('f-prio').value='warm';document.getElementById('f-src').value='';
+  buildAssign();document.getElementById('leadOv').classList.add('open');
+}
+function openEditFromDetail(){
+  const l=leads.find(x=>x.id===activeId);if(!l)return;
+  editId=l.id;document.getElementById('lead-sheet-title').textContent='Edit Lead';
+  document.getElementById('f-name').value=l.name||'';document.getElementById('f-phone').value=l.phone||'';document.getElementById('f-email').value=l.email||'';document.getElementById('f-city').value=l.city||'';document.getElementById('f-ltype').value=l.ltype||'';document.getElementById('f-amount').value=l.amount||'';document.getElementById('f-cibil').value=l.cibil||'';document.getElementById('f-income').value=l.income||'';document.getElementById('f-emi').value=l.emi||'';document.getElementById('f-emp').value=l.emp||'';document.getElementById('f-stage').value=l.stage||'new';document.getElementById('f-prio').value=l.prio||'warm';document.getElementById('f-src').value=l.src||'';document.getElementById('f-notes').value=l.notes||'';
+  buildAssign(l.uid);document.getElementById('leadOv').classList.add('open');
+}
+function buildAssign(cur){
+  const row=document.getElementById('f-assign-row');
+  if(!me?.isAdmin){row.style.display='none';return;}
+  row.style.display='flex';
+  document.getElementById('f-assign').innerHTML=USERS.map(u=>`<option value="${u.id}" ${u.id===(cur||me.id)?'selected':''}>${u.name}</option>`).join('');
+}
+function saveLead(){
+  const name=document.getElementById('f-name').value.trim();const phone=document.getElementById('f-phone').value.trim();
+  if(!name||!phone){toast('Name & phone required');return;}
+  const n=new Date().toISOString();
+  const d={name,phone,email:document.getElementById('f-email').value,city:document.getElementById('f-city').value,ltype:document.getElementById('f-ltype').value,amount:document.getElementById('f-amount').value,cibil:document.getElementById('f-cibil').value,income:document.getElementById('f-income').value,emi:document.getElementById('f-emi').value,emp:document.getElementById('f-emp').value,stage:document.getElementById('f-stage').value,prio:document.getElementById('f-prio').value,src:document.getElementById('f-src').value,notes:document.getElementById('f-notes').value,uid:me?.isAdmin?document.getElementById('f-assign').value:me?.id};
+  if(editId){
+    const l=leads.find(x=>x.id===editId);Object.assign(l,d,{updated:n});l.act=l.act||[];l.act.push({t:'note',tx:'Lead updated by '+me?.name,ts:n});toast('Saved!');
+  }else{
+    leads.push({...d,id:uid(),docs:{},act:[{t:'created',tx:'Lead created by '+me?.name,ts:n}],created:n,updated:n});toast('Lead added!');
+  }
+  save();closeOv('leadOv');renderAll();
+  if(editId&&document.getElementById('detailOv').classList.contains('open')){const l=leads.find(x=>x.id===editId);if(l)renderDet(l);}
+}
+function delLead(id){
+  if(!confirm('Delete this lead? Cannot be undone.'))return;
+  leads=leads.filter(x=>x.id!==id);save();closeOv('detailOv');renderAll();toast('Lead deleted');
+}
+function togDoc(id,k){
+  const l=leads.find(x=>x.id===id);if(!l)return;
+  l.docs=l.docs||{};l.docs[k]=!l.docs[k];
+  const dn=DOCS.find(d=>d.k===k)?.n||k;const n=new Date().toISOString();
+  l.act=l.act||[];l.act.push({t:'doc',tx:(l.docs[k]?'✅ Got ':'❌ Removed ')+dn,ts:n});l.updated=n;save();renderDet(l);
+}
+
+// ============================================================
+// EXPORT CSV
+// ============================================================
+function exportCSV(){
+  const h=['id','Name','Phone','Email','City','Loan Type','Amount','CIBIL','Income','EMI','Employment','Stage','Priority','Source','Assigned To','Commission','Created','Updated'];
+  const rows=leads.map(l=>[l.id,l.name,l.phone,l.email,l.city,l.ltype,l.amount,l.cibil,l.income,l.emi,l.emp,SL[l.stage],l.prio,l.src,uname(l.uid),Math.round(comm(l)),fmtD(l.created),fmtD(l.updated)]);
+  const csv=[h,...rows].map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='CredNest_Leads_'+new Date().toISOString().slice(0,10)+'.csv';a.click();toast('CSV downloaded!');
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function goTab(t){
+  ['home','pipe','calls','profile'].forEach(x=>{
+    const s=document.getElementById('sub-'+x);const b=document.getElementById('tab-'+x);
+    if(s)s.style.display=x===t?'flex':'none';if(b)b.classList.toggle('active',x===t);
+  });
+  document.getElementById('fab').style.display=['home','pipe'].includes(t)?'flex':'none';
+  if(t==='pipe')renderPipe();if(t==='calls')renderCalls();if(t==='profile')renderProfile();
+}
+function closeOv(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2400);}
+
+// ============================================================
+// AUTO REFRESH — pull every 60 seconds while app is open
+// ============================================================
+setInterval(()=>{
+  if(document.getElementById('screen-app').classList.contains('active')&&sheetURL){
+    pullFromSheet().then(()=>renderAll());
+  }
+},60000);
+
+// START
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+boot();
+</script>
+</body>
+</html>
