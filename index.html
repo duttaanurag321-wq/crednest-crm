@@ -438,13 +438,18 @@ function getUserById(id){return getUsers().find(u=>u.id===id)}
 async function pullConfig(){
   // Pull user config from master config sheet
   const masterURL=S(MASTER_CONFIG_KEY);
-  if(!masterURL)return;
+  if(!masterURL)return false;
   try{
     const r=await fetch(masterURL+'?action=getConfig&t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
-    if(d.users){S('cn_users',JSON.stringify(d.users));return true;}
-  }catch(e){console.log('Config pull failed',e);}
+    if(d.users&&Array.isArray(d.users)&&d.users.length>0){
+      S('cn_users',JSON.stringify(d.users));
+      return true;
+    }
+  }catch(e){console.log('Config pull failed, using local',e);}
   return false;
+}
 }
 
 async function pullLeads(){
@@ -497,9 +502,13 @@ function setSbar(type,msg){
 // ─── BOOT ────────────────────────────────────────────────────
 async function boot(){
   el('load-msg').textContent='Loading…';
-  // Try to pull latest user config from master sheet
-  await pullConfig().catch(()=>{});
-  await sleep(500);
+  // Try to pull latest user config from master sheet (only if no local users yet)
+  const localUsers=getUsers();
+  if(localUsers.length===0){
+    el('load-msg').textContent='Fetching config…';
+    await pullConfig().catch(()=>{});
+  }
+  await sleep(400);
   // Check if already logged in
   const saved=J('cn_session',null);
   if(saved){
@@ -526,14 +535,35 @@ async function doLogin(){
   el('login-err').textContent='';
   if(!uid_val||!pass){el('login-err').textContent='Enter your User ID and password';return;}
   el('login-btn').textContent='Signing in…';el('login-btn').disabled=true;
-  // Refresh config first
-  await pullConfig().catch(()=>{});
-  const users=getUsers();
-  // Also check if no users configured yet — fallback defaults
-  const allUsers=users.length>0?users:getDefaultUsers();
-  const user=allUsers.find(u=>u.id.toLowerCase()===uid_val&&u.pass===pass);
+
+  // 1. Try local users first (written by admin panel on same device)
+  let allUsers=getUsers();
+
+  // 2. If no local users, try pulling from config sheet
+  if(allUsers.length===0){
+    await pullConfig().catch(()=>{});
+    allUsers=getUsers();
+  }
+
+  // 3. If still nothing, use hardcoded defaults
+  if(allUsers.length===0) allUsers=getDefaultUsers();
+
+  let user=allUsers.find(u=>u.id.toLowerCase()===uid_val&&u.pass===pass);
+
+  // 4. If not found locally, try a fresh config pull in case admin added user on another device
+  if(!user){
+    await pullConfig().catch(()=>{});
+    allUsers=getUsers();
+    if(allUsers.length>0) user=allUsers.find(u=>u.id.toLowerCase()===uid_val&&u.pass===pass);
+  }
+
   el('login-btn').textContent='Sign In';el('login-btn').disabled=false;
-  if(!user){el('login-err').textContent='Invalid User ID or password. Try again.';el('inp-pass').value='';return;}
+
+  if(!user){
+    el('login-err').textContent='Invalid User ID or password. Try again.';
+    el('inp-pass').value='';
+    return;
+  }
   me=user;sheetURL=user.sheetURL||'';
   S('cn_session',JSON.stringify({id:user.id,pass:user.pass}));
   leads=J('cn_leads_'+me.id,[]);calls=J('cn_calls_'+me.id,[]);
