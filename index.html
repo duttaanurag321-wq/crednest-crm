@@ -450,7 +450,6 @@ async function pullConfig(){
   }catch(e){console.log('Config pull failed, using local',e);}
   return false;
 }
-}
 
 async function pullLeads(){
   if(!sheetURL){setSbar('wa','No sheet connected');return false;}
