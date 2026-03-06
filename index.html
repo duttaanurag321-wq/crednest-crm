@@ -617,8 +617,7 @@ function save(){
 
 function flushLeads(){
   setSbar('sy','Saving to sheet…');
-  // Group leads by their actual owner, not always me.id.
-  // This prevents admin from overwriting other agents' rows.
+  // Group leads by their actual owner
   var byOwner={};
   leads.forEach(function(l){
     var own=String(l.owner||me.id);
@@ -626,16 +625,19 @@ function flushLeads(){
     byOwner[own].push(Object.assign({},l,{docs:JSON.stringify(l.docs||{}),act:JSON.stringify(l.act||[])}));
   });
   var owners=Object.keys(byOwner);
-  var done=0;
+  if(owners.length===0){setSbar('ok','Nothing to save');return;}
+  // IMPORTANT: Send requests ONE AT A TIME (sequential), NOT parallel.
+  // Apps Script deletes+rewrites rows per owner. If two requests hit
+  // simultaneously they race and wipe each other's data.
+  var chain=Promise.resolve();
   owners.forEach(function(own){
-    apiPost({action:'saveLeads',leads:byOwner[own],owner:own})
-      .then(function(d){
-        done++;
-        if(done===owners.length){lastSync=new Date();setSbar('ok','Saved '+fmtT(lastSync.toISOString()));}
-      })
-      .catch(function(){setSbar('er','Save failed');});
+    chain=chain.then(function(){
+      return apiPost({action:'saveLeads',leads:byOwner[own],owner:own});
+    });
   });
-  if(owners.length===0){setSbar('ok','Nothing to save');}
+  chain
+    .then(function(){lastSync=new Date();setSbar('ok','Saved '+fmtT(lastSync.toISOString()));})
+    .catch(function(){setSbar('er','Save failed — check connection');});
 }
 
 function saveSingleCall(c){
