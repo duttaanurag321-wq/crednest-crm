@@ -126,8 +126,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 .sbar.sy{background:var(--bl);color:var(--blue)}.sbar.ok{background:var(--gl);color:#1A8A36}.sbar.er{background:var(--rl);color:var(--red)}.sbar.wa{background:var(--ol);color:#B86800}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{animation:spin .8s linear infinite;display:inline-block}
-/* LOGIN */
 #scr-login{background:linear-gradient(160deg,#EEF4FF 0%,#F2F2F7 60%);justify-content:center;align-items:center;padding:32px 24px}
+#scr-setup{background:linear-gradient(160deg,#EEF4FF 0%,#F2F2F7 60%);justify-content:center;align-items:center;padding:32px 24px}
 .logo-wrap{text-align:center;margin-bottom:36px}
 .logo-box{width:80px;height:80px;background:var(--blue);border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 10px 30px rgba(0,122,255,.3)}
 .logo-wrap h1{font-size:28px;font-weight:700;letter-spacing:-.6px}
@@ -153,12 +153,26 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 </head>
 <body>
 
-<!-- LOGIN (shown by default) -->
+<!-- SETUP — enter API URL once per device -->
+<div class="scr" id="scr-setup">
+  <div class="logo-wrap ani">
+    <div class="logo-box"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <h1>CredNest</h1><p>Loan CRM</p>
+  </div>
+  <div class="login-card ani d1">
+    <h2>Connect to Google Sheets</h2>
+    <p>Paste your Google Apps Script Web App URL. This is done once on each device.</p>
+    <div class="lf"><label>Apps Script URL</label><input type="url" id="setup-url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+    <button class="btn btn-bl" onclick="saveSetup()" id="setup-btn">Connect & Continue</button>
+    <div class="login-err" id="setup-err"></div>
+  </div>
+</div>
+
+<!-- LOGIN -->
 <div class="scr on" id="scr-login">
   <div class="logo-wrap ani">
     <div class="logo-box"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-    <h1>CredNest</h1>
-    <p>Loan CRM</p>
+    <h1>CredNest</h1><p>Loan CRM</p>
   </div>
   <div class="login-card ani d1">
     <h2>Sign In</h2>
@@ -167,12 +181,14 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
     <div class="lf"><label>Password</label><input type="password" id="inp-pass" placeholder="Your password" autocomplete="current-password"></div>
     <button class="btn btn-bl" onclick="doLogin()" id="login-btn">Sign In</button>
     <div class="login-err" id="login-err"></div>
+    <div style="margin-top:14px;text-align:center;">
+      <button onclick="showScr('scr-setup')" style="background:none;border:none;color:var(--l2);font-size:13px;font-family:var(--f);cursor:pointer;">⚙ Change API URL</button>
+    </div>
   </div>
 </div>
 
-<!-- MAIN APP (hidden until login) -->
+<!-- MAIN APP -->
 <div class="scr" id="scr-app">
-  <!-- HOME -->
   <div id="sub-home" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
     <div class="st"></div>
     <div class="nav">
@@ -182,7 +198,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
     </div>
-    <div class="sc" id="homeScroll">
+    <div class="sc">
       <div class="lgt ani"><h1 id="greet">Hello 👋</h1><div class="sub" id="gdate"></div></div>
       <div id="sbanner"></div>
       <div class="stats" id="stats"></div>
@@ -197,7 +213,6 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
       <div style="height:100px"></div>
     </div>
   </div>
-  <!-- PIPELINE -->
   <div id="sub-pipe" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
     <div class="st"></div>
     <div class="nav"><div style="width:44px"></div><div class="nav-t">Pipeline</div><div style="width:44px"></div></div>
@@ -210,19 +225,16 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
     </div>
     <div class="sc" id="pipeList"><div style="height:8px"></div></div>
   </div>
-  <!-- CALLS -->
   <div id="sub-calls" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
     <div class="st"></div>
     <div class="nav"><div style="width:44px"></div><div class="nav-t">Calls</div><div style="width:44px"></div></div>
     <div class="sc" id="callsList"><div style="height:8px"></div></div>
   </div>
-  <!-- PROFILE -->
   <div id="sub-prof" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
     <div class="st"></div>
     <div class="nav"><div style="width:44px"></div><div class="nav-t">Profile</div><button class="nb" style="color:var(--red)" onclick="doLogout()">Sign Out</button></div>
     <div class="sc" id="profContent"></div>
   </div>
-  <!-- TABBAR -->
   <div class="tabbar">
     <button class="tab on" id="tab-home" onclick="goTab('home')">
       <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -363,7 +375,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONSTANTS ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════
 var SL={new:'New',contacted:'Contacted',qualified:'Qualified',documents:'Docs Pending',submitted:'Submitted',converted:'Converted',disqualified:'Disqualified'};
 var SC={new:'pb',contacted:'po',qualified:'pg',documents:'pp',submitted:'pt',converted:'pg',disqualified:'pr'};
 var SO=['new','contacted','qualified','documents','submitted','converted','disqualified'];
@@ -373,256 +387,257 @@ var RATES={'Personal Loan':2,'Business Loan':2,'Home Loan':0.35,'LAP':0.5,'Car L
 var SI={picked:'✅',rejected:'❌',missed:'📵',busy:'🔄',wrong:'⚠️',callback:'📅',switched_off:'📴',voicemail:'📬'};
 var SC2={picked:'pg',rejected:'pr',missed:'po',busy:'po',wrong:'pp',callback:'pb',switched_off:'pgr',voicemail:'pgr'};
 
-// Default users — always available as fallback
-var DEFAULT_USERS=[
-  {id:'admin',name:'Admin',pass:'1234',color:'#007AFF',isAdmin:true,sheetURL:''},
-  {id:'ravi01',name:'Ravi Kumar',pass:'1234',color:'#34C759',sheetURL:''},
-  {id:'priya01',name:'Priya Shah',pass:'1234',color:'#FF9500',sheetURL:''},
-  {id:'amit01',name:'Amit Dey',pass:'1234',color:'#AF52DE',sheetURL:''}
-];
-
-// ─── STATE ───────────────────────────────────────────────────
-var leads=[], calls=[], me=null, editId=null, activeId=null;
+// ═══════════════════════════════════════════════════════
+// STATE — all in memory, sourced from Google Sheets
+// ═══════════════════════════════════════════════════════
+var API='';          // Apps Script URL — stored in localStorage only
+var leads=[];        // from Sheets API
+var calls=[];        // from Sheets API
+var me=null;         // logged-in user
+var editId=null, activeId=null;
 var hf='all', ps='new', cs='picked';
-var sheetURL='', syncTimer=null, lastSync=null;
+var syncTimer=null, lastSync=null;
 
-// ─── STORAGE (safe wrappers — never throw) ───────────────────
-function lsGet(key) {
-  try { return localStorage.getItem(key); } catch(e) { return null; }
-}
-function lsSet(key, val) {
-  try { localStorage.setItem(key, val); } catch(e) {}
-}
-function lsGetJSON(key, def) {
-  try {
-    var raw = localStorage.getItem(key);
-    if (!raw) return def;
-    var parsed = JSON.parse(raw);
-    return parsed !== null ? parsed : def;
-  } catch(e) { return def; }
-}
+// ═══════════════════════════════════════════════════════
+// localStorage — ONLY for API URL + session token
+// ═══════════════════════════════════════════════════════
+function lsGet(k)    { try{ return localStorage.getItem(k); }    catch(e){ return null; } }
+function lsSet(k,v)  { try{ localStorage.setItem(k,v); }         catch(e){} }
+function lsDel(k)    { try{ localStorage.removeItem(k); }        catch(e){} }
 
-// ─── GET USERS — reads from localStorage (written by admin panel) ───
-function getUsers() {
-  var users = lsGetJSON('cn_users', []);
-  if (Array.isArray(users) && users.length > 0) return users;
-  return DEFAULT_USERS;
+// ═══════════════════════════════════════════════════════
+// API CALLS
+// ═══════════════════════════════════════════════════════
+function apiGet(action){
+  return fetch(API+'?action='+action+'&t='+Date.now()).then(function(r){return r.json();});
+}
+function apiPost(body){
+  return fetch(API,{method:'POST',body:JSON.stringify(body)}).then(function(r){return r.json();});
 }
 
-function getUserById(id) {
-  var users = getUsers();
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].id === id) return users[i];
+// ═══════════════════════════════════════════════════════
+// SETUP SCREEN
+// ═══════════════════════════════════════════════════════
+function saveSetup(){
+  var url=el('setup-url').value.trim();
+  el('setup-err').textContent='';
+  if(!url||url.indexOf('script.google.com')===-1){
+    el('setup-err').textContent='Please enter a valid Apps Script URL';return;
   }
-  return null;
+  el('setup-btn').textContent='Testing…';el('setup-btn').disabled=true;
+  fetch(url+'?action=ping&t='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(){
+      lsSet('cn_api_url',url);API=url;
+      el('setup-btn').textContent='Connect & Continue';el('setup-btn').disabled=false;
+      showScr('scr-login');
+      setTimeout(function(){el('inp-uid').focus();},100);
+    })
+    .catch(function(){
+      el('setup-btn').textContent='Connect & Continue';el('setup-btn').disabled=false;
+      el('setup-err').textContent='Could not reach that URL. Check it and try again.';
+    });
 }
 
-// ─── HELPERS ────────────────────────────────────────────────
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
-function ini(n) { return (n||'?').split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2); }
-function abg(n) { var h=0; for(var i=0;i<(n||'').length;i++) h=(n.charCodeAt(i))+((h<<5)-h); return ABG[Math.abs(h)%ABG.length]; }
-function fmt(n) { if(!n||n==0)return'₹0'; n=Number(n); if(n>=10000000)return'₹'+(n/10000000).toFixed(1)+'Cr'; if(n>=100000)return'₹'+(n/100000).toFixed(1)+'L'; if(n>=1000)return'₹'+(n/1000).toFixed(0)+'K'; return'₹'+n; }
-function fmtD(iso) { if(!iso)return'—'; try{return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'});}catch(e){return'—';} }
-function fmtT(iso) { if(!iso)return'—'; try{return new Date(iso).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return'—';} }
-function el(id) { return document.getElementById(id); }
-function elig(l) {
-  var s=50, c=+(l.cibil||0), inc=+(l.income||0), emi=+(l.emi||0), amt=+(l.amount||0);
-  if(c>=750)s+=25; else if(c>=700)s+=15; else if(c>=650)s+=5; else if(c>0)s-=15;
-  if(inc>0){var r=(emi+amt/60)/inc; s+=r<0.4?15:r<0.6?5:-10;}
+// ═══════════════════════════════════════════════════════
+// BOOT — synchronous, shows login immediately
+// ═══════════════════════════════════════════════════════
+function boot(){
+  var savedAPI=lsGet('cn_api_url');
+  if(!savedAPI){showScr('scr-setup');return;}
+  API=savedAPI;
+
+  // Check saved session (just ID + pass stored, re-validated against sheet)
+  var sid=lsGet('cn_sid'), spass=lsGet('cn_spass');
+  if(sid&&spass){
+    // Restore session from cached values and show app immediately
+    me={
+      id:sid,
+      name:lsGet('cn_sname')||sid,
+      role:lsGet('cn_srole')||'agent',
+      color:lsGet('cn_scolor')||'#007AFF',
+      password:spass
+    };
+    showScr('scr-app');
+    initApp();
+    loadLeads();
+    loadCalls();
+    return;
+  }
+  showScr('scr-login');
+  setTimeout(function(){el('inp-uid').focus();},100);
+}
+
+// ═══════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════
+function doLogin(){
+  var uid_val=el('inp-uid').value.trim().toLowerCase();
+  var pass=el('inp-pass').value.trim();
+  el('login-err').textContent='';
+  if(!uid_val||!pass){el('login-err').textContent='Enter your User ID and password';return;}
+  if(!API){el('login-err').textContent='API not configured. Tap ⚙ Change API URL below.';return;}
+
+  el('login-btn').textContent='Signing in…';el('login-btn').disabled=true;
+
+  apiGet('users')
+    .then(function(data){
+      el('login-btn').textContent='Sign In';el('login-btn').disabled=false;
+      if(!data.users||!Array.isArray(data.users)){
+        el('login-err').textContent='Could not load users from sheet. Check your API.';return;
+      }
+      var u=null;
+      for(var i=0;i<data.users.length;i++){
+        var row=data.users[i];
+        if(String(row.id||'').trim().toLowerCase()===uid_val&&
+           String(row.password||'').trim()===pass){u=row;break;}
+      }
+      if(!u){
+        el('login-err').textContent='Wrong User ID or password. Please try again.';
+        el('inp-pass').value='';return;
+      }
+      // Save minimal session token
+      lsSet('cn_sid',   u.id);
+      lsSet('cn_spass', u.password);
+      lsSet('cn_sname', u.name||u.id);
+      lsSet('cn_srole', u.role||'agent');
+      lsSet('cn_scolor',u.color||'#007AFF');
+      me=u;
+      showScr('scr-app');initApp();loadLeads();loadCalls();
+    })
+    .catch(function(){
+      el('login-btn').textContent='Sign In';el('login-btn').disabled=false;
+      el('login-err').textContent='Network error. Check your connection.';
+    });
+}
+
+function doLogout(){
+  lsDel('cn_sid');lsDel('cn_spass');lsDel('cn_sname');lsDel('cn_srole');lsDel('cn_scolor');
+  me=null;leads=[];calls=[];
+  el('inp-uid').value='';el('inp-pass').value='';el('login-err').textContent='';
+  showScr('scr-login');
+}
+
+// ═══════════════════════════════════════════════════════
+// LOAD FROM SHEETS
+// ═══════════════════════════════════════════════════════
+function loadLeads(){
+  setSbar('sy','Loading leads…');
+  apiGet('leads')
+    .then(function(data){
+      if(data.error)throw new Error(data.error);
+      var all=Array.isArray(data.leads)?data.leads:[];
+      // Admins see all; agents see own
+      leads=me.role==='admin'?all:all.filter(function(l){
+        return String(l.owner||'').trim()===String(me.id).trim();
+      });
+      leads.forEach(function(l){
+        if(typeof l.docs==='string'){try{l.docs=JSON.parse(l.docs);}catch(e){l.docs={};}}
+        if(typeof l.act==='string'){try{l.act=JSON.parse(l.act);}catch(e){l.act=[];}}
+      });
+      lastSync=new Date();
+      setSbar('ok','Synced '+fmtT(lastSync.toISOString()));
+      renderAll();
+    })
+    .catch(function(){setSbar('er','Load failed — check connection');});
+}
+
+function loadCalls(){
+  apiGet('calls')
+    .then(function(data){
+      if(!data.calls)return;
+      var all=Array.isArray(data.calls)?data.calls:[];
+      calls=all.filter(function(c){
+        return String(c.owner||'').trim()===String(me.id).trim();
+      });
+      renderCalls();
+    }).catch(function(){});
+}
+
+// ═══════════════════════════════════════════════════════
+// SAVE — debounced push to Sheets
+// ═══════════════════════════════════════════════════════
+function save(){
+  clearTimeout(syncTimer);
+  setSbar('sy','Saving…');
+  syncTimer=setTimeout(flushLeads,800);
+}
+
+function flushLeads(){
+  setSbar('sy','Saving to sheet…');
+  var toSend=leads.map(function(l){
+    return Object.assign({},l,{docs:JSON.stringify(l.docs||{}),act:JSON.stringify(l.act||[])});
+  });
+  apiPost({action:'saveLeads',leads:toSend,owner:me.id})
+    .then(function(d){
+      if(d.error)throw new Error(d.error);
+      lastSync=new Date();setSbar('ok','Saved '+fmtT(lastSync.toISOString()));
+    })
+    .catch(function(){setSbar('er','Save failed');});
+}
+
+function saveSingleCall(c){
+  apiPost({action:'saveCall',call:c}).catch(function(){});
+}
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function ini(n){return(n||'?').split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);}
+function abg(n){var h=0;for(var i=0;i<(n||'').length;i++)h=(n.charCodeAt(i))+((h<<5)-h);return ABG[Math.abs(h)%ABG.length];}
+function fmt(n){if(!n||n==0)return'₹0';n=Number(n);if(n>=10000000)return'₹'+(n/10000000).toFixed(1)+'Cr';if(n>=100000)return'₹'+(n/100000).toFixed(1)+'L';if(n>=1000)return'₹'+(n/1000).toFixed(0)+'K';return'₹'+n;}
+function fmtD(iso){if(!iso)return'—';try{return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'});}catch(e){return'—';}}
+function fmtT(iso){if(!iso)return'—';try{return new Date(iso).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return'—';}}
+function el(id){return document.getElementById(id);}
+function showScr(id){document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});el(id).classList.add('on');}
+function elig(l){
+  var s=50,c=+(l.cibil||0),inc=+(l.income||0),emi=+(l.emi||0),amt=+(l.amount||0);
+  if(c>=750)s+=25;else if(c>=700)s+=15;else if(c>=650)s+=5;else if(c>0)s-=15;
+  if(inc>0){var r=(emi+amt/60)/inc;s+=r<0.4?15:r<0.6?5:-10;}
   s+=(inc>=50000?10:inc>=25000?5:0);
   return Math.min(100,Math.max(0,s));
 }
-function comm(l) { return(+(l.amount||0))*(RATES[l.ltype]||2)/100; }
-
-// ─── SAVE ────────────────────────────────────────────────────
-function save() {
-  lsSet('cn_leads_'+me.id, JSON.stringify(leads));
-  lsSet('cn_calls_'+me.id, JSON.stringify(calls));
-  schedulePush();
+function comm(l){return(+(l.amount||0))*(RATES[l.ltype]||2)/100;}
+function setSbar(type,msg){
+  var b=el('sbanner');if(!b)return;
+  var ico={sy:'<span class="spin">⟳</span>',ok:'✅',er:'❌',wa:'⚠️'};
+  b.innerHTML='<div class="sbar '+type+'">'+(ico[type]||'•')+' '+msg+'</div>';
 }
 
-// ─── SHOW SCREEN ────────────────────────────────────────────
-function showScr(id) {
-  var screens = document.querySelectorAll('.scr');
-  for (var i=0; i<screens.length; i++) screens[i].classList.remove('on');
-  el(id).classList.add('on');
+// ═══════════════════════════════════════════════════════
+// APP INIT
+// ═══════════════════════════════════════════════════════
+function initApp(){
+  var h=new Date().getHours();
+  el('greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', '+(me.name||me.id).split(' ')[0]+'! 👋';
+  el('gdate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  el('hnt').textContent=me.role==='admin'?'CredNest CRM':(me.name||me.id).split(' ')[0]+"'s Leads";
+  renderAll();goTab('home');
+  setSbar('sy','Loading…');
 }
 
-// ─── BOOT — synchronous, no async, never gets stuck ─────────
-function boot() {
-  // Check saved session
-  var session = lsGetJSON('cn_session', null);
-  if (session && session.id && session.pass) {
-    var user = getUserById(session.id);
-    if (user && user.pass === session.pass) {
-      me = user;
-      sheetURL = user.sheetURL || '';
-      leads = lsGetJSON('cn_leads_' + me.id, []);
-      calls = lsGetJSON('cn_calls_' + me.id, []);
-      showScr('scr-app');
-      initApp();
-      // Pull fresh data in background — non-blocking
-      if (sheetURL) {
-        setTimeout(function(){ pullLeads(); }, 500);
-      }
-      return;
-    }
-  }
-  // No valid session — show login
-  showScr('scr-login');
-  setTimeout(function(){
-    var uid_input = el('inp-uid');
-    if (uid_input) uid_input.focus();
-  }, 100);
-}
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function renderAll(){renderStats();renderHome();renderPipe();renderCalls();}
 
-// ─── LOGIN ───────────────────────────────────────────────────
-function doLogin() {
-  var uid_val = el('inp-uid').value.trim().toLowerCase();
-  var pass = el('inp-pass').value;
-  el('login-err').textContent = '';
-
-  if (!uid_val || !pass) {
-    el('login-err').textContent = 'Enter your User ID and password';
-    return;
-  }
-
-  el('login-btn').textContent = 'Signing in…';
-  el('login-btn').disabled = true;
-
-  // Get users from localStorage (admin panel writes here)
-  var users = getUsers();
-  var user = null;
-
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].id.toLowerCase() === uid_val && users[i].pass === pass) {
-      user = users[i];
-      break;
-    }
-  }
-
-  el('login-btn').textContent = 'Sign In';
-  el('login-btn').disabled = false;
-
-  if (!user) {
-    el('login-err').textContent = 'Wrong User ID or password. Please try again.';
-    el('inp-pass').value = '';
-    return;
-  }
-
-  // Logged in
-  me = user;
-  sheetURL = user.sheetURL || '';
-  lsSet('cn_session', JSON.stringify({id: user.id, pass: user.pass}));
-  leads = lsGetJSON('cn_leads_' + me.id, []);
-  calls = lsGetJSON('cn_calls_' + me.id, []);
-  showScr('scr-app');
-  initApp();
-  if (sheetURL) {
-    setTimeout(function(){ pullLeads(); }, 300);
-  }
-}
-
-function doLogout() {
-  lsSet('cn_session', 'null');
-  me = null; leads = []; calls = [];
-  el('inp-uid').value = '';
-  el('inp-pass').value = '';
-  el('login-err').textContent = '';
-  showScr('scr-login');
-}
-
-// ─── SYNC ────────────────────────────────────────────────────
-function pullLeads() {
-  if (!sheetURL) { setSbar('wa','No sheet connected'); return; }
-  setSbar('sy','Syncing…');
-  fetch(sheetURL + '?action=getLeads&t=' + Date.now())
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if (d.error) throw new Error(d.error);
-      if (Array.isArray(d.leads)) {
-        d.leads.forEach(function(l){
-          if (typeof l.docs==='string'){try{l.docs=JSON.parse(l.docs);}catch(e){l.docs={};}}
-          if (typeof l.act==='string'){try{l.act=JSON.parse(l.act);}catch(e){l.act=[];}}
-        });
-        leads = d.leads;
-        lsSet('cn_leads_'+me.id, JSON.stringify(leads));
-        lastSync = new Date();
-        setSbar('ok','Synced '+fmtT(lastSync.toISOString()));
-        renderAll();
-      }
-    })
-    .catch(function(e){ setSbar('er','Sync failed — offline mode'); });
-}
-
-function schedulePush() {
-  if (!sheetURL) return;
-  clearTimeout(syncTimer);
-  setSbar('sy','Saving…');
-  syncTimer = setTimeout(pushLeads, 1500);
-}
-
-function pushLeads() {
-  if (!sheetURL) return;
-  setSbar('sy','Saving to sheet…');
-  var toSend = leads.map(function(l){
-    return Object.assign({}, l, {
-      docs: JSON.stringify(l.docs||{}),
-      act: JSON.stringify(l.act||[])
-    });
-  });
-  fetch(sheetURL, {method:'POST', body:JSON.stringify({action:'saveLeads',leads:toSend})})
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if (d.error) throw new Error(d.error);
-      lastSync = new Date();
-      setSbar('ok','Saved '+fmtT(lastSync.toISOString()));
-    })
-    .catch(function(e){ setSbar('er','Save failed — stored locally'); });
-}
-
-function setSbar(type, msg) {
-  var banner = el('sbanner'); if(!banner) return;
-  if (!sheetURL) { banner.innerHTML=''; return; }
-  var ico = {sy:'<span class="spin">⟳</span>',ok:'✅',er:'❌',wa:'⚠️'};
-  banner.innerHTML = '<div class="sbar '+type+'">'+(ico[type]||'•')+' '+msg+'</div>';
-}
-
-// ─── APP INIT ────────────────────────────────────────────────
-function initApp() {
-  var h = new Date().getHours();
-  var greetWord = h<12 ? 'Good morning' : h<17 ? 'Good afternoon' : 'Good evening';
-  el('greet').textContent = greetWord + ', ' + me.name.split(' ')[0] + '! 👋';
-  el('gdate').textContent = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
-  el('hnt').textContent = me.isAdmin ? 'CredNest CRM' : me.name.split(' ')[0] + "'s Leads";
-  renderAll();
-  goTab('home');
-  if (sheetURL) setSbar('ok', lastSync ? 'Synced '+fmtT(lastSync.toISOString()) : 'Connected');
-  else setSbar('wa','No sheet — contact admin');
-}
-
-// ─── RENDER ──────────────────────────────────────────────────
-function renderAll() { renderStats(); renderHome(); renderPipe(); renderCalls(); }
-
-function renderStats() {
-  var ml = leads;
-  var active = ml.filter(function(l){return !['converted','disqualified'].includes(l.stage);}).length;
-  var conv = ml.filter(function(l){return l.stage==='converted';}).length;
-  var c = Math.round(ml.filter(function(l){return l.stage!=='disqualified';}).reduce(function(s,l){return s+comm(l);},0));
-  el('stats').innerHTML =
-    '<div class="tile blue ani d1"><div class="tv">'+ml.length+'</div><div class="tl">Total Leads</div></div>' +
-    '<div class="tile orange ani d2"><div class="tv">'+active+'</div><div class="tl">Active</div></div>' +
-    '<div class="tile green ani d3"><div class="tv">'+conv+'</div><div class="tl">Converted</div></div>' +
+function renderStats(){
+  var ml=leads;
+  var active=ml.filter(function(l){return!['converted','disqualified'].includes(l.stage);}).length;
+  var conv=ml.filter(function(l){return l.stage==='converted';}).length;
+  var c=Math.round(ml.filter(function(l){return l.stage!=='disqualified';}).reduce(function(s,l){return s+comm(l);},0));
+  el('stats').innerHTML=
+    '<div class="tile blue ani d1"><div class="tv">'+ml.length+'</div><div class="tl">Total Leads</div></div>'+
+    '<div class="tile orange ani d2"><div class="tv">'+active+'</div><div class="tl">Active</div></div>'+
+    '<div class="tile green ani d3"><div class="tv">'+conv+'</div><div class="tl">Converted</div></div>'+
     '<div class="tile red ani d4"><div class="tv">'+fmt(c)+'</div><div class="tl">Est. Commission</div></div>';
 }
 
-function lcard(l) {
-  var phone = (l.phone||'').replace(/\s/g,'');
-  var wap = phone.replace(/[^0-9]/g,'');
-  var wamsg = encodeURIComponent('Hi '+l.name+'! Following up on your '+(l.ltype||'loan')+' enquiry. When\'s a good time to connect? 🙏');
-  var stageClass = SC[l.stage]||'pgr';
-  var prioClass = l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr';
-  var prioIcon = l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️';
+function lcard(l){
+  var phone=(l.phone||'').replace(/\s/g,'');
+  var wap=phone.replace(/[^0-9]/g,'');
+  var wamsg=encodeURIComponent('Hi '+l.name+'! Following up on your '+(l.ltype||'loan')+' enquiry. When\'s a good time to connect? 🙏');
   return '<div class="lcard ani" onclick="openDet(\''+l.id+'\')">'+
     '<div class="lct">'+
       '<div class="av" style="background:'+abg(l.name)+';width:42px;height:42px;font-size:15px;">'+ini(l.name)+'</div>'+
@@ -631,8 +646,8 @@ function lcard(l) {
         '<div class="lm">'+(l.phone||'—')+' · '+(l.ltype||'—')+'</div>'+
         '<div class="lm">'+fmt(l.amount)+(l.cibil?' · CIBIL '+l.cibil:'')+'</div>'+
         '<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">'+
-          '<span class="pill '+stageClass+'">'+(SL[l.stage]||l.stage)+'</span>'+
-          '<span class="pill '+prioClass+'">'+prioIcon+' '+l.prio+'</span>'+
+          '<span class="pill '+(SC[l.stage]||'pgr')+'">'+(SL[l.stage]||l.stage)+'</span>'+
+          '<span class="pill '+(l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr')+'">'+(l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️')+' '+(l.prio||'')+'</span>'+
           '<span style="font-size:11px;color:var(--l3);align-self:center;">'+fmtD(l.updated)+'</span>'+
         '</div>'+
       '</div>'+
@@ -640,108 +655,71 @@ function lcard(l) {
     '<div class="act-strip">'+
       '<a href="tel:'+phone+'" class="act-btn act-call" onclick="event.stopPropagation();logCallTap(\''+l.id+'\')">'+
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>'+
-        'Call Now'+
-      '</a>'+
+        'Call Now</a>'+
       '<a href="https://wa.me/'+wap+'?text='+wamsg+'" target="_blank" class="act-btn act-wa" onclick="event.stopPropagation();logWA(\''+l.id+'\')">'+
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'+
-        'WhatsApp'+
-      '</a>'+
+        'WhatsApp</a>'+
       '<button class="act-btn act-detail" onclick="event.stopPropagation();openDet(\''+l.id+'\')">'+
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'+
-        'Details'+
-      '</button>'+
+        'Details</button>'+
     '</div>'+
   '</div>';
 }
 
-function logCallTap(id) {
-  var l = leads.find(function(x){return x.id===id;});
-  if (!l) return;
-  var n = new Date().toISOString();
-  l.act = l.act||[];
-  l.act.push({t:'call',tx:'📞 Call placed',ts:n});
-  l.updated = n;
-  save();
-  setTimeout(function(){ openCallOv(id); }, 1000);
+function logCallTap(id){
+  var l=leads.find(function(x){return x.id===id;});if(!l)return;
+  var n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'call',tx:'📞 Call placed',ts:n});l.updated=n;save();
+  setTimeout(function(){openCallOv(id);},1000);
 }
-
-function logWA(id) {
-  var l = leads.find(function(x){return x.id===id;});
-  if (!l) return;
-  var n = new Date().toISOString();
-  l.act = l.act||[];
-  l.act.push({t:'wa',tx:'💬 WhatsApp opened',ts:n});
-  l.updated = n;
-  save();
+function logWA(id){
+  var l=leads.find(function(x){return x.id===id;});if(!l)return;
+  var n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'wa',tx:'💬 WhatsApp opened',ts:n});l.updated=n;save();
 }
-
-function setHF(f,e) {
-  hf=f;
-  document.querySelectorAll('#hfseg .sb').forEach(function(b){b.classList.remove('on');});
-  e.classList.add('on');
-  renderHome();
+function setHF(f,e){hf=f;document.querySelectorAll('#hfseg .sb').forEach(function(b){b.classList.remove('on');});e.classList.add('on');renderHome();}
+function renderHome(){
+  var ml=leads.slice();
+  if(hf==='hot')ml=ml.filter(function(l){return l.prio==='hot';});
+  else if(hf==='followup')ml=ml.filter(function(l){return['contacted','documents'].includes(l.stage);});
+  else if(hf==='new')ml=ml.filter(function(l){return l.stage==='new';});
+  ml=ml.filter(function(l){return l.stage!=='converted'&&l.stage!=='disqualified';});
+  ml.sort(function(a,b){return({hot:0,warm:1,cold:2}[a.prio]||1)-({hot:0,warm:1,cold:2}[b.prio]||1);});
+  el('homeList').innerHTML=ml.length===0
+    ?'<div class="empty"><div class="emico">📋</div><div class="emti">No leads here</div><div class="emsu">Tap + to add your first lead</div></div>'
+    :ml.map(lcard).join('');
 }
-
-function renderHome() {
-  var ml = leads.slice();
-  if (hf==='hot') ml = ml.filter(function(l){return l.prio==='hot';});
-  else if (hf==='followup') ml = ml.filter(function(l){return ['contacted','documents'].includes(l.stage);});
-  else if (hf==='new') ml = ml.filter(function(l){return l.stage==='new';});
-  ml = ml.filter(function(l){return l.stage!=='converted'&&l.stage!=='disqualified';});
-  ml.sort(function(a,b){return ({hot:0,warm:1,cold:2}[a.prio]||1)-({hot:0,warm:1,cold:2}[b.prio]||1);});
-  el('homeList').innerHTML = ml.length===0
-    ? '<div class="empty"><div class="emico">📋</div><div class="emti">No leads here</div><div class="emsu">Tap + to add your first lead</div></div>'
-    : ml.map(lcard).join('');
+function setPS(s,e){ps=s;document.querySelectorAll('#pseg .sb').forEach(function(b){b.classList.remove('on');});e.classList.add('on');renderPipe();}
+function renderPipe(){
+  var ml=leads.filter(function(l){return l.stage===ps;});
+  el('pipeList').innerHTML=ml.length===0
+    ?'<div class="empty"><div class="emico">✨</div><div class="emti">All clear!</div><div class="emsu">No leads in this stage</div></div>'
+    :ml.map(lcard).join('')+'<div style="height:90px"></div>';
 }
-
-function setPS(s,e) {
-  ps=s;
-  document.querySelectorAll('#pseg .sb').forEach(function(b){b.classList.remove('on');});
-  e.classList.add('on');
-  renderPipe();
-}
-
-function renderPipe() {
-  var ml = leads.filter(function(l){return l.stage===ps;});
-  el('pipeList').innerHTML = ml.length===0
-    ? '<div class="empty"><div class="emico">✨</div><div class="emti">All clear!</div><div class="emsu">No leads in this stage</div></div>'
-    : ml.map(lcard).join('') + '<div style="height:90px"></div>';
-}
-
-function renderCalls() {
-  var mc = calls.slice().reverse();
-  var csel = el('callsList');
-  if (mc.length===0) {
-    csel.innerHTML = '<div class="empty"><div class="emico">📞</div><div class="emti">No calls yet</div><div class="emsu">Tap Call on any lead</div></div>';
-    return;
-  }
-  csel.innerHTML = mc.map(function(c){
-    var l = leads.find(function(x){return x.id===c.lid;})||{name:'Unknown',phone:'—'};
+function renderCalls(){
+  var mc=calls.slice().reverse();
+  var csel=el('callsList');if(!csel)return;
+  if(mc.length===0){csel.innerHTML='<div class="empty"><div class="emico">📞</div><div class="emti">No calls yet</div><div class="emsu">Tap Call on any lead</div></div>';return;}
+  csel.innerHTML=mc.map(function(c){
+    var l=leads.find(function(x){return x.id===c.lid;})||{name:'Unknown',phone:'—'};
     return '<div class="lst" style="margin:0 16px 10px;" onclick="openDet(\''+c.lid+'\')">'+
       '<div class="row">'+
         '<div class="av" style="background:'+abg(l.name)+';width:38px;height:38px;font-size:13px;">'+ini(l.name)+'</div>'+
         '<div class="rb"><div class="rt">'+l.name+'</div><div class="rs">'+(l.phone||'—')+'</div></div>'+
         '<span class="pill '+(SC2[c.status]||'pgr')+'">'+(SI[c.status]||'📞')+' '+(c.status||'').replace('_',' ')+'</span>'+
       '</div>'+
-      (c.note ? '<div style="padding:8px 16px 10px;font-size:13px;color:var(--l2);border-top:.5px solid var(--sep2);">'+c.note+'</div>' : '')+
+      (c.note?'<div style="padding:8px 16px 10px;font-size:13px;color:var(--l2);border-top:.5px solid var(--sep2);">'+c.note+'</div>':'')+
       '<div style="padding:6px 16px 10px;font-size:12px;color:var(--l3);border-top:.5px solid var(--sep2);">'+fmtT(c.ts)+(c.dur?' · '+c.dur:'')+'</div>'+
     '</div>';
-  }).join('') + '<div style="height:90px"></div>';
+  }).join('')+'<div style="height:90px"></div>';
 }
-
-function renderProf() {
-  if (!me) return;
-  var ml = leads;
-  var conv = ml.filter(function(l){return l.stage==='converted';});
-  var earned = conv.reduce(function(s,l){return s+comm(l);},0);
-  var syncTxt = sheetURL
-    ? '<span style="color:var(--green);">●</span> Connected'
-    : '<span style="color:var(--red);">●</span> Not connected';
-  el('profContent').innerHTML =
+function renderProf(){
+  if(!me)return;
+  var ml=leads,conv=ml.filter(function(l){return l.stage==='converted';});
+  var earned=conv.reduce(function(s,l){return s+comm(l);},0);
+  el('profContent').innerHTML=
     '<div class="phdr">'+
-      '<div class="pav" style="background:'+(me.color||'#007AFF')+'">'+ini(me.name)+'</div>'+
-      '<div style="font-size:22px;font-weight:700;letter-spacing:-.4px;">'+me.name+'</div>'+
-      '<div style="font-size:15px;color:var(--l2);margin-top:3px;">'+(me.isAdmin?'👑 Admin':'Partner')+'</div>'+
+      '<div class="pav" style="background:'+(me.color||'#007AFF')+'">'+ini(me.name||me.id)+'</div>'+
+      '<div style="font-size:22px;font-weight:700;letter-spacing:-.4px;">'+(me.name||me.id)+'</div>'+
+      '<div style="font-size:15px;color:var(--l2);margin-top:3px;">'+(me.role==='admin'?'👑 Admin':'Partner')+'</div>'+
     '</div>'+
     '<div class="stats" style="margin-bottom:4px;">'+
       '<div class="tile blue"><div class="tv">'+ml.length+'</div><div class="tl">My Leads</div></div>'+
@@ -749,81 +727,60 @@ function renderProf() {
       '<div class="tile orange"><div class="tv">'+fmt(earned)+'</div><div class="tl">Earned</div></div>'+
       '<div class="tile red"><div class="tv">'+ml.filter(function(l){return l.prio==='hot';}).length+'</div><div class="tl">Hot Leads</div></div>'+
     '</div>'+
-    '<div class="sec"><div class="sh">Google Sheet</div><div class="lst">'+
-      '<div class="row" style="cursor:default;"><div class="ri" style="background:var(--gl);">📊</div><div class="rb"><div class="rt">Sheet Status</div><div class="rs">'+syncTxt+'</div></div></div>'+
-      '<div class="row" onclick="pullLeads();renderAll()"><div class="ri" style="background:var(--bl);">🔄</div><div class="rb"><div class="rt">Pull Latest</div><div class="rs">Refresh from Google Sheet</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
-      '<div class="row" onclick="pushLeads()"><div class="ri" style="background:var(--ol);">⬆️</div><div class="rb"><div class="rt">Push All</div><div class="rs">Force save to sheet</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
+    '<div class="sec"><div class="sh">Data</div><div class="lst">'+
+      '<div class="row" onclick="loadLeads();loadCalls();"><div class="ri" style="background:var(--bl);">🔄</div><div class="rb"><div class="rt">Refresh from Sheets</div><div class="rs">'+(lastSync?'Last sync: '+fmtT(lastSync.toISOString()):'Not synced yet')+'</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
       '<div class="row" onclick="exportCSV()"><div class="ri" style="background:var(--pl);">💾</div><div class="rb"><div class="rt">Download CSV</div><div class="rs">Save to device</div></div><svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'+
     '</div></div>'+
     '<div class="sec" style="margin-top:16px;"><div class="lst">'+
       '<div class="row" onclick="doLogout()"><div class="ri" style="background:var(--rl);">🚪</div><div class="rb"><div class="rt" style="color:var(--red)">Sign Out</div></div></div>'+
-    '</div></div>'+
-    '<div style="height:90px"></div>';
+    '</div></div><div style="height:90px"></div>';
 }
 
-// ─── DETAIL ──────────────────────────────────────────────────
-function openDet(id) {
-  activeId=id;
-  var l=leads.find(function(x){return x.id===id;});
-  if(!l)return;
-  el('det-ti').textContent=l.name;
-  el('ov-det').classList.add('on');
-  renderDet(l);
+// ═══════════════════════════════════════════════════════
+// DETAIL
+// ═══════════════════════════════════════════════════════
+function openDet(id){
+  activeId=id;var l=leads.find(function(x){return x.id===id;});if(!l)return;
+  el('det-ti').textContent=l.name;el('ov-det').classList.add('on');renderDet(l);
 }
-
-function renderDet(l) {
-  var e=elig(l), ec=e>=75?'ehi':e>=50?'eme':'elo';
+function renderDet(l){
+  var e=elig(l),ec=e>=75?'ehi':e>=50?'eme':'elo';
   var elbl=e>=75?'High — Likely Eligible':e>=50?'Medium — Needs Review':'Low — High Risk';
-  var stgs=['new','contacted','qualified','documents','submitted','converted'];
-  var si=stgs.indexOf(l.stage);
-  var sdots=stgs.map(function(s,i){return '<div class="spd '+(i<si?'dn':s===l.stage?'cr':'')+'"></div>';}).join('');
+  var stgs=['new','contacted','qualified','documents','submitted','converted'],si=stgs.indexOf(l.stage);
+  var sdots=stgs.map(function(s,i){return'<div class="spd '+(i<si?'dn':s===l.stage?'cr':'')+'"></div>';}).join('');
   var docs=l.docs||{};
   var dhtml=DOCS.map(function(d){
-    return '<div class="drow" onclick="togDoc(\''+l.id+'\',\''+d.k+'\')">'+
-      '<div class="dchk '+(docs[d.k]?'dn':'')+'">'+
-        (docs[d.k]?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'')+
-      '</div>'+
-      '<span class="dlbl '+(docs[d.k]?'dn':'')+'">'+d.n+'</span>'+
-    '</div>';
+    return'<div class="drow" onclick="togDoc(\''+l.id+'\',\''+d.k+'\')">'+
+      '<div class="dchk '+(docs[d.k]?'dn':'')+'">'+(docs[d.k]?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'')+' </div>'+
+      '<span class="dlbl '+(docs[d.k]?'dn':'')+'" >'+d.n+'</span></div>';
   }).join('');
   var acts=(l.act||[]).slice().reverse().slice(0,10);
   var aclr={created:ABG[0],stage:'#FF9500',call:'#34C759',note:'#007AFF',doc:'#AF52DE',wa:'#25d366'};
   var tl=acts.map(function(a,i){
-    return '<div class="tli">'+
-      '<div class="tll"><div class="tld" style="background:'+(aclr[a.t]||'#ccc')+'"></div>'+(i<acts.length-1?'<div class="tlb"></div>':'')+' </div>'+
-      '<div class="tlc"><div class="tlt">'+a.tx+'</div><div class="tlm">'+fmtT(a.ts)+'</div></div>'+
-    '</div>';
+    return'<div class="tli"><div class="tll"><div class="tld" style="background:'+(aclr[a.t]||'#ccc')+'"></div>'+(i<acts.length-1?'<div class="tlb"></div>':'')+' </div>'+
+      '<div class="tlc"><div class="tlt">'+a.tx+'</div><div class="tlm">'+fmtT(a.ts)+'</div></div></div>';
   }).join('');
   var notes=(l.act||[]).filter(function(a){return a.t==='note';}).slice().reverse();
-  var nhtml=notes.length===0
-    ?'<div style="padding:12px 16px;font-size:14px;color:var(--l3);">No notes yet</div>'
-    :notes.map(function(n){return '<div style="padding:12px 16px;border-bottom:.5px solid var(--sep2);"><div style="font-size:15px;line-height:1.5;">'+n.tx+'</div><div style="font-size:12px;color:var(--l3);margin-top:3px;">'+fmtT(n.ts)+'</div></div>';}).join('');
-  var phone=(l.phone||'').replace(/\s/g,'');
-  var wap=phone.replace(/[^0-9]/g,'');
+  var nhtml=notes.length===0?'<div style="padding:12px 16px;font-size:14px;color:var(--l3);">No notes yet</div>'
+    :notes.map(function(n){return'<div style="padding:12px 16px;border-bottom:.5px solid var(--sep2);"><div style="font-size:15px;line-height:1.5;">'+n.tx+'</div><div style="font-size:12px;color:var(--l3);margin-top:3px;">'+fmtT(n.ts)+'</div></div>';}).join('');
+  var phone=(l.phone||'').replace(/\s/g,''),wap=phone.replace(/[^0-9]/g,'');
   var wamsg=encodeURIComponent('Hi '+l.name+'! Following up on your '+(l.ltype||'loan')+' enquiry. 🙏');
-  var cibil_color=l.cibil>=750?'var(--green)':l.cibil>=700?'var(--orange)':'var(--red)';
-
+  var cc=l.cibil>=750?'var(--green)':l.cibil>=700?'var(--orange)':'var(--red)';
   el('det-body').innerHTML=
     '<div style="display:flex;align-items:center;gap:13px;padding:16px;border-bottom:.5px solid var(--sep);">'+
       '<div class="av" style="background:'+abg(l.name)+';width:54px;height:54px;font-size:19px;">'+ini(l.name)+'</div>'+
-      '<div>'+
-        '<div style="font-size:20px;font-weight:700;letter-spacing:-.3px;">'+l.name+'</div>'+
-        '<div style="font-size:14px;color:var(--l2);margin-top:2px;">'+(l.ltype||'—')+' · '+fmt(l.amount)+'</div>'+
-        '<div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;">'+
-          '<span class="pill '+(SC[l.stage]||'pgr')+'">'+(SL[l.stage]||l.stage)+'</span>'+
-          '<span class="pill '+(l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr')+'">'+(l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️')+' '+l.prio+'</span>'+
-        '</div>'+
-      '</div>'+
+      '<div><div style="font-size:20px;font-weight:700;letter-spacing:-.3px;">'+l.name+'</div>'+
+      '<div style="font-size:14px;color:var(--l2);margin-top:2px;">'+(l.ltype||'—')+' · '+fmt(l.amount)+'</div>'+
+      '<div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;">'+
+        '<span class="pill '+(SC[l.stage]||'pgr')+'">'+(SL[l.stage]||l.stage)+'</span>'+
+        '<span class="pill '+(l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr')+'">'+(l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️')+' '+(l.prio||'')+'</span>'+
+      '</div></div>'+
     '</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;border-bottom:.5px solid var(--sep);">'+
       '<a href="tel:'+phone+'" onclick="logCallTap(\''+l.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gl);color:#1A8A36;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">'+
-        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>'+
-        'Call Now'+
-      '</a>'+
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>Call Now</a>'+
       '<a href="https://wa.me/'+wap+'?text='+wamsg+'" target="_blank" onclick="logWA(\''+l.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(37,211,102,.12);color:#128C7E;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">'+
-        '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'+
-        'WhatsApp'+
-      '</a>'+
+        '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WhatsApp</a>'+
     '</div>'+
     '<div class="qastrip">'+
       '<button class="qab" onclick="openCallOv(\''+l.id+'\')"><div class="qaico" style="background:var(--gl);">📋</div><span class="qalbl">Log Call</span></button>'+
@@ -833,128 +790,90 @@ function renderDet(l) {
     '<div style="background:var(--bg2);margin:14px 16px 0;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;">'+
       '<div style="padding:12px 16px 4px;font-size:12px;font-weight:600;color:var(--l2);text-transform:uppercase;letter-spacing:.5px;">Progress</div>'+
       '<div class="spr">'+sdots+'</div>'+
-      '<div class="spls">New<span></span>Called<span></span>Qualified<span></span>Docs<span></span>Submitted<span></span>Done</div>'+
+      '<div class="spls"><span>New</span><span>Called</span><span>Qualified</span><span>Docs</span><span>Submitted</span><span>Done</span></div>'+
     '</div>'+
     '<div class="sec"><div class="sh">Details</div><div class="lst">'+
       [['Phone','<a href="tel:'+phone+'" style="color:var(--blue);">'+(l.phone||'—')+'</a>'],
        ['City',l.city||'—'],['Employment',l.emp||'—'],['Income',fmt(l.income)],['EMI',fmt(l.emi)],
-       ['CIBIL',l.cibil?'<span style="color:'+cibil_color+';font-weight:600;">'+l.cibil+'</span>':'—'],
-       ['Source',l.src||'—']
-      ].map(function(row){
-        return '<div class="row" style="cursor:default;"><div class="rb"><div style="font-size:15px;color:var(--l2);">'+row[0]+'</div></div><div class="rr"><span style="font-size:15px;">'+row[1]+'</span></div></div>';
-      }).join('')+
+       ['CIBIL',l.cibil?'<span style="color:'+cc+';font-weight:600;">'+l.cibil+'</span>':'—'],
+       ['Source',l.src||'—']].map(function(r){
+         return'<div class="row" style="cursor:default;"><div class="rb"><div style="font-size:15px;color:var(--l2);">'+r[0]+'</div></div><div class="rr"><span style="font-size:15px;">'+r[1]+'</span></div></div>';
+       }).join('')+
     '</div></div>'+
     '<div class="sec"><div style="background:var(--bg2);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;">'+
-        '<div style="font-size:15px;font-weight:600;">'+elbl+'</div>'+
-        '<div style="font-size:18px;font-weight:700;color:'+(e>=75?'var(--green)':e>=50?'var(--orange)':'var(--red)')+';">'+e+'%</div>'+
-      '</div>'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-size:15px;font-weight:600;">'+elbl+'</div>'+
+      '<div style="font-size:18px;font-weight:700;color:'+(e>=75?'var(--green)':e>=50?'var(--orange)':'var(--red)')+';">'+e+'%</div></div>'+
       '<div class="etr" style="margin-top:8px;"><div class="ef '+ec+'" style="width:'+e+'%"></div></div>'+
     '</div></div>'+
     '<div class="sec"><div class="sh">Documents</div><div class="lst">'+dhtml+'</div></div>'+
-    '<div class="sec"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px;">'+
-      '<div class="sh" style="margin:0;">Notes</div>'+
-      '<button onclick="openNoteOv()" style="background:none;border:none;color:var(--blue);font-size:15px;font-family:var(--f);cursor:pointer;">+ Add</button>'+
-    '</div><div class="lst">'+nhtml+'</div></div>'+
+    '<div class="sec"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px;"><div class="sh" style="margin:0;">Notes</div><button onclick="openNoteOv()" style="background:none;border:none;color:var(--blue);font-size:15px;font-family:var(--f);cursor:pointer;">+ Add</button></div><div class="lst">'+nhtml+'</div></div>'+
     '<div class="sec"><div class="sh">Activity</div><div class="lst">'+tl+'</div></div>'+
     '<div class="sec" style="margin-top:16px;margin-bottom:32px;"><button class="btn btn-rd" onclick="delLead(\''+l.id+'\')">Delete Lead</button></div>';
 }
 
-// ─── STAGE ──────────────────────────────────────────────────
-function openStageOv() {
-  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
+// ═══════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════
+function openStageOv(){
+  var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
   el('stageList').innerHTML=SO.map(function(s){
-    return '<div class="row" onclick="mvStage(\''+s+'\')">'+
-      '<div class="rb"><div class="rt">'+SL[s]+'</div></div>'+
-      (l.stage===s
-        ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+    return'<div class="row" onclick="mvStage(\''+s+'\')"><div class="rb"><div class="rt">'+SL[s]+'</div></div>'+
+      (l.stage===s?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
         :'<svg class="cv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>')+
     '</div>';
   }).join('');
   el('ov-stage').classList.add('on');
 }
-
-function mvStage(s) {
-  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
-  var n=new Date().toISOString();
-  l.stage=s; l.updated=n;
-  l.act=l.act||[];
-  l.act.push({t:'stage',tx:'Stage → '+SL[s],ts:n});
-  save(); clov('ov-stage'); renderDet(l); renderAll(); toast('Moved to '+SL[s]);
+function mvStage(s){
+  var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
+  var n=new Date().toISOString();l.stage=s;l.updated=n;l.act=l.act||[];l.act.push({t:'stage',tx:'Stage → '+SL[s],ts:n});
+  save();clov('ov-stage');renderDet(l);renderAll();toast('Moved to '+SL[s]);
 }
-
-// ─── CALL ───────────────────────────────────────────────────
-function openCallOv(id) {
-  activeId=id;
-  var l=leads.find(function(x){return x.id===id;}); if(!l)return;
-  el('call-ti').textContent=l.name;
-  el('cs-dur').value=''; el('cs-note').value=''; el('cs-fu').value='';
-  cs='picked';
-  document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
-  document.querySelector('.cbtn.gn').classList.add('sel');
-  el('ov-call').classList.add('on');
+function openCallOv(id){
+  activeId=id;var l=leads.find(function(x){return x.id===id;});if(!l)return;
+  el('call-ti').textContent=l.name;el('cs-dur').value='';el('cs-note').value='';el('cs-fu').value='';
+  cs='picked';document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
+  document.querySelector('.cbtn.gn').classList.add('sel');el('ov-call').classList.add('on');
 }
-
-function pickCS(s,e) {
-  cs=s;
-  document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
-  e.classList.add('sel');
-}
-
-function saveCall() {
-  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
-  var n=new Date().toISOString();
-  var note=el('cs-note').value.trim();
-  var dur=el('cs-dur').value.trim();
-  calls.push({id:uid(),lid:activeId,status:cs,note:note,dur:dur,fu:el('cs-fu').value,ts:n,by:me?me.name:''});
-  lsSet('cn_calls_'+me.id, JSON.stringify(calls));
+function pickCS(s,e){cs=s;document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});e.classList.add('sel');}
+function saveCall(){
+  var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
+  var n=new Date().toISOString(),note=el('cs-note').value.trim(),dur=el('cs-dur').value.trim();
+  var c={id:uid(),lid:activeId,status:cs,note:note,dur:dur,fu:el('cs-fu').value,ts:n,by:me?me.name:'',owner:me?me.id:''};
+  calls.push(c);saveSingleCall(c);
   var slbl={picked:'📞 Call picked',rejected:'❌ Rejected',missed:'📵 Missed',busy:'🔄 Busy',wrong:'⚠️ Wrong number',callback:'📅 Callback',switched_off:'📴 Off',voicemail:'📬 Voicemail'};
-  l.act=l.act||[];
-  l.act.push({t:'call',tx:(slbl[cs]||'Call')+(note?' — '+note.slice(0,50):''),ts:n});
-  if(cs==='picked') l.stage='contacted';
-  l.updated=n;
-  save(); clov('ov-call');
-  if(el('ov-det').classList.contains('on')) renderDet(l);
-  renderAll(); toast('Call logged!');
+  l.act=l.act||[];l.act.push({t:'call',tx:(slbl[cs]||'Call')+(note?' — '+note.slice(0,50):''),ts:n});
+  if(cs==='picked')l.stage='contacted';l.updated=n;
+  save();clov('ov-call');if(el('ov-det').classList.contains('on'))renderDet(l);renderAll();toast('Call logged!');
+}
+function openNoteOv(){el('note-txt').value='';el('ov-note').classList.add('on');setTimeout(function(){el('note-txt').focus();},350);}
+function saveNote(){
+  var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
+  var txt=el('note-txt').value.trim();if(!txt){clov('ov-note');return;}
+  var n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'note',tx:txt,ts:n});l.updated=n;
+  save();clov('ov-note');renderDet(l);toast('Note added');
 }
 
-function openNoteOv() {
-  el('note-txt').value='';
-  el('ov-note').classList.add('on');
-  setTimeout(function(){el('note-txt').focus();},350);
-}
-
-function saveNote() {
-  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
-  var txt=el('note-txt').value.trim(); if(!txt){clov('ov-note');return;}
-  var n=new Date().toISOString();
-  l.act=l.act||[];
-  l.act.push({t:'note',tx:txt,ts:n});
-  l.updated=n;
-  save(); clov('ov-note'); renderDet(l); toast('Note added');
-}
-
-// ─── ADD / EDIT ──────────────────────────────────────────────
-function openAdd() {
-  editId=null; el('ls-ti').textContent='New Lead';
+// ═══════════════════════════════════════════════════════
+// ADD / EDIT LEAD
+// ═══════════════════════════════════════════════════════
+function openAdd(){
+  editId=null;el('ls-ti').textContent='New Lead';
   ['f-name','f-phone','f-email','f-city','f-amount','f-cibil','f-income','f-emi','f-notes'].forEach(function(i){el(i).value='';});
-  el('f-ltype').value=''; el('f-emp').value=''; el('f-stage').value='new'; el('f-prio').value='warm'; el('f-src').value='';
+  el('f-ltype').value='';el('f-emp').value='';el('f-stage').value='new';el('f-prio').value='warm';el('f-src').value='';
   el('ov-lead').classList.add('on');
 }
-
-function openEditDet() {
-  var l=leads.find(function(x){return x.id===activeId;}); if(!l)return;
-  editId=l.id; el('ls-ti').textContent='Edit Lead';
-  el('f-name').value=l.name||''; el('f-phone').value=l.phone||''; el('f-email').value=l.email||''; el('f-city').value=l.city||'';
-  el('f-ltype').value=l.ltype||''; el('f-amount').value=l.amount||''; el('f-cibil').value=l.cibil||'';
-  el('f-income').value=l.income||''; el('f-emi').value=l.emi||''; el('f-emp').value=l.emp||'';
-  el('f-stage').value=l.stage||'new'; el('f-prio').value=l.prio||'warm'; el('f-src').value=l.src||'';
-  el('f-notes').value=l.notes||'';
-  el('ov-lead').classList.add('on');
+function openEditDet(){
+  var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
+  editId=l.id;el('ls-ti').textContent='Edit Lead';
+  el('f-name').value=l.name||'';el('f-phone').value=l.phone||'';el('f-email').value=l.email||'';el('f-city').value=l.city||'';
+  el('f-ltype').value=l.ltype||'';el('f-amount').value=l.amount||'';el('f-cibil').value=l.cibil||'';
+  el('f-income').value=l.income||'';el('f-emi').value=l.emi||'';el('f-emp').value=l.emp||'';
+  el('f-stage').value=l.stage||'new';el('f-prio').value=l.prio||'warm';el('f-src').value=l.src||'';
+  el('f-notes').value=l.notes||'';el('ov-lead').classList.add('on');
 }
-
-function saveLead() {
-  var name=el('f-name').value.trim(), phone=el('f-phone').value.trim();
+function saveLead(){
+  var name=el('f-name').value.trim(),phone=el('f-phone').value.trim();
   if(!name||!phone){toast('Name & phone required');return;}
   var n=new Date().toISOString();
   var d={name:name,phone:phone,email:el('f-email').value,city:el('f-city').value,
@@ -963,78 +882,63 @@ function saveLead() {
     stage:el('f-stage').value,prio:el('f-prio').value,src:el('f-src').value,notes:el('f-notes').value};
   if(editId){
     var l=leads.find(function(x){return x.id===editId;});
-    Object.assign(l,d,{updated:n});
-    l.act=l.act||[];
-    l.act.push({t:'note',tx:'Lead updated',ts:n});
-    toast('Saved!');
+    Object.assign(l,d,{updated:n});l.act=l.act||[];l.act.push({t:'note',tx:'Lead updated',ts:n});toast('Saved!');
   }else{
-    leads.push(Object.assign({},d,{id:uid(),docs:{},act:[{t:'created',tx:'Lead created by '+(me?me.name:''),ts:n}],created:n,updated:n}));
+    leads.push(Object.assign({},d,{id:uid(),owner:me.id,docs:{},act:[{t:'created',tx:'Lead created by '+(me?me.name:''),ts:n}],created:n,updated:n}));
     toast('Lead added!');
   }
-  save(); clov('ov-lead'); renderAll();
-  if(editId&&el('ov-det').classList.contains('on')){
-    var l2=leads.find(function(x){return x.id===editId;}); if(l2)renderDet(l2);
-  }
+  save();clov('ov-lead');renderAll();
+  if(editId&&el('ov-det').classList.contains('on')){var l2=leads.find(function(x){return x.id===editId;});if(l2)renderDet(l2);}
 }
-
-function delLead(id) {
+function delLead(id){
   if(!confirm('Delete this lead?'))return;
-  leads=leads.filter(function(x){return x.id!==id;});
-  save(); clov('ov-det'); renderAll(); toast('Lead deleted');
+  leads=leads.filter(function(x){return x.id!==id;});save();clov('ov-det');renderAll();toast('Lead deleted');
+}
+function togDoc(id,k){
+  var l=leads.find(function(x){return x.id===id;});if(!l)return;
+  l.docs=l.docs||{};l.docs[k]=!l.docs[k];
+  var dn='';for(var i=0;i<DOCS.length;i++){if(DOCS[i].k===k){dn=DOCS[i].n;break;}}
+  var n=new Date().toISOString();l.act=l.act||[];l.act.push({t:'doc',tx:(l.docs[k]?'✅ Got ':'❌ Removed ')+dn,ts:n});
+  l.updated=n;save();renderDet(l);
 }
 
-function togDoc(id,k) {
-  var l=leads.find(function(x){return x.id===id;}); if(!l)return;
-  l.docs=l.docs||{}; l.docs[k]=!l.docs[k];
-  var dn=''; for(var i=0;i<DOCS.length;i++){if(DOCS[i].k===k){dn=DOCS[i].n;break;}}
-  var n=new Date().toISOString();
-  l.act=l.act||[];
-  l.act.push({t:'doc',tx:(l.docs[k]?'✅ Got ':'❌ Removed ')+dn,ts:n});
-  l.updated=n; save(); renderDet(l);
-}
-
-// ─── EXPORT ─────────────────────────────────────────────────
-function exportCSV() {
+// ═══════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════
+function exportCSV(){
   var h=['id','Name','Phone','Email','City','Loan Type','Amount','CIBIL','Income','EMI','Employment','Stage','Priority','Source','Commission','Created','Updated'];
   var rows=leads.map(function(l){return[l.id,l.name,l.phone,l.email,l.city,l.ltype,l.amount,l.cibil,l.income,l.emi,l.emp,SL[l.stage],l.prio,l.src,Math.round(comm(l)),fmtD(l.created),fmtD(l.updated)];});
   var csv=[h].concat(rows).map(function(r){return r.map(function(v){return'"'+((v||'').toString().replace(/"/g,'""'))+'"';}).join(',');}).join('\n');
-  var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='CredNest_Leads.csv'; a.click(); toast('CSV downloaded!');
+  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='CredNest_Leads.csv';a.click();toast('CSV downloaded!');
 }
 
-// ─── NAV ────────────────────────────────────────────────────
-function goTab(t) {
+// ═══════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════
+function goTab(t){
   ['home','pipe','calls','prof'].forEach(function(x){
-    var s=el('sub-'+x), b=el('tab-'+x);
-    if(s) s.style.display=x===t?'flex':'none';
-    if(b) b.classList.toggle('on',x===t);
+    var s=el('sub-'+x),b=el('tab-'+x);
+    if(s)s.style.display=x===t?'flex':'none';if(b)b.classList.toggle('on',x===t);
   });
   el('fab').style.display=['home','pipe'].includes(t)?'flex':'none';
-  if(t==='pipe')renderPipe();
-  if(t==='calls')renderCalls();
-  if(t==='prof')renderProf();
+  if(t==='pipe')renderPipe();if(t==='calls')renderCalls();if(t==='prof')renderProf();
 }
-
 function clov(id){el(id).classList.remove('on');}
+document.querySelectorAll('.ov').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on');});});
+function toast(msg){var t=el('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},2400);}
 
-document.querySelectorAll('.ov').forEach(function(o){
-  o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on');});
-});
+// ═══════════════════════════════════════════════════════
+// AUTO-REFRESH
+// ═══════════════════════════════════════════════════════
+setInterval(function(){if(el('scr-app').classList.contains('on')){loadLeads();loadCalls();}},60000);
 
-function toast(msg) {
-  var t=el('toast'); t.textContent=msg; t.classList.add('on');
-  clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('on');},2400);
-}
-
-// ─── AUTO REFRESH ────────────────────────────────────────────
-setInterval(function(){
-  if(el('scr-app').classList.contains('on')&&sheetURL) pullLeads();
-},60000);
-
-// ─── KEYBOARD ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════════════
 el('inp-uid').addEventListener('keydown',function(e){if(e.key==='Enter')el('inp-pass').focus();});
 el('inp-pass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+el('setup-url').addEventListener('keydown',function(e){if(e.key==='Enter')saveSetup();});
 
-// ─── START ───────────────────────────────────────────────────
 boot();
 </script>
 </body>
