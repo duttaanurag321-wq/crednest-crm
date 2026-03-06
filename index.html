@@ -311,7 +311,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
       <div class="fsec"><div class="flbl">Personal Info</div>
         <div class="fgrp">
           <div class="fr"><span class="flab">Full Name</span><input type="text" id="f-name" placeholder="Required"></div>
-          <div class="fr"><span class="flab">Phone</span><input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX"></div>
+          <div class="fr"><span class="flab">Phone</span><div style="display:flex;align-items:center;flex:1;gap:6px;justify-content:flex-end;"><span style="font-size:17px;color:var(--l2);flex-shrink:0;">+91</span><input type="tel" id="f-phone" placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" style="text-align:right;max-width:160px;"></div></div>
           <div class="fr"><span class="flab">Email</span><input type="email" id="f-email" placeholder="Optional"></div>
           <div class="fr"><span class="flab">City</span><input type="text" id="f-city" placeholder="e.g. Siliguri"></div>
         </div>
@@ -366,8 +366,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--label);font-size:17px
       </div></div>
       <div class="fsec" style="margin-top:12px;"><div class="flbl">Schedule Follow-up (optional)</div>
         <div class="fgrp">
-          <div class="fr"><span class="flab">Date</span><input type="date" id="cs-fu-date" style="text-align:right;"></div>
+          <div class="fr"><span class="flab">Date *</span><input type="date" id="cs-fu-date" style="text-align:right;" oninput="el('cs-fu-warn').style.display='none'"></div>
           <div class="fr"><span class="flab">Time</span><input type="time" id="cs-fu-time" style="text-align:right;"></div>
+          <div id="cs-fu-warn" style="display:none;align-items:center;gap:8px;padding:10px 16px;background:var(--rl);color:var(--red);font-size:13px;font-weight:600;">⚠️ Please set a follow-up date before saving</div>
         </div>
       </div>
       <div class="fsec" style="margin-top:14px;"><div class="fgrp">
@@ -927,9 +928,8 @@ function mvStage(s){
 function openCallOv(id){
   activeId=id;var l=leads.find(function(x){return x.id===id;});if(!l)return;
   el('call-ti').textContent=l.name;el('cs-dur').value='';el('cs-note').value='';
-  var tom=new Date();tom.setDate(tom.getDate()+1);
-  el('cs-fu-date').value=tom.getFullYear()+'-'+pad2(tom.getMonth()+1)+'-'+pad2(tom.getDate());
-  el('cs-fu-time').value='10:00';
+  el('cs-fu-date').value='';el('cs-fu-time').value='';
+  el('cs-fu-warn').style.display='none';
   cs='picked';document.querySelectorAll('.cbtn').forEach(function(b){b.classList.remove('sel');});
   document.querySelector('.cbtn.gn').classList.add('sel');el('ov-call').classList.add('on');
 }
@@ -938,7 +938,9 @@ function saveCall(){
   var l=leads.find(function(x){return x.id===activeId;});if(!l)return;
   var n=new Date().toISOString(),note=el('cs-note').value.trim(),dur=el('cs-dur').value.trim();
   var fuDate=el('cs-fu-date').value,fuTime=el('cs-fu-time').value||'09:00';
-  var fuISO=fuDate?(fuDate+'T'+fuTime+':00'):'';
+  if(!fuDate){el('cs-fu-warn').style.display='flex';el('cs-fu-date').focus();return;}
+  el('cs-fu-warn').style.display='none';
+  var fuISO=fuDate+'T'+fuTime+':00';
   var c={id:uid(),lid:activeId,status:cs,note:note,dur:dur,fu:fuISO,ts:n,by:me?me.name:'',owner:me?me.id:''};
   calls.push(c);saveSingleCall(c);
   // Also update lead's nextfu
@@ -978,6 +980,8 @@ function saveLead(){
   var name=el('f-name').value.trim(),phone=el('f-phone').value.trim();
   if(!name||!phone){toast('Name & phone required');return;}
   var n=new Date().toISOString();
+  // Prepend +91 if not already present
+  if(phone&&!phone.startsWith('+'))phone='+91'+phone;
   var d={name:name,phone:phone,email:el('f-email').value,city:el('f-city').value,
     ltype:el('f-ltype').value,amount:el('f-amount').value,cibil:el('f-cibil').value,
     income:el('f-income').value,emi:el('f-emi').value,emp:el('f-emp').value,
