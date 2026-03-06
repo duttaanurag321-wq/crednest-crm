@@ -819,6 +819,21 @@ function openDet(id){
   activeId=id;var l=leads.find(function(x){return x.id===id;});if(!l)return;
   el('det-ti').textContent=l.name;el('ov-det').classList.add('on');renderDet(l);
 }
+function fuBlock(l){
+  var chev='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+  if(l.nextfu){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--ol);cursor:pointer;" onclick="openFUOv()">'
+      +'<div><div style="font-size:12px;font-weight:600;color:#B86800;text-transform:uppercase;letter-spacing:.4px;">Next Follow-up</div>'
+      +'<div style="font-size:16px;font-weight:600;color:#7A4500;margin-top:2px;">'+fmtFU(l.nextfu)+'</div></div>'
+      +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B86800" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'
+      +'</div>';
+  }
+  return '<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--fill2);cursor:pointer;" onclick="openFUOv()">'
+    +'<span style="font-size:14px;color:var(--l2);">'+String.fromCharCode(128197)+' Set follow-up date and time</span>'
+    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--l3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'
+    +'</div>';
+}
+
 function renderDet(l){
   var e=elig(l),ec=e>=75?'ehi':e>=50?'eme':'elo';
   var elbl=e>=75?'High — Likely Eligible':e>=50?'Medium — Needs Review':'Low — High Risk';
@@ -852,20 +867,7 @@ function renderDet(l){
         '<span class="pill '+(l.prio==='hot'?'pr':l.prio==='warm'?'po':'pgr')+'">'+(l.prio==='hot'?'🔥':l.prio==='warm'?'🌤':'❄️')+' '+(l.prio||'')+'</span>'+
       '</div></div>'+
     '</div>'+
-    (l.nextfu?
-      '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--ol);cursor:pointer;" onclick="openFUOv()">'+
-        '<div>'+
-          '<div style="font-size:12px;font-weight:600;color:#B86800;text-transform:uppercase;letter-spacing:.4px;">Next Follow-up</div>'+
-          '<div style="font-size:16px;font-weight:600;color:#7A4500;margin-top:2px;">'+fmtFU(l.nextfu)+'</div>'+
-        '</div>'+
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B86800" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'+
-      '</div>'
-    :
-      '<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--fill2);cursor:pointer;" onclick="openFUOv()">'+
-        '<span style="font-size:14px;color:var(--l2);">📅 Set follow-up date & time</span>'+
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--l3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'+
-      '</div>'
-    )+
+    fuBlock(l)+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;border-bottom:.5px solid var(--sep);">'+
       '<a href="tel:'+phone+'" onclick="logCallTap(\''+l.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gl);color:#1A8A36;border-radius:12px;padding:13px 8px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--f);">'+
         '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014.69 13a19.5 19.5 0 01-5.07-8.67A2 2 0 011.64 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>Call Now</a>'+
@@ -1075,10 +1077,8 @@ function buildFUBar(){
   var wrap=el('fu-bar-wrap');if(!wrap)return;
   if(hf!=='followup'){wrap.style.display='none';return;}
   wrap.style.display='block';
-  // Collect all unique dates that have followups
   var dateCounts={};
   leads.forEach(function(l){if(l.nextfu){var ds=l.nextfu.slice(0,10);dateCounts[ds]=(dateCounts[ds]||0)+1;}});
-  // Build 7-day range starting today
   var dates=[];
   var today=new Date();today.setHours(0,0,0,0);
   for(var i=0;i<7;i++){
@@ -1086,7 +1086,6 @@ function buildFUBar(){
     var ds=d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
     dates.push(ds);
   }
-  // Also add any extra dates with leads outside the 7-day window
   Object.keys(dateCounts).forEach(function(ds){if(dates.indexOf(ds)===-1)dates.push(ds);});
   dates.sort();
   if(!fuDateSel)fuDateSel=todayStr();
@@ -1098,7 +1097,8 @@ function buildFUBar(){
     var label=diff===0?'Today':diff===1?'Tomorrow':d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
     var cnt=dateCounts[ds]||0;
     var isOn=fuDateSel===ds;
-    return'<button class="fu-chip'+(isOn?' on':'')+'" onclick="pickFUDate(''+ds+'')">'
+    var cls='fu-chip'+(isOn?' on':'');
+    return '<button class="'+cls+'" onclick="pickFUDate(\'' +ds+ '\')">'
       +label+(cnt?' ('+cnt+')':'')+'</button>';
   }).join('');
 }
